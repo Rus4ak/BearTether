@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof(Rigidbody2D))]
@@ -25,13 +26,18 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Moving();
-        Jump();
-        
+
         if (_move > 0 && _lookRight == false)
             Flip();
         
         else if (_move < 0 && _lookRight == true)
             Flip();
+        
+        if (_isOnGround)
+            _animator.SetBool("Jump", false);
+
+        else
+            _animator.SetBool("Jump", true);
     }
 
     private void FixedUpdate()
@@ -41,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Moving()
     {
-        _move = Input.GetAxis("Horizontal");
         _rigidbody.linearVelocity = new Vector2(_move * _speed, _rigidbody.linearVelocity.y);
         
         if (_move != 0)
@@ -50,16 +55,16 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("Run", false);
     }
 
-    private void Jump()
+    public void Jump()
     {
-        if (_isOnGround == true && Input.GetKeyDown(KeyCode.Space))
-            _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
-        
         if (_isOnGround)
-            _animator.SetBool("Jump", false);
+            _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
+    }
 
-        else
-            _animator.SetBool("Jump", true);
+    public void SetMoveDirection(int direction)
+    {
+        direction = Mathf.Clamp(direction, -1, 1);
+        _move = direction;
     }
 
     private void Flip()

@@ -100,7 +100,7 @@ ScriptedImporter:
     spritePosition: {x: 0, y: 0}
   multiSpriteImportData: []
   layeredSpriteImportData:
-  - name: Jump
+  - name: Left
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -108,11 +108,11 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
-      y: 505
-      width: 300
-      height: 360
-    spriteID: 10b43c06079035c47a1870ef482f1b1e
+      x: 520
+      y: 4
+      width: 326
+      height: 374
+    spriteID: 6541588b0a1a8fa4ea2625c3f1574fb3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -120,8 +120,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 505}
-    spritePosition: {x: 106, y: 81}
+    uvTransform: {x: 516, y: 0}
+    spritePosition: {x: 66, y: 69}
   - name: Button
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -142,8 +142,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 2, y: 3}
-    spritePosition: {x: 10, y: 9}
+    uvTransform: {x: 3, y: 3}
+    spritePosition: {x: 2, y: 2}
   spriteImportData: []
   rigSpriteImportData: []
   sharedRigSpriteImportData: []
@@ -191,8 +191,8 @@ ScriptedImporter:
     layerID: 29
     mosaicPosition: {x: 4, y: 505}
     flatten: 0
-    isImported: 1
-    isVisible: 1
+    isImported: 0
+    isVisible: 0
   - name: Right
     spriteName: 
     isGroup: 0
@@ -204,15 +204,15 @@ ScriptedImporter:
     isImported: 0
     isVisible: 0
   - name: Left
-    spriteName: 
+    spriteName: Left
     isGroup: 0
     parentIndex: -1
     spriteID: 6541588b0a1a8fa4ea2625c3f1574fb3
     layerID: 20
-    mosaicPosition: {x: 0, y: 0}
+    mosaicPosition: {x: 520, y: 4}
     flatten: 0
-    isImported: 0
-    isVisible: 0
+    isImported: 1
+    isVisible: 1
   - name: Button
     spriteName: Button
     isGroup: 0
