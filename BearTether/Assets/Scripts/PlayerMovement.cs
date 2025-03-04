@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -9,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpForce = 15;
     [SerializeField] private float _raycastLength = 1.1f;
     [SerializeField] private LayerMask _jumpLayer;
+    [SerializeField] private Transform _spawnPosition;
 
     private float _move;
     private Rigidbody2D _rigidbody;
@@ -38,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
 
         else
             _animator.SetBool("Jump", true);
+
+        if (transform.position.y < -5f)
+            transform.position = _spawnPosition.position;
     }
 
     private void FixedUpdate()
