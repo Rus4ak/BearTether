@@ -189,7 +189,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
-    spritePosition: {x: 34, y: 2}
+    spritePosition: {x: 98, y: 18}
   - name: right-top
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -211,7 +211,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 28, y: 28}
-    spritePosition: {x: 66, y: 34}
+    spritePosition: {x: 114, y: 34}
   - name: left-top
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -233,7 +233,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 28, y: 51}
-    spritePosition: {x: 36, y: 34}
+    spritePosition: {x: 100, y: 34}
   - name: right-bottom
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -255,7 +255,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 28}
-    spritePosition: {x: 66, y: 2}
+    spritePosition: {x: 114, y: 18}
   - name: grass-left
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -277,7 +277,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 52}
-    spritePosition: {x: 98, y: 34}
+    spritePosition: {x: 34, y: 34}
   - name: grass-right
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -299,7 +299,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 76}
-    spritePosition: {x: 130, y: 34}
+    spritePosition: {x: 66, y: 34}
   - name: grass
     originalName: 
     pivot: {x: 0.5, y: 0.5}

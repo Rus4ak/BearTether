@@ -53,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("Run", true);
         else
             _animator.SetBool("Run", false);
+        
+        if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
+            _rigidbody.linearVelocity += new Vector2(0, -10);
     }
 
     public void Jump()

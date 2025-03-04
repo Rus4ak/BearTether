@@ -129,12 +129,12 @@ TextureImporter:
       name: BearIdle_0
       rect:
         serializedVersion: 2
-        x: 90
+        x: 0
         y: 0
-        width: 332
+        width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7fc9e8d643f1c5646b0e236c202aab0f
     internalID: 0
     vertices: []
     indices: 

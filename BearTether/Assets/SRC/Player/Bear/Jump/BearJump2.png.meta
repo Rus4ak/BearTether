@@ -129,12 +129,12 @@ TextureImporter:
       name: BearJump2_0
       rect:
         serializedVersion: 2
-        x: 90
+        x: 0
         y: 0
-        width: 346
+        width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -151,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: b7979697a03e4244eb2b9c635b190765
     internalID: 0
     vertices: []
     indices: 
