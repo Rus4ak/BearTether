@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _lookRight = true;
 
-    void Start()
+    private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
