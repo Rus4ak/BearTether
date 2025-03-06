@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        transform.position = _spawnPosition.position;
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
@@ -45,6 +46,15 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         _isOnGround = Physics2D.Raycast(transform.position, Vector2.down, _raycastLength, _jumpLayer);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Dead"))
+            transform.position = _spawnPosition.position;
+
+        if (collision.gameObject.CompareTag("Finish"))
+            print("Finish!!!");
     }
 
     private void Moving()
