@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed = 5;
-    [SerializeField] private float _jumpForce = 15;
-    [SerializeField] private float _raycastLength = 1.1f;
+    [SerializeField] private float _jumpForce = 12;
+    [SerializeField] private float _raycastLength = 1.3f;
     [SerializeField] private LayerMask _jumpLayer;
     [SerializeField] private Transform _spawnPosition;
 
