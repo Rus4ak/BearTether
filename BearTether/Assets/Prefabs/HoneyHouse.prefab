@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7088528706825962323}
   - component: {fileID: 1844845161571895935}
   - component: {fileID: 8596503053050815386}
+  - component: {fileID: 2375797908591889345}
   m_Layer: 0
   m_Name: HoneyHouse
   m_TagString: Finish
@@ -135,6 +136,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.1, y: 1.4}
   m_EdgeRadius: 0
+--- !u!114 &2375797908591889345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3656549893313970362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35b499b7db2d6c144a823b4533219bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _finishMenu: {fileID: 0}
 --- !u!1 &6148670054824266092
 GameObject:
   m_ObjectHideFlags: 0

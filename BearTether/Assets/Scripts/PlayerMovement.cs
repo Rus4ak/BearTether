@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _lookRight = true;
 
+    public static int attempt = 0;
+
     private void Start()
     {
         transform.position = _spawnPosition.position;
@@ -40,7 +42,10 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("Jump", true);
 
         if (transform.position.y < -5f)
+        {
+            attempt++;
             transform.position = _spawnPosition.position;
+        }
     }
 
     private void FixedUpdate()
@@ -52,9 +57,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Dead"))
             transform.position = _spawnPosition.position;
-
-        if (collision.gameObject.CompareTag("Finish"))
-            print("Finish!!!");
     }
 
     private void Moving()

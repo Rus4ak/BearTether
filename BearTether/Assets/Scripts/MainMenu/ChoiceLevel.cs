@@ -22,7 +22,7 @@ public class ChoiceLevel : MonoBehaviour
 
     private void Update()
     {
-        if (_player.transform.position.x < 0)
+        if (_player.transform.position.x < -2)
         {
             _playerRb.linearVelocity = new Vector3(5, 0, 0);
         }
