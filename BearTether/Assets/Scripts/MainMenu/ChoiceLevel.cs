@@ -17,12 +17,11 @@ public class ChoiceLevel : MonoBehaviour
 
         float screenHeight = Camera.main.orthographicSize * 2;
         _screenWidth = screenHeight * Screen.width / Screen.height;
-        print(_screenWidth);
     }
 
     private void Update()
     {
-        if (_player.transform.position.x < -2)
+        if (_player.transform.position.x < -1)
         {
             _playerRb.linearVelocity = new Vector3(5, 0, 0);
         }
@@ -30,7 +29,7 @@ public class ChoiceLevel : MonoBehaviour
         {
             foreach (Transform ground in _grounds)
             {
-                ground.transform.position -= new Vector3(Time.deltaTime, 0, 0);
+                ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
 
                 if (ground.transform.position.x < -_screenWidth)
                     ground.transform.position = new Vector3(_screenWidth, 0, 0);

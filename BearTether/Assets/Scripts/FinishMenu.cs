@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FinishMenu : MonoBehaviour
 {
+    [SerializeField] private int _levelID;
     [SerializeField] private GameObject[] _stars = new GameObject[3];
     [SerializeField] private Animation _nextLevelButtonAnimation;
     [SerializeField] private Animation _mainMenuButtonAnimation;
@@ -20,25 +21,31 @@ public class FinishMenu : MonoBehaviour
         _stars[0].SetActive(true);
         _currentStarAnimation = _stars[0].GetComponent<Animation>();
         _countStars++;
+
+        if (PlayerMovement.attempt < 5 && _countStars == 1)
+            _countStars++;
+
+        if (PlayerMovement.attempt < 3 && _countStars == 2)
+            _countStars++;
+
+        GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>().levels[_levelID] = new Level(_levelID, _countStars);
     }
 
     private void Update()
     {
         if (!_currentStarAnimation.isPlaying)
         {
-            if (PlayerMovement.attempt < 5 && _countStars == 1)
+            if (_countStars > 1 && !_stars[1].activeInHierarchy)
             {
                 _stars[1].SetActive(true);
                 _currentStarAnimation = _stars[1].GetComponent<Animation>();
-                _countStars++;
                 return;
             }
 
-            if (PlayerMovement.attempt < 3 && _countStars == 2)
+            if (_countStars > 2 && !_stars[2].activeInHierarchy)
             {
                 _stars[2].SetActive(true);
                 _currentStarAnimation = _stars[2].GetComponent<Animation>();
-                _countStars++;
             }
         }
 
