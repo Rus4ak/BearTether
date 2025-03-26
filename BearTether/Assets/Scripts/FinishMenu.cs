@@ -29,6 +29,8 @@ public class FinishMenu : MonoBehaviour
             _countStars++;
 
         GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>().levels[_levelID] = new Level(_levelID, _countStars);
+        Progress.Instance.progressData.levels[_levelID] = new Level(_levelID, _countStars);
+        Progress.Instance.Save();
     }
 
     private void Update()

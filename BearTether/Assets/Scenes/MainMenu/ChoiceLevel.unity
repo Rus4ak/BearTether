@@ -3832,27 +3832,6 @@ MonoBehaviour:
   - {fileID: 709402874}
   - {fileID: 1941156603}
   - {fileID: 1439045}
-  _levels:
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
-  - LevelID: 0
-    countStars: 0
 --- !u!1 &867063762
 GameObject:
   m_ObjectHideFlags: 0
