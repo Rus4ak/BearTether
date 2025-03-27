@@ -20,6 +20,8 @@ public class FinishMenu : MonoBehaviour
     private int _countStars = 0;
     private bool _isNextLevel = false;
     private bool _isMainMenu = false;
+    private bool _isFinishMapCoins = false;
+    private bool _isRewardedFinishMapCoins = false;
 
     private void Start()
     {
@@ -41,16 +43,24 @@ public class FinishMenu : MonoBehaviour
         _additionalCoinsCount = _countStars - levelsManager.levels[_levelID].countStars;
         _rewardedCoinsCount += _additionalCoinsCount * 5;
         
-        if (_levelID == 9)
-            _rewardedCoinsCount += 100;
+        levelsManager.InitializeLevels();
+
+        if (levelsManager.countCompletedLevels == 9)
+            if (_levelID == 9)
+                if (!levelsManager.isRewardedFinishMap)
+                {
+                    _rewardedCoinsCount += 100;
+                    levelsManager.isRewardedFinishMap = true;
+                    _isFinishMapCoins = true;
+                }
 
         Bank.Instance.Coins += _rewardedCoinsCount;
         Progress.Instance.progressData.bank = Bank.Instance.Coins;
 
         if (levelsManager.levels[_levelID].countStars < _countStars)
         {
-            levelsManager.levels[_levelID] = new Level(_levelID, _countStars);
-            Progress.Instance.progressData.levels[_levelID] = new Level(_levelID, _countStars);
+            levelsManager.levels[_levelID] = new Level(_levelID, _countStars, true);
+            Progress.Instance.progressData.levels[_levelID] = new Level(_levelID, _countStars, true);
         }
 
         Progress.Instance.Save();
@@ -63,6 +73,12 @@ public class FinishMenu : MonoBehaviour
     {
         if (!_currentStarAnimation.isPlaying)
         {
+            if (_isFinishMapCoins && _stars[2].activeInHierarchy && !_isRewardedFinishMapCoins)
+            {
+                InstantiateAdditionalCoins("+100");
+                _isRewardedFinishMapCoins = true;
+            }
+
             if (_countStars > 1 && !_stars[1].activeInHierarchy)
             {
                 _stars[1].SetActive(true);

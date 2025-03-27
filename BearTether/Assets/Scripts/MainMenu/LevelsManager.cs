@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class LevelsManager : MonoBehaviour
 {
+    [NonSerialized] public int countCompletedLevels;
+
     [NonSerialized] public Level[] levels = new Level[10];
+    [NonSerialized] public bool isRewardedFinishMap = false;
 
     private void Start()
     {
@@ -24,6 +27,9 @@ public class LevelsManager : MonoBehaviour
             {
                 levels[i] = new Level(i, 0);
             }
+
+            if (levels[i].isCompleted)
+                countCompletedLevels++;
         }
     }
 }
