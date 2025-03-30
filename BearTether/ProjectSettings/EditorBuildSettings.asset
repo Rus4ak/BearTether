@@ -9,11 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu/MainMenu.unity
     guid: 9a1ffcc32ea00a043b818a6af009affe
   - enabled: 1
-    path: Assets/Scenes/MainMenu/ChoiceLevel.unity
+    path: Assets/Scenes/MainMenu/Singleplayer.unity
     guid: b1e07e7e20d9d63429bd49152ad5346e
   - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/MainMenu/Multiplayer.unity
+    guid: 54bf6b7d2d876084dbd4e82c1e98a3b3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
