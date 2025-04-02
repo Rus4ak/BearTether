@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -13,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private bool _isOnGround;
+    private string _sceneName;
+    private Multiplayer _multiplayerManager;
 
     private bool _lookRight = true;
 
@@ -20,13 +23,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        transform.position = _spawnPosition.position;
+        _sceneName = SceneManager.GetActiveScene().name;
+
+        if (_sceneName != "Multiplayer")
+            transform.position = _spawnPosition.position;
+        else
+        {
+            GameObject.Find("MovementButtons").SetActive(false);
+            
+            int playersCount;
+
+            _multiplayerManager = GameObject.FindWithTag("LevelsManager").GetComponent<Multiplayer>();
+            _multiplayerManager.playersCount += 1;
+            playersCount = _multiplayerManager.playersCount;
+
+            transform.position = transform.position + Vector3.left * playersCount * 2;
+
+            _multiplayerManager.players[playersCount-1] = this.gameObject;
+            _multiplayerManager.InitializePlayer();
+        }
+
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        if (_sceneName == "Multiplayer")
+            return;
+
         Moving();
 
         if (_move > 0 && _lookRight == false)
