@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
     private bool _isOnGround;
     private string _sceneName;
-    private Multiplayer _multiplayerManager;
 
     private bool _lookRight = true;
 
@@ -27,21 +26,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (_sceneName != "Multiplayer")
             transform.position = _spawnPosition.position;
-        else
-        {
-            GameObject.Find("MovementButtons").SetActive(false);
-            
-            int playersCount;
-
-            _multiplayerManager = GameObject.FindWithTag("LevelsManager").GetComponent<Multiplayer>();
-            _multiplayerManager.playersCount += 1;
-            playersCount = _multiplayerManager.playersCount;
-
-            transform.position = transform.position + Vector3.left * playersCount * 2;
-
-            _multiplayerManager.players[playersCount-1] = this.gameObject;
-            _multiplayerManager.InitializePlayer();
-        }
 
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();

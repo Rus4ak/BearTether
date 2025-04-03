@@ -23,7 +23,7 @@ public class Multiplayer : MonoBehaviour
     {
         for (int i = 0; i < playersCount; i++)
         {
-            if (players[i].transform.position.x < -1 * i * 2)
+            if (players[i].transform.position.x < -1 * i * 3)
             {
                 _playersRb[i].linearVelocity = new Vector3(5, 0, 0);
             }
