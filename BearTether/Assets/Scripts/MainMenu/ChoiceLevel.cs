@@ -3,7 +3,7 @@ using UnityEngine;
 public class ChoiceLevel : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
-    [SerializeField] private Transform[] _grounds;
+    [SerializeField] private Transform _ground;
 
     private Rigidbody2D _playerRb;
     private Animator _playerAnimator;
@@ -27,13 +27,10 @@ public class ChoiceLevel : MonoBehaviour
         }
         else
         {
-            foreach (Transform ground in _grounds)
-            {
-                ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
+            _ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
 
-                if (ground.transform.position.x < -_screenWidth)
-                    ground.transform.position = new Vector3(_screenWidth, 0, 0);
-            }
+            if (_ground.transform.position.x < -_screenWidth)
+                _ground.transform.position = new Vector3(_screenWidth, 0, 0);
         }
     }
 }

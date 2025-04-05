@@ -15,8 +15,9 @@ public class NetworkPlayer : NetworkBehaviour
 
     private NetworkVariable<bool> _isReady = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
-    private Multiplayer _multiplayerManager;
+    private MultiplayerLobby _multiplayerManager;
     private string _sceneName;
+    private int _playerID;
 
     private static int countReady = 0;
 
@@ -34,13 +35,14 @@ public class NetworkPlayer : NetworkBehaviour
 
             int playersCount;
 
-            _multiplayerManager = GameObject.FindWithTag("LevelsManager").GetComponent<Multiplayer>();
+            _multiplayerManager = GameObject.FindWithTag("LevelsManager").GetComponent<MultiplayerLobby>();
             _multiplayerManager.playersCount += 1;
             playersCount = _multiplayerManager.playersCount;
 
             transform.position = transform.position + Vector3.left * playersCount * 3;
+            _playerID = playersCount - 1;
 
-            _multiplayerManager.players[playersCount - 1] = this.gameObject;
+            _multiplayerManager.players[_playerID] = this.gameObject;
             _multiplayerManager.InitializePlayer();
 
             _playButton.GetComponent<Button>().interactable = false;
@@ -79,6 +81,12 @@ public class NetworkPlayer : NetworkBehaviour
         {
             _playButton.GetComponent<Button>().interactable = false;
         }
+    }
+
+    public override void OnDestroy()
+    {
+        _multiplayerManager.playersCount--;
+        _multiplayerManager.players[_playerID] = null;
     }
 
     public void Ready()

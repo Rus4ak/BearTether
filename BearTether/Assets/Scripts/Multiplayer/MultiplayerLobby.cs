@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Multiplayer : MonoBehaviour
+public class MultiplayerLobby : MonoBehaviour
 {
-    [SerializeField] private Transform[] _grounds;
+    [SerializeField] private Transform _ground;
+    [SerializeField] private TextMeshProUGUI _sessionName;
 
     private Rigidbody2D[] _playersRb = new Rigidbody2D[4];
     private Animator[] _playerAnimators = new Animator[4];
@@ -29,13 +32,10 @@ public class Multiplayer : MonoBehaviour
             }
         }
 
-        foreach (Transform ground in _grounds)
-        {
-            ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
+        _ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
 
-            if (ground.transform.position.x < -_screenWidth)
-                ground.transform.position = new Vector3(_screenWidth, 0, 0);
-        }
+        if (_ground.transform.position.x < -_screenWidth)
+            _ground.transform.position = new Vector3(_screenWidth, 0, 0);
     }
 
     public void InitializePlayer()
@@ -46,5 +46,10 @@ public class Multiplayer : MonoBehaviour
             _playerAnimators[i] = players[i].GetComponent<Animator>();
             _playerAnimators[i].SetBool("Run", true);
         }
+    }
+
+    public void SetSessionName(TextMeshProUGUI name)
+    {
+        _sessionName.text = name.text;
     }
 }
