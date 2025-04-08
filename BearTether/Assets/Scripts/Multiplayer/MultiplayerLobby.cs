@@ -1,14 +1,19 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MultiplayerLobby : MonoBehaviour
+public class MultiplayerLobby : NetworkBehaviour
 {
     [SerializeField] private Transform _ground;
-    [SerializeField] private TextMeshProUGUI _sessionName;
+    [SerializeField] private TextMeshProUGUI _roomNameText;
 
+    private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>(
+        "Room", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    
     private Rigidbody2D[] _playersRb = new Rigidbody2D[4];
     private Animator[] _playerAnimators = new Animator[4];
     private float _screenWidth;
@@ -36,6 +41,11 @@ public class MultiplayerLobby : MonoBehaviour
 
         if (_ground.transform.position.x < -_screenWidth)
             _ground.transform.position = new Vector3(_screenWidth, 0, 0);
+
+        if (_roomNameText.text != _sessionName.Value.ToString())
+        {
+            _roomNameText.text = _sessionName.Value.ToString();
+        }
     }
 
     public void InitializePlayer()
@@ -50,6 +60,6 @@ public class MultiplayerLobby : MonoBehaviour
 
     public void SetSessionName(TextMeshProUGUI name)
     {
-        _sessionName.text = name.text;
+        _sessionName.Value = name.text;
     }
 }
