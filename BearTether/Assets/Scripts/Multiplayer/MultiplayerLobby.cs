@@ -6,20 +6,32 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class PlayerMultiplayer
+{
+    public GameObject player;
+    public Rigidbody2D playerRb;
+
+    public PlayerMultiplayer(GameObject player, Rigidbody2D playerRb)
+    {
+        this.player = player;
+        this.playerRb = playerRb;
+    }
+}
+
 public class MultiplayerLobby : NetworkBehaviour
 {
     [SerializeField] private Transform _ground;
     [SerializeField] private TextMeshProUGUI _roomNameText;
+    [SerializeField] private Transform _room;
+    [SerializeField] private Button _leaveButton;
 
-    private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>(
-        "Room", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    
-    private Rigidbody2D[] _playersRb = new Rigidbody2D[4];
-    private Animator[] _playerAnimators = new Animator[4];
     private float _screenWidth;
 
-    [NonSerialized] public int playersCount = 0;
-    [NonSerialized] public GameObject[] players = new GameObject[4];
+    //private bool _isAddLeaveEvent = false;
+    private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>("Room");
+    
+    [NonSerialized] public List<PlayerMultiplayer> players = new List<PlayerMultiplayer>();
 
     private void Start()
     {
@@ -29,11 +41,11 @@ public class MultiplayerLobby : NetworkBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < playersCount; i++)
+        for (int i = 0; i < players.Count; i++)
         {
-            if (players[i].transform.position.x < -1 * i * 3)
+            if (players[i].player.transform.position.x < -1 * i * 3)
             {
-                _playersRb[i].linearVelocity = new Vector3(5, 0, 0);
+                players[i].playerRb.linearVelocity = new Vector3(5, 0, 0);
             }
         }
 
@@ -50,16 +62,45 @@ public class MultiplayerLobby : NetworkBehaviour
 
     public void InitializePlayer()
     {
-        for (int i = 0; i < playersCount; i++)
+        for (int i = 0; i < players.Count; i++)
+            players[i].player.GetComponent<Animator>().SetBool("Run", true);
+
+        if (IsServer)
         {
-            _playersRb[i] = players[i].GetComponent<Rigidbody2D>();
-            _playerAnimators[i] = players[i].GetComponent<Animator>();
-            _playerAnimators[i].SetBool("Run", true);
+            _leaveButton.onClick.AddListener(LeaveClientRpc);
+            //_isAddLeaveEvent = true;
         }
     }
 
     public void SetSessionName(TextMeshProUGUI name)
     {
         _sessionName.Value = name.text;
+    }
+
+    public void ShowRoomMenu()
+    {
+        Vector3 position = _room.localPosition;
+        position.x = 0;
+        _room.localPosition = position;
+    }
+
+    public void HideRoomMenu()
+    {
+        Vector3 position = _room.localPosition;
+        position.x = 2000;
+        _room.localPosition = position;
+    }
+
+    //private void OnServerButtonPressed()
+    //{
+    //    print(2);
+    //    LeaveClientRpc();
+    //}
+
+    [ClientRpc]
+    private void LeaveClientRpc()
+    {
+        if (!IsServer)
+            _leaveButton.onClick.Invoke();
     }
 }

@@ -17,7 +17,6 @@ public class NetworkPlayer : NetworkBehaviour
 
     private MultiplayerLobby _multiplayerManager;
     private string _sceneName;
-    private int _playerID;
 
     private static int countReady = 0;
 
@@ -33,27 +32,25 @@ public class NetworkPlayer : NetworkBehaviour
             _isReadyCanvas.worldCamera = Camera.main;
             GameObject.Find("MovementButtons").SetActive(false);
 
-            int playersCount;
-
             _multiplayerManager = GameObject.FindWithTag("LevelsManager").GetComponent<MultiplayerLobby>();
-            _multiplayerManager.playersCount += 1;
-            playersCount = _multiplayerManager.playersCount;
 
-            transform.position = transform.position + Vector3.left * playersCount * 3;
-            _playerID = playersCount - 1;
-
-            _multiplayerManager.players[_playerID] = this.gameObject;
-            _multiplayerManager.InitializePlayer();
-
+            if (IsOwner)
+                Invoke(nameof(CreatePlayer), .1f);
+            else
+                CreatePlayer();
+            
             _playButton.GetComponent<Button>().interactable = false;
-
+            
             _isReady.OnValueChanged += UpdateReady;
             UpdateReady(false, _isReady.Value);
 
             if (IsServer)
             {
-                ToggleReadyServerRpc();
-                _playButton.SetActive(true);
+                if (IsOwner)
+                {
+                    ToggleReadyServerRpc();
+                    _playButton.SetActive(true);
+                }
             }
             else
             {
@@ -70,14 +67,14 @@ public class NetworkPlayer : NetworkBehaviour
     {
         if (IsServer
             &&_playButton.GetComponent<Button>().interactable == false 
-            && _multiplayerManager.playersCount > 1 
-            && countReady == _multiplayerManager.playersCount)
+            && _multiplayerManager.players.Count > 1 
+            && countReady == _multiplayerManager.players.Count)
         {
             _playButton.GetComponent<Button>().interactable = true;
         }
         if (IsServer
             && _playButton.GetComponent<Button>().interactable == true
-            && countReady != _multiplayerManager.playersCount)
+            && countReady != _multiplayerManager.players.Count)
         {
             _playButton.GetComponent<Button>().interactable = false;
         }
@@ -85,8 +82,13 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void OnDestroy()
     {
-        _multiplayerManager.playersCount--;
-        _multiplayerManager.players[_playerID] = null;
+        for (int i = 0;  i < _multiplayerManager.players.Count; i++)
+        {
+            if (_multiplayerManager.players[i].player == gameObject)
+            {
+                _multiplayerManager.players.RemoveAt(i);
+            }
+        }
     }
 
     public void Ready()
@@ -103,7 +105,7 @@ public class NetworkPlayer : NetworkBehaviour
         _cancelReadyButton.SetActive(false);
     }
 
-    [ServerRpc] 
+    [ServerRpc]
     private void ToggleReadyServerRpc()
     {
         _isReady.Value = !_isReady.Value;
@@ -118,5 +120,14 @@ public class NetworkPlayer : NetworkBehaviour
     {
         _notReadyText.SetActive(newValue);
         _readyText.SetActive(!newValue);
+    }
+
+    private void CreatePlayer()
+    {
+        transform.position = transform.position + Vector3.left * _multiplayerManager.players.Count * 3;
+
+        PlayerMultiplayer player = new PlayerMultiplayer(gameObject, GetComponent<Rigidbody2D>());
+        _multiplayerManager.players.Add(player);
+        _multiplayerManager.InitializePlayer();
     }
 }
