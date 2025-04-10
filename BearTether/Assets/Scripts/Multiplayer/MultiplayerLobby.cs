@@ -25,10 +25,11 @@ public class MultiplayerLobby : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI _roomNameText;
     [SerializeField] private Transform _room;
     [SerializeField] private Button _leaveButton;
+    [SerializeField] private Transform _canvas;
+    [SerializeField] private GameObject _errorText;
 
     private float _screenWidth;
 
-    //private bool _isAddLeaveEvent = false;
     private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>("Room");
     
     [NonSerialized] public List<PlayerMultiplayer> players = new List<PlayerMultiplayer>();
@@ -66,10 +67,7 @@ public class MultiplayerLobby : NetworkBehaviour
             players[i].player.GetComponent<Animator>().SetBool("Run", true);
 
         if (IsServer)
-        {
             _leaveButton.onClick.AddListener(LeaveClientRpc);
-            //_isAddLeaveEvent = true;
-        }
     }
 
     public void SetSessionName(TextMeshProUGUI name)
@@ -91,16 +89,16 @@ public class MultiplayerLobby : NetworkBehaviour
         _room.localPosition = position;
     }
 
-    //private void OnServerButtonPressed()
-    //{
-    //    print(2);
-    //    LeaveClientRpc();
-    //}
-
     [ClientRpc]
     private void LeaveClientRpc()
     {
         if (!IsServer)
             _leaveButton.onClick.Invoke();
+    }
+
+    public void InvokeErrorText(string text)
+    {
+        TextMeshProUGUI errorText = Instantiate(_errorText, _canvas).GetComponent<TextMeshProUGUI>();
+        errorText.text = text;
     }
 }

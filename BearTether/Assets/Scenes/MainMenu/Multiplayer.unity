@@ -4181,6 +4181,8 @@ MonoBehaviour:
   _roomNameText: {fileID: 1897212804}
   _room: {fileID: 2101801023}
   _leaveButton: {fileID: 739851575}
+  _canvas: {fileID: 1500368772}
+  _errorText: {fileID: 7034253837461184865, guid: b63a69c49cc3ce949bfed68c50691787, type: 3}
 --- !u!114 &609839203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4301,7 +4303,67 @@ MonoBehaviour:
         m_CallState: 2
   FailedToJoinSession:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 609839202}
+        m_TargetAssemblyTypeName: MultiplayerLobby, Assembly-CSharp
+        m_MethodName: InvokeErrorText
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to create a lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 609839202}
+        m_TargetAssemblyTypeName: MultiplayerLobby, Assembly-CSharp
+        m_MethodName: HideRoomMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to create a lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 991639268}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to create a lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1351074175}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to create a lobby\nTry again
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 135177896}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to create a lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
   m_EnterSessionButton: {fileID: 0}
 --- !u!1 &650660015
 GameObject:
@@ -5872,7 +5934,7 @@ GameObject:
   - component: {fileID: 1125773589}
   - component: {fileID: 1125773590}
   m_Layer: 5
-  m_Name: LobbyList
+  m_Name: Lobby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5929,7 +5991,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1351074176}
   m_Layer: 5
-  m_Name: Session List
+  m_Name: Lobby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6233,7 +6295,7 @@ MonoBehaviour:
     NetworkProfilingMetrics: 1
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 1
+  LogLevel: 3
 --- !u!4 &1515248162
 Transform:
   m_ObjectHideFlags: 0
@@ -7832,7 +7894,67 @@ MonoBehaviour:
         m_CallState: 2
   FailedToJoinSession:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 609839202}
+        m_TargetAssemblyTypeName: MultiplayerLobby, Assembly-CSharp
+        m_MethodName: InvokeErrorText
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to connect to the lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 609839202}
+        m_TargetAssemblyTypeName: MultiplayerLobby, Assembly-CSharp
+        m_MethodName: HideRoomMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to connect to the lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 650660015}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to connect to the lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1351074175}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to connect to the lobby\nTry again
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 135177896}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Failed to connect to the lobby\nTry again
+          m_BoolArgument: 0
+        m_CallState: 2
   m_EnterSessionButton: {fileID: 0}
 --- !u!1 &2085068075
 GameObject:
