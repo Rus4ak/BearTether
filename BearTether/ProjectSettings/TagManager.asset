@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Dead
   - LevelsManager
+  - MultiplayerManager
+  - CameraBorders
   layers:
   - Default
   - TransparentFX

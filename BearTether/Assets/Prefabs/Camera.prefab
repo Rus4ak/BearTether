@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 221452633831784805}
   m_Layer: 0
   m_Name: Borders
-  m_TagString: Untagged
+  m_TagString: CameraBorders
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -319,8 +319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
   _smoothSpeed: 8
-  _minPos: {fileID: 555719288788824901}
-  _maxPos: {fileID: 1737310601494638484}
 --- !u!1 &4645442597672610094
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 555719288788824901}
   m_Layer: 0
-  m_Name: BottomLeft
+  m_Name: MinPos
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -362,7 +360,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1737310601494638484}
   m_Layer: 0
-  m_Name: TopRight
+  m_Name: MaxPos
   m_TagString: Untagged
   m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

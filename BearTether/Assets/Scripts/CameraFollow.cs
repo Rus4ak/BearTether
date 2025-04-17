@@ -4,8 +4,9 @@ public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private Transform _target;
     [SerializeField] private float _smoothSpeed = 8;
-    [SerializeField] private Transform _minPos;
-    [SerializeField] private Transform _maxPos;
+    
+    private Transform _minPos;
+    private Transform _maxPos;
 
     private float _cameraWidth, _cameraHeight;
 
@@ -13,6 +14,10 @@ public class CameraFollow : MonoBehaviour
     {
         _cameraHeight = Camera.main.orthographicSize;
         _cameraWidth = _cameraHeight * Screen.width / Screen.height;
+
+        Transform borders = GameObject.FindWithTag("CameraBorders").transform;
+        _minPos = borders.Find("MinPos");
+        _maxPos = borders.Find("MaxPos");
     }
 
     private void FixedUpdate()

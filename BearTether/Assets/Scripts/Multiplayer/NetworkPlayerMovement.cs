@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof(Rigidbody2D))]
-public class PlayerMovement : MonoBehaviour
+public class NetworkPlayerMovement : NetworkBehaviour
 {
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 12;
@@ -10,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _jumpLayer;
     [SerializeField] private Transform _spawnPosition;
 
-    private float _move;
+    private NetworkVariable<float> _move = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private bool _isOnGround;
@@ -27,12 +28,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name == "Multiplayer")
+            return;
+
         Moving();
 
-        if (_move > 0 && _lookRight == false)
+        if (_move.Value > 0 && _lookRight == false)
             Flip();
         
-        else if (_move < 0 && _lookRight == true)
+        else if (_move.Value < 0 && _lookRight == true)
             Flip();
         
         if (_isOnGround)
@@ -40,6 +44,9 @@ public class PlayerMovement : MonoBehaviour
 
         else
             _animator.SetBool("Jump", true);
+
+        if (!IsOwner)
+            return;
 
         if (transform.position.y < -5f)
         {
@@ -61,27 +68,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void Moving()
     {
-        _rigidbody.linearVelocity = new Vector2(_move * _speed, _rigidbody.linearVelocity.y);
+        if (IsOwner)
+            _rigidbody.linearVelocity = new Vector2(_move.Value * _speed, _rigidbody.linearVelocity.y);
         
-        if (_move != 0)
+        if (_move.Value != 0)
             _animator.SetBool("Run", true);
         else
             _animator.SetBool("Run", false);
         
-        if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
-            _rigidbody.linearVelocity += new Vector2(0, -10);
+        if (IsOwner)
+            if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
+                _rigidbody.linearVelocity += new Vector2(0, -10);
     }
 
     public void Jump()
     {
         if (_isOnGround)
-            _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
+            if (IsOwner)
+                _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
     }
 
     public void SetMoveDirection(int direction)
     {
         direction = Mathf.Clamp(direction, -1, 1);
-        _move = direction;
+        _move.Value = direction;
     }
 
     private void Flip()

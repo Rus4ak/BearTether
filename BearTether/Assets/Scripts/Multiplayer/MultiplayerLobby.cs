@@ -27,6 +27,9 @@ public class MultiplayerLobby : NetworkBehaviour
     [SerializeField] private Button _leaveButton;
     [SerializeField] private Transform _canvas;
     [SerializeField] private GameObject _errorText;
+    [SerializeField] private GameObject _lobbyMenu;
+    
+    public GameObject choiceLevelMenu;
 
     private float _screenWidth;
 
@@ -100,5 +103,23 @@ public class MultiplayerLobby : NetworkBehaviour
     {
         TextMeshProUGUI errorText = Instantiate(_errorText, _canvas).GetComponent<TextMeshProUGUI>();
         errorText.text = text;
+    }
+
+    public void ShowChoiceLevelMenu()
+    {
+        if (IsServer)
+        {
+            _lobbyMenu.SetActive(false);
+            choiceLevelMenu.SetActive(true);
+        }
+    }
+
+    public void HideChoiceLevelMenu()
+    {
+        if (IsServer)
+        {
+            _lobbyMenu.SetActive(true);
+            choiceLevelMenu.SetActive(false);
+        }
     }
 }
