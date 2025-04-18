@@ -30,7 +30,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Multiplayer")
             return;
-
+        
         Moving();
 
         if (_move.Value > 0 && _lookRight == false)
@@ -44,10 +44,10 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
         else
             _animator.SetBool("Jump", true);
-
+        
         if (!IsOwner)
             return;
-
+        
         if (transform.position.y < -5f)
         {
             attempt++;
@@ -63,7 +63,10 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Dead"))
+        {
+            attempt++;
             transform.position = _spawnPosition.position;
+        }
     }
 
     private void Moving()

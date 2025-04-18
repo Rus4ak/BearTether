@@ -145,6 +145,7 @@ public class NetworkPlayer : NetworkBehaviour
         transform.position = transform.position + Vector3.left * _multiplayerManager.players.Count * 3;
 
         PlayerMultiplayer player = new PlayerMultiplayer(gameObject, GetComponent<Rigidbody2D>());
+        player.player.GetComponent<SpriteRenderer>().sortingOrder += _multiplayerManager.players.Count;
         _multiplayerManager.players.Add(player);
         _multiplayerManager.InitializePlayer();
     }
