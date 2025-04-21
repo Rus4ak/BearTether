@@ -1,14 +1,21 @@
 using TMPro;
 using UnityEngine;
 
+enum GameMode 
+{
+    Singleton,
+    Multiplayer
+}
+
 public class FinishMenu : MonoBehaviour
 {
     [SerializeField] private int _levelID;
     [SerializeField] private GameObject[] _stars = new GameObject[3];
     [SerializeField] private Animation _nextLevelButtonAnimation;
-    [SerializeField] private Animation _mainMenuButtonAnimation;
+    [SerializeField] private Animation _quitButtonAnimation;
     [SerializeField] private GameObject _additionalCoinsPrefab;
     [SerializeField] private GameObject _rewardedCoins;
+    [SerializeField] private GameMode _gameMode;
 
     private Animation _currentStarAnimation;
     private string _nextLevel;
@@ -16,10 +23,11 @@ public class FinishMenu : MonoBehaviour
     private int _rewardedCoinsCount;
     private int _additionalCoinsCount;
     private TextMeshProUGUI _rewardedCoinsText;
+    private string _quitScene;
 
     private int _countStars = 0;
     private bool _isNextLevel = false;
-    private bool _isMainMenu = false;
+    private bool _isQuit = false;
     private bool _isFinishMapCoins = false;
     private bool _isRewardedFinishMapCoins = false;
 
@@ -32,11 +40,22 @@ public class FinishMenu : MonoBehaviour
         _rewardedCoinsCount += 10;
         _rewardedCoinsText = _rewardedCoins.GetComponentInChildren<TextMeshProUGUI>();
 
-        if (PlayerMovement.attempt < 5 && _countStars == 1)
-            _countStars++;
+        if (_gameMode == GameMode.Singleton)
+        {
+            if (PlayerMovement.attempt < 5 && _countStars == 1)
+                _countStars++;
 
-        if (PlayerMovement.attempt < 3 && _countStars == 2)
-            _countStars++;
+            if (PlayerMovement.attempt < 3 && _countStars == 2)
+                _countStars++;
+        } 
+        else
+        {
+            if (NetworkFinish.Instance.attempts.Value < 5 && _countStars == 1)
+                _countStars++;
+
+            if (NetworkFinish.Instance.attempts.Value < 3 && _countStars == 2)
+                _countStars++;
+        }
 
         LevelsManager levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
 
@@ -57,10 +76,21 @@ public class FinishMenu : MonoBehaviour
         Bank.Instance.Coins += _rewardedCoinsCount;
         Progress.Instance.progressData.bank = Bank.Instance.Coins;
 
-        if (levelsManager.levels[_levelID].countStars < _countStars)
+        if (_gameMode == GameMode.Singleton)
         {
-            levelsManager.levels[_levelID] = new Level(_levelID, _countStars, true);
-            Progress.Instance.progressData.levels[_levelID] = new Level(_levelID, _countStars, true);
+            if (levelsManager.levels[_levelID].countStars < _countStars)
+            {
+                levelsManager.levels[_levelID] = new Level(_levelID, _countStars, true);
+                Progress.Instance.progressData.levels[_levelID] = new Level(_levelID, _countStars, true);
+            }
+        } 
+        else
+        {
+            if (levelsManager.multiplayerLevels[_levelID].countStars < _countStars)
+            {
+                levelsManager.multiplayerLevels[_levelID] = new Level(_levelID, _countStars, true);
+                Progress.Instance.progressData.multiplayerLevels[_levelID] = new Level(_levelID, _countStars, true);
+            }
         }
 
         Progress.Instance.Save();
@@ -100,8 +130,8 @@ public class FinishMenu : MonoBehaviour
         if (_isNextLevel && !_nextLevelButtonAnimation.isPlaying)
             _loadScene.Load(_nextLevel);
 
-        if (_isMainMenu && !_mainMenuButtonAnimation.isPlaying)
-            _loadScene.Load("MainMenu");
+        if (_isQuit && !_quitButtonAnimation.isPlaying)
+            _loadScene.Load(_quitScene);
 
     }
 
@@ -121,9 +151,10 @@ public class FinishMenu : MonoBehaviour
         _nextLevel = nextLevel;
     }
 
-    public void MainMenuButton()
+    public void QuitButton(string quitScene)
     {
-        _mainMenuButtonAnimation.Play();
-        _isMainMenu = true;
+        _quitButtonAnimation.Play();
+        _isQuit = true;
+        _quitScene = quitScene;
     }
 }

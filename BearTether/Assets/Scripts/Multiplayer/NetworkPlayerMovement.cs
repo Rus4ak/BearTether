@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[RequireComponent (typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class NetworkPlayerMovement : NetworkBehaviour
 {
     [SerializeField] private float _speed = 5;
@@ -18,8 +18,6 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
     private bool _lookRight = true;
 
-    public static int attempt = 0;
-
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -30,7 +28,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Multiplayer")
             return;
-        
+
         Moving();
 
         if (_move.Value > 0 && _lookRight == false)
@@ -45,13 +43,13 @@ public class NetworkPlayerMovement : NetworkBehaviour
         else
             _animator.SetBool("Jump", true);
         
-        if (!IsOwner)
-            return;
-        
         if (transform.position.y < -5f)
         {
-            attempt++;
-            transform.position = _spawnPosition.position;
+            if (IsOwner)
+            {
+                NetworkFinish.Instance.AddAttemptServerRpc();
+                transform.position = _spawnPosition.position;
+            }
         }
     }
 
@@ -64,8 +62,11 @@ public class NetworkPlayerMovement : NetworkBehaviour
     {
         if (collision.gameObject.CompareTag("Dead"))
         {
-            attempt++;
-            transform.position = _spawnPosition.position;
+            if (IsOwner)
+            {
+                NetworkFinish.Instance.AddAttemptServerRpc();
+                transform.position = _spawnPosition.position;
+            }
         }
     }
 

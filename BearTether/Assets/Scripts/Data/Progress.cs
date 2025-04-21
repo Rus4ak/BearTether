@@ -28,6 +28,7 @@ public class Progress
     {
         public int bank;
         public Level[] levels = new Level[10];
+        public Level[] multiplayerLevels = new Level[10];
     }
 
     public void Save()
@@ -52,6 +53,7 @@ public class Progress
 
         LevelsManager levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
         levelsManager.levels = Instance.progressData.levels;
+        levelsManager.multiplayerLevels = Instance.progressData.multiplayerLevels;
         levelsManager.InitializeLevels();
         Bank.Instance.Coins = Instance.progressData.bank;
     }

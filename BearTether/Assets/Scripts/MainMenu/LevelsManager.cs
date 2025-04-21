@@ -8,7 +8,7 @@ public class LevelsManager : MonoBehaviour
 
     [NonSerialized] public Level[] levels = new Level[10];
     [NonSerialized] public bool isRewardedFinishMap = false;
-    [NonSerialized] public MultiplayerLevel[] multiplayerLevels = new MultiplayerLevel[10];
+    [NonSerialized] public Level[] multiplayerLevels = new Level[10];
 
     private void Start()
     {
@@ -35,7 +35,7 @@ public class LevelsManager : MonoBehaviour
         for (int i = 0; i < multiplayerLevels.Length; i++)
         {
             if (multiplayerLevels[i] == null)
-                multiplayerLevels[i] = new MultiplayerLevel(i, 0);
+                multiplayerLevels[i] = new Level(i, 0);
 
             if (multiplayerLevels[i].isCompleted)
                 countCompletedMultiplayerLevels++;
