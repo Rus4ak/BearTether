@@ -14,6 +14,7 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] private GameObject _cancelReadyButton;
     [SerializeField] private GameObject _camera;
     [SerializeField] private GameObject _movementButtons;
+    [SerializeField] private GameObject _rope;
 
     private NetworkVariable<bool> _isReady = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
@@ -70,25 +71,25 @@ public class NetworkPlayer : NetworkBehaviour
         {
             if (IsServer
                 &&_playButton.GetComponent<Button>().interactable == false 
-                && _multiplayerManager.players.Count > 1 
-                && countReady == _multiplayerManager.players.Count)
+                && NetworkPlayersManager.Instance.players.Count > 1 
+                && countReady == NetworkPlayersManager.Instance.players.Count)
             {
                 _playButton.GetComponent<Button>().interactable = true;
             }
             if (IsServer
                 && _playButton.GetComponent<Button>().interactable == true
-                && countReady != _multiplayerManager.players.Count)
+                && countReady != NetworkPlayersManager.Instance.players.Count)
             {
                 _playButton.GetComponent<Button>().interactable = false;
             }
             if (IsServer
-                && countReady != _multiplayerManager.players.Count
+                && countReady != NetworkPlayersManager.Instance.players.Count
                 && _multiplayerManager.choiceLevelMenu.activeInHierarchy)
             {
                 _multiplayerManager.HideChoiceLevelMenu();
             }
             if (IsServer
-                && _multiplayerManager.players.Count <= 1
+                && NetworkPlayersManager.Instance.players.Count <= 1
                 && _multiplayerManager.choiceLevelMenu.activeInHierarchy)
             {
                 _multiplayerManager.HideChoiceLevelMenu();
@@ -98,11 +99,11 @@ public class NetworkPlayer : NetworkBehaviour
 
     public override void OnDestroy()
     {
-        for (int i = 0;  i < _multiplayerManager.players.Count; i++)
+        for (int i = 0;  i < NetworkPlayersManager.Instance.players.Count; i++)
         {
-            if (_multiplayerManager.players[i].player == gameObject)
+            if (NetworkPlayersManager.Instance.players[i].player == gameObject)
             {
-                _multiplayerManager.players.RemoveAt(i);
+                NetworkPlayersManager.Instance.players.RemoveAt(i);
             }
         }
 
@@ -142,24 +143,34 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void CreatePlayer()
     {
-        transform.position = transform.position + Vector3.left * _multiplayerManager.players.Count * 3;
+        transform.position = transform.position + Vector3.left * NetworkPlayersManager.Instance.players.Count * 3;
 
         PlayerMultiplayer player = new PlayerMultiplayer(gameObject, GetComponent<Rigidbody2D>());
-        player.player.GetComponent<SpriteRenderer>().sortingOrder += _multiplayerManager.players.Count;
-        _multiplayerManager.players.Add(player);
+        player.player.GetComponent<SpriteRenderer>().sortingOrder += NetworkPlayersManager.Instance.players.Count;
+        NetworkPlayersManager.Instance.players.Add(player);
         _multiplayerManager.InitializePlayer();
     }
 
     private void ChangeScene(Scene oldScene, Scene newScene)
     {
         _sceneName = newScene.name;
-        _isReadyCanvas.gameObject.SetActive(false);
-        _readyCanvas.gameObject.SetActive(false);
-
-        if (IsOwner)
+        
+        if (_sceneName != "Multiplayer")
         {
-            _camera.SetActive(true);
-            _movementButtons.SetActive(true);
+            _isReadyCanvas.gameObject.SetActive(false);
+            _readyCanvas.gameObject.SetActive(false);
+
+            if (IsOwner)
+            {
+                _camera.SetActive(true);
+                _movementButtons.SetActive(true);
+
+                for (int i = 0; i < NetworkPlayersManager.Instance.players.Count - 1; i++)
+                {
+                    Rope rope = Instantiate(_rope).GetComponent<Rope>();
+                    rope.InstantiateRope(NetworkPlayersManager.Instance.players[i].player.transform, NetworkPlayersManager.Instance.players[i + 1].player.transform);
+                }
+            }
         }
     }
 }

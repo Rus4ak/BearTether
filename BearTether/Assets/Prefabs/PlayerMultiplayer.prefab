@@ -685,6 +685,7 @@ MonoBehaviour:
   _cancelReadyButton: {fileID: 4852104802890361963}
   _camera: {fileID: 88878533864326528}
   _movementButtons: {fileID: 2109400948055659318}
+  _rope: {fileID: 2480794639955753627, guid: f1d77933e76fd2842b662aacb0e5fec2, type: 3}
 --- !u!114 &6835656325806935362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,6 +702,8 @@ MonoBehaviour:
   _speed: 5
   _jumpForce: 12
   _raycastLength: 1.3
+  _maxRopeDistance: 2
+  _ropePullStrength: 35
   _jumpLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -756,8 +759,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   NetworkRigidbodyBaseExpanded: 0
   UseRigidBodyForMotion: 1
-  AutoUpdateKinematicState: 1
-  AutoSetKinematicOnDespawn: 1
+  AutoUpdateKinematicState: 0
+  AutoSetKinematicOnDespawn: 0
 --- !u!1 &1429882239193182883
 GameObject:
   m_ObjectHideFlags: 0
