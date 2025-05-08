@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &65126667231052426
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8908260157668255598}
-  m_Layer: 0
-  m_Name: SpawnPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 4422084297763085224, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8908260157668255598
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 65126667231052426}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.64562, y: 0.41280687, z: 0.06553743}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1197281944798200847}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &88878533864326528
 GameObject:
   m_ObjectHideFlags: 0
@@ -702,12 +671,12 @@ MonoBehaviour:
   _speed: 5
   _jumpForce: 12
   _raycastLength: 1.3
-  _maxRopeDistance: 2
+  _maxRopeDistance: 2.5
   _ropePullStrength: 35
   _jumpLayer:
     serializedVersion: 2
     m_Bits: 64
-  _spawnPosition: {fileID: 8908260157668255598}
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &5032469847206380345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2148,7 +2117,6 @@ Transform:
   - {fileID: 6526757075799670395}
   - {fileID: 246198265648701338}
   - {fileID: 3892426220148270505}
-  - {fileID: 8908260157668255598}
   - {fileID: 1854091038146434964}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

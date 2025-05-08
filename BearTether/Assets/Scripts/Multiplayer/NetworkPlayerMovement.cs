@@ -10,10 +10,9 @@ public class NetworkPlayerMovement : NetworkBehaviour
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 12;
     [SerializeField] private float _raycastLength = 1.3f;
-    [SerializeField] private float _maxRopeDistance = 2f;
+    [SerializeField] private float _maxRopeDistance = 2.5f;
     [SerializeField] private float _ropePullStrength = 35f;
     [SerializeField] private LayerMask _jumpLayer;
-    [SerializeField] private Transform _spawnPosition;
 
     private NetworkVariable<float> _move = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private Rigidbody2D _rigidbody;
@@ -22,6 +21,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private float _currentSpeed;
 
     private bool _lookRight = true;
+
+    public Vector3 spawnPosition;
 
     private void Start()
     {
@@ -52,10 +53,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (transform.position.y < -5f)
         {
             if (IsOwner)
-            {
-                NetworkFinish.Instance.AddAttemptServerRpc();
-                transform.position = _spawnPosition.position;
-            }
+                DeadServerRpc();
         }
     }
 
@@ -149,10 +147,34 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (collision.gameObject.CompareTag("Dead"))
         {
             if (IsOwner)
-            {
-                NetworkFinish.Instance.AddAttemptServerRpc();
-                transform.position = _spawnPosition.position;
-            }
+                DeadServerRpc();
+        }
+    }
+
+    [ServerRpc]
+    private void DeadServerRpc()
+    {
+        NetworkFinish.Instance.AddAttemptServerRpc();
+
+        float xPos = 0;
+
+        foreach (var player in NetworkPlayersManager.Instance.players)
+        {
+            player.player.GetComponent<NetworkPlayerMovement>().DeadClientRpc(xPos);
+            xPos -= 2f;
+        }
+        
+    }
+
+    [ClientRpc]
+    private void DeadClientRpc(float xPos)
+    {
+        if (IsOwner)
+        {
+            Vector3 position = spawnPosition;
+            position.x = xPos;
+
+            transform.position = position;
         }
     }
 

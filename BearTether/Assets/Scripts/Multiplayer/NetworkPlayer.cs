@@ -165,6 +165,8 @@ public class NetworkPlayer : NetworkBehaviour
                 _camera.SetActive(true);
                 _movementButtons.SetActive(true);
 
+                GetComponent<NetworkPlayerMovement>().spawnPosition = transform.position;
+
                 for (int i = 0; i < NetworkPlayersManager.Instance.players.Count - 1; i++)
                 {
                     Rope rope = Instantiate(_rope).GetComponent<Rope>();

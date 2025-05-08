@@ -21,3 +21,14 @@
 92	6608	7645557521580843	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	59ac7c5a112fb249
 137	6725	7645557523291224	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	8eb052ab4cc455de
 6728	7243	7645557531182930	C:/projects/Unity/BearTether/BearTether/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x544v2e5/obj/arm64-v8a/libgame.so	9929086487f30280
+155	2338	7683453535182399	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	490609549b81f70b
+2340	4352	7683453554235447	C:/projects/Unity/BearTether/BearTether/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x544v2e5/obj/arm64-v8a/libswappywrapper.so	fa1de4bedc759ea4
+110	6050	7683453569814719	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	13b7e63e067a3d2c
+33	6057	7683453569764723	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	edbb402116fe0cf8
+67	6143	7683453571345053	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	8af4386931497478
+93	6392	7683453573055476	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	93496be18b2674c2
+43	6759	7683453579627529	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	59ac7c5a112fb249
+53	6874	7683453580597714	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	ef86f6514f7bb3e2
+80	6905	7683453581733259	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	8eb052ab4cc455de
+20	7319	7683453586096483	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	b071b2309ede4c6
+7320	7711	7683453590870936	C:/projects/Unity/BearTether/BearTether/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/x544v2e5/obj/arm64-v8a/libgame.so	9929086487f30280

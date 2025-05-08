@@ -9,7 +9,7 @@ public class PlayerMultiplayer
 {
     public GameObject player;
     public Rigidbody2D playerRb;
-
+    
     public PlayerMultiplayer(GameObject player, Rigidbody2D playerRb)
     {
         this.player = player;
