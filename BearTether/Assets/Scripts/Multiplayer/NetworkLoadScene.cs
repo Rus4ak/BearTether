@@ -8,6 +8,7 @@ public class NetworkLoadScene : NetworkBehaviour
     {
         if (IsServer)
         {
+            FindFirstObjectByType<ConnectionApproval>().isGameStarted.Value = true;
             NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
         }
     }

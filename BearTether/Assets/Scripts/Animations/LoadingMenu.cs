@@ -10,16 +10,6 @@ public class LoadingMenu : MonoBehaviour
 
     private int _countTextDots = 1;
 
-    private void Start()
-    {
-        _loadingImage.transform
-            .DORotate(new Vector3(0, 0, -360), 1.5f, RotateMode.FastBeyond360)
-            .SetEase(Ease.Linear)
-            .SetLoops(-1);
-
-        StartCoroutine(TextAnimation());
-    }
-
     private IEnumerator TextAnimation()
     {
         if (_countTextDots == 5)
@@ -34,6 +24,22 @@ public class LoadingMenu : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
+
+        StartCoroutine(TextAnimation());
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        DOTween.Clear();
+    }
+
+    private void OnEnable()
+    {
+        _loadingImage.transform
+            .DORotate(new Vector3(0, 0, -360), 1.5f, RotateMode.FastBeyond360)
+            .SetEase(Ease.Linear)
+            .SetLoops(-1);
 
         StartCoroutine(TextAnimation());
     }

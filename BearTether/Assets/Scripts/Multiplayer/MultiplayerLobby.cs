@@ -16,18 +16,17 @@ public class MultiplayerLobby : NetworkBehaviour
     [SerializeField] private GameObject _errorText;
     [SerializeField] private GameObject _lobbyMenu;
     
-    public GameObject choiceLevelMenu;
-
     private float _screenWidth;
-
     private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>("Room");
-
+    
+    public GameObject choiceLevelMenu;
+    
     private void Start()
     {
         float screenHeight = Camera.main.orthographicSize * 2;
         _screenWidth = screenHeight * Screen.width / Screen.height;
     }
-
+    
     private void Update()
     {
         for (int i = 0; i < NetworkPlayersManager.Instance.players.Count; i++)
@@ -46,6 +45,7 @@ public class MultiplayerLobby : NetworkBehaviour
             _roomNameText.text = _sessionName.Value.ToString();
         }
     }
+
 
     public void InitializePlayer()
     {
