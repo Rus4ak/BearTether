@@ -108,6 +108,9 @@ public class NetworkPlayer : NetworkBehaviour
         }
 
         SceneManager.activeSceneChanged -= ChangeScene;
+
+        if (IsServer)
+            countReady = 0;
     }
 
     public void Ready()
