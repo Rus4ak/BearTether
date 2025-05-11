@@ -1248,6 +1248,7 @@ GameObject:
   - component: {fileID: 2015038018011175245}
   - component: {fileID: 3137179184487325933}
   - component: {fileID: 7319816565659367276}
+  - component: {fileID: 2183431592638273863}
   m_Layer: 5
   m_Name: MovementButtons
   m_TagString: Untagged
@@ -1340,6 +1341,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2183431592638273863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109400948055659318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68f471469f8b2744a86870b1acc56e5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buttonLeft: {fileID: 7126142571217793486}
+  _buttonRight: {fileID: 6284256469335064122}
+  _buttonJump: {fileID: 244355932902084532}
 --- !u!1 &2730299647516133166
 GameObject:
   m_ObjectHideFlags: 0
