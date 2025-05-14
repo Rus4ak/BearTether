@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class NetworkPlayerMovement : NetworkBehaviour
     [SerializeField] private float _maxRopeDistance = 2.5f;
     [SerializeField] private float _ropePullStrength = 35f;
     [SerializeField] private LayerMask _jumpLayer;
+    [SerializeField] private ParticleSystem _runParticleSystem;
+    [SerializeField] private ParticleSystem _jumpParticleSystem;
+    [SerializeField] private Color[] _particleColors = new Color[2];
 
     private NetworkVariable<float> _move = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private Rigidbody2D _rigidbody;
@@ -22,13 +26,18 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
     private bool _lookRight = true;
 
-    public Vector3 spawnPosition;
+    [NonSerialized] public Vector3 spawnPosition;
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _currentSpeed = _speed;
+
+        ParticleSystem.MainModule[] main = new ParticleSystem.MainModule[2] { _runParticleSystem.main, _jumpParticleSystem.main };
+
+        for (int i = 0; i < main.Length; i++)
+            main[i].startColor = new ParticleSystem.MinMaxGradient(_particleColors[0], _particleColors[1]);
     }
 
     private void Update()
@@ -43,11 +52,14 @@ public class NetworkPlayerMovement : NetworkBehaviour
         
         else if (_move.Value < 0 && _lookRight == true)
             Flip();
-        
-        if (_isOnGround)
-            _animator.SetBool("Jump", false);
 
-        else
+        if (_isOnGround && _animator.GetBool("Jump"))
+        {
+            _animator.SetBool("Jump", false);
+            _jumpParticleSystem.Play();
+        }
+
+        if (!_isOnGround)
             _animator.SetBool("Jump", true);
         
         if (transform.position.y < -5f)
@@ -183,10 +195,20 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (IsOwner)
             _rigidbody.linearVelocity = new Vector2(_move.Value * _currentSpeed, _rigidbody.linearVelocity.y);
         
-        if (_move.Value != 0)
+        if (_move.Value != 0 && _isOnGround)
+        {
             _animator.SetBool("Run", true);
+
+            if (!_runParticleSystem.isPlaying)
+                _runParticleSystem.Play();
+        }
         else
+        {
             _animator.SetBool("Run", false);
+
+            if (_runParticleSystem.isPlaying)
+                _runParticleSystem.Stop();
+        }
         
         if (IsOwner)
             if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)

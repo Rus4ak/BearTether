@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _raycastLength = 1.3f;
     [SerializeField] private LayerMask _jumpLayer;
     [SerializeField] private Transform _spawnPosition;
+    [SerializeField] private ParticleSystem _runParticleSystem;
+    [SerializeField] private ParticleSystem _jumpParticleSystem;
+    [SerializeField] private Color[] _particleColors = new Color[2];
 
     private float _move;
     private Rigidbody2D _rigidbody;
@@ -23,6 +26,11 @@ public class PlayerMovement : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+
+        ParticleSystem.MainModule[] main = new ParticleSystem.MainModule[2] { _runParticleSystem.main, _jumpParticleSystem.main };
+        
+        for (int i = 0; i < main.Length; i++)
+            main[i].startColor = new ParticleSystem.MinMaxGradient(_particleColors[0], _particleColors[1]);
     }
 
     private void Update()
@@ -35,10 +43,13 @@ public class PlayerMovement : MonoBehaviour
         else if (_move < 0 && _lookRight == true)
             Flip();
         
-        if (_isOnGround)
+        if (_isOnGround && _animator.GetBool("Jump"))
+        {
             _animator.SetBool("Jump", false);
+            _jumpParticleSystem.Play();
+        }
 
-        else
+        if (!_isOnGround)
             _animator.SetBool("Jump", true);
 
         if (transform.position.y < -5f)
@@ -66,10 +77,20 @@ public class PlayerMovement : MonoBehaviour
     {
         _rigidbody.linearVelocity = new Vector2(_move * _speed, _rigidbody.linearVelocity.y);
         
-        if (_move != 0)
+        if (_move != 0 && _isOnGround)
+        {
             _animator.SetBool("Run", true);
+
+            if (!_runParticleSystem.isPlaying)
+                _runParticleSystem.Play();
+        }
         else
+        {
             _animator.SetBool("Run", false);
+            
+            if (_runParticleSystem.isPlaying)
+                _runParticleSystem.Stop();
+        }
         
         if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
             _rigidbody.linearVelocity += new Vector2(0, -10);
