@@ -8,15 +8,24 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
 public class NetworkPlayerMovement : NetworkBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 12;
     [SerializeField] private float _raycastLength = 1.3f;
+    [SerializeField] private LayerMask _jumpLayer;
+
+    [Header("Rope")]
     [SerializeField] private float _maxRopeDistance = 2.5f;
     [SerializeField] private float _ropePullStrength = 35f;
-    [SerializeField] private LayerMask _jumpLayer;
+
+    [Header("Particles")]
     [SerializeField] private ParticleSystem _runParticleSystem;
     [SerializeField] private ParticleSystem _jumpParticleSystem;
     [SerializeField] private Color[] _particleColors = new Color[2];
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource _stepsSound;
+    [SerializeField] private AudioSource _jumpSound;
 
     private NetworkVariable<float> _move = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private Rigidbody2D _rigidbody;
@@ -33,6 +42,17 @@ public class NetworkPlayerMovement : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _currentSpeed = _speed;
+
+        AudioListener audioListener;
+
+        if (Camera.main.TryGetComponent<AudioListener>(out audioListener))
+            Destroy(audioListener);
+
+        if (IsOwner)
+        {
+
+            gameObject.AddComponent<AudioListener>();
+        }
 
         ParticleSystem.MainModule[] main = new ParticleSystem.MainModule[2] { _runParticleSystem.main, _jumpParticleSystem.main };
 
@@ -57,6 +77,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         {
             _animator.SetBool("Jump", false);
             _jumpParticleSystem.Play();
+            _jumpSound.Play();
         }
 
         if (!_isOnGround)
@@ -72,86 +93,6 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private void FixedUpdate()
     {
         _isOnGround = Physics2D.Raycast(transform.position, Vector2.down, _raycastLength, _jumpLayer);
-
-        if (!IsOwner || SceneManager.GetActiveScene().name == "Multiplayer")
-            return;
-
-        List<PlayerMultiplayer> players = NetworkPlayersManager.Instance.players;
-
-        for (int i = 0; i < players.Count - 1; i++)
-        {
-            var playerA = players[i];
-            var playerB = players[i + 1];
-
-            Vector3 posA = playerA.player.transform.position;
-            Vector3 posB = playerB.player.transform.position;
-
-            float distance = Vector3.Distance(posA, posB);
-
-            if (distance > _maxRopeDistance)
-            {
-                float overshoot = distance - _maxRopeDistance;
-                Vector3 direction = (posA - posB).normalized;
-
-                playerA.playerRb.AddForce(-direction * overshoot * _ropePullStrength);
-                playerB.playerRb.AddForce(direction * overshoot * _ropePullStrength);
-            }
-        }
-        
-        int myIndex = players.FindIndex(p => p.player == gameObject);
-        if (myIndex != -1)
-        {
-            Vector2 myVelocity = _rigidbody.linearVelocity;
-            float maxDot = 0f;
-            float maxOvershoot = 0f;
-            _currentSpeed = _speed; 
-
-            if (myIndex > 0)
-            {
-                Vector3 otherPos = players[myIndex - 1].player.transform.position;
-                float dist = Vector3.Distance(transform.position, otherPos);
-
-                if (dist > _maxRopeDistance)
-                {
-                    float overshoot = dist - _maxRopeDistance;
-                    Vector2 dir = (transform.position - otherPos).normalized;
-                    float dot = Vector2.Dot(myVelocity, dir);
-
-                    if (dot > maxDot)
-                    {
-                        maxDot = dot;
-                        maxOvershoot = overshoot;
-                    }
-                }
-            }
-
-            if (myIndex < players.Count - 1)
-            {
-                Vector3 otherPos = players[myIndex + 1].player.transform.position;
-                float dist = Vector3.Distance(transform.position, otherPos);
-
-                if (dist > _maxRopeDistance)
-                {
-                    float overshoot = dist - _maxRopeDistance;
-                    Vector2 dir = (transform.position - otherPos).normalized;
-                    float dot = Vector2.Dot(myVelocity, dir);
-
-                    if (dot > maxDot)
-                    {
-                        maxDot = dot;
-                        maxOvershoot = overshoot;
-                    }
-                }
-            }
-
-            if (maxDot > 0.1f)
-            {
-                if (maxOvershoot > 1f)
-                    _currentSpeed = _speed / (1.5f * maxOvershoot);
-                else
-                    _currentSpeed = _speed / 2f;
-            }
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -193,11 +134,96 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private void Moving()
     {
         if (IsOwner)
+        {
+            List<PlayerMultiplayer> players = NetworkPlayersManager.Instance.players;
+
+            for (int i = 0; i < players.Count - 1; i++)
+            {
+                var playerA = players[i];
+                var playerB = players[i + 1];
+
+                Vector3 posA = playerA.player.transform.position;
+                Vector3 posB = playerB.player.transform.position;
+
+                float distance = Vector3.Distance(posA, posB);
+
+                if (distance > _maxRopeDistance)
+                {
+                    float overshoot = distance - _maxRopeDistance;
+                    Vector3 direction = (posA - posB).normalized;
+
+                    playerA.playerRb.AddForce(-direction * overshoot * _ropePullStrength);
+                    playerB.playerRb.AddForce(direction * overshoot * _ropePullStrength);
+                }
+            }
+
+            int myIndex = players.FindIndex(p => p.player == gameObject);
+            if (myIndex != -1)
+            {
+                Vector2 myVelocity = _rigidbody.linearVelocity;
+                float maxDot = 0f;
+                float maxOvershoot = 0f;
+                _currentSpeed = _speed;
+
+                if (myIndex > 0)
+                {
+                    Vector3 otherPos = players[myIndex - 1].player.transform.position;
+                    float dist = Vector3.Distance(transform.position, otherPos);
+
+                    if (dist > _maxRopeDistance)
+                    {
+                        float overshoot = dist - _maxRopeDistance;
+                        Vector2 dir = (transform.position - otherPos).normalized;
+                        float dot = Vector2.Dot(myVelocity, dir);
+
+                        if (dot > maxDot)
+                        {
+                            maxDot = dot;
+                            maxOvershoot = overshoot;
+                        }
+                    }
+                }
+
+                if (myIndex < players.Count - 1)
+                {
+                    Vector3 otherPos = players[myIndex + 1].player.transform.position;
+                    float dist = Vector3.Distance(transform.position, otherPos);
+
+                    if (dist > _maxRopeDistance)
+                    {
+                        float overshoot = dist - _maxRopeDistance;
+                        Vector2 dir = (transform.position - otherPos).normalized;
+                        float dot = Vector2.Dot(myVelocity, dir);
+
+                        if (dot > maxDot)
+                        {
+                            maxDot = dot;
+                            maxOvershoot = overshoot;
+                        }
+                    }
+                }
+
+                if (maxDot > 0.1f)
+                {
+                    if (maxOvershoot > 1f)
+                        _currentSpeed = _speed / (1.5f * maxOvershoot);
+                    else
+                        _currentSpeed = _speed / 2f;
+                }
+            }
+
             _rigidbody.linearVelocity = new Vector2(_move.Value * _currentSpeed, _rigidbody.linearVelocity.y);
+
+            if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
+                _rigidbody.linearVelocity += new Vector2(0, -10);
+        }
         
         if (_move.Value != 0 && _isOnGround)
         {
             _animator.SetBool("Run", true);
+
+            if (!_stepsSound.isPlaying)
+                _stepsSound.Play();
 
             if (!_runParticleSystem.isPlaying)
                 _runParticleSystem.Play();
@@ -206,13 +232,12 @@ public class NetworkPlayerMovement : NetworkBehaviour
         {
             _animator.SetBool("Run", false);
 
+            if (_stepsSound.isPlaying)
+                _stepsSound.Stop();
+
             if (_runParticleSystem.isPlaying)
                 _runParticleSystem.Stop();
         }
-        
-        if (IsOwner)
-            if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
-                _rigidbody.linearVelocity += new Vector2(0, -10);
     }
 
     public void Jump()

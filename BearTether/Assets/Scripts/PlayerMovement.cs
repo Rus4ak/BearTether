@@ -4,14 +4,21 @@ using UnityEngine.SceneManagement;
 [RequireComponent (typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 12;
     [SerializeField] private float _raycastLength = 1.3f;
     [SerializeField] private LayerMask _jumpLayer;
     [SerializeField] private Transform _spawnPosition;
+
+    [Header("Particles")]
     [SerializeField] private ParticleSystem _runParticleSystem;
     [SerializeField] private ParticleSystem _jumpParticleSystem;
     [SerializeField] private Color[] _particleColors = new Color[2];
+
+    [Header("Sounds")]
+    [SerializeField] private AudioSource _stepsSound;
+    [SerializeField] private AudioSource _jumpSound;
 
     private float _move;
     private Rigidbody2D _rigidbody;
@@ -47,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetBool("Jump", false);
             _jumpParticleSystem.Play();
+            _jumpSound.Play();
         }
 
         if (!_isOnGround)
@@ -81,13 +89,19 @@ public class PlayerMovement : MonoBehaviour
         {
             _animator.SetBool("Run", true);
 
+            if (!_stepsSound.isPlaying)
+                _stepsSound.Play();
+
             if (!_runParticleSystem.isPlaying)
                 _runParticleSystem.Play();
         }
         else
         {
             _animator.SetBool("Run", false);
-            
+
+            if (_stepsSound.isPlaying) 
+                _stepsSound.Stop();
+
             if (_runParticleSystem.isPlaying)
                 _runParticleSystem.Stop();
         }

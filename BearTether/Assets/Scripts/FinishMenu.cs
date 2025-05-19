@@ -16,6 +16,7 @@ public class FinishMenu : MonoBehaviour
     [SerializeField] private GameObject _additionalCoinsPrefab;
     [SerializeField] private GameObject _rewardedCoins;
     [SerializeField] private GameMode _gameMode;
+    [SerializeField] private AudioSource _starFlySound;
 
     private Animation _currentStarAnimation;
     private string _nextLevel;
@@ -35,6 +36,7 @@ public class FinishMenu : MonoBehaviour
     {
         _loadScene = GetComponent<LoadScene>();
         _stars[0].SetActive(true);
+        _starFlySound.Play();
         _currentStarAnimation = _stars[0].GetComponent<Animation>();
         _countStars++;
         _rewardedCoinsCount += 10;
@@ -112,6 +114,7 @@ public class FinishMenu : MonoBehaviour
             if (_countStars > 1 && !_stars[1].activeInHierarchy)
             {
                 _stars[1].SetActive(true);
+                _starFlySound.Play();
                 _currentStarAnimation = _stars[1].GetComponent<Animation>();
                 if (_additionalCoinsCount >= 2)
                     InstantiateAdditionalCoins("+5");
@@ -121,6 +124,7 @@ public class FinishMenu : MonoBehaviour
             if (_countStars > 2 && !_stars[2].activeInHierarchy)
             {
                 _stars[2].SetActive(true);
+                _starFlySound.Play();
                 _currentStarAnimation = _stars[2].GetComponent<Animation>();
                 if (_additionalCoinsCount >= 1)
                     InstantiateAdditionalCoins("+5");

@@ -25,7 +25,6 @@ public class Options
     [Serializable]
     public class OptionsData
     {
-        public float musicVolume = .7f;
         public float soundVolume = .7f;
         public Vector2 buttonLeftPosition = new Vector2(300, 180);
         public Vector2 buttonRightPosition = new Vector2(550, 180);
@@ -46,5 +45,7 @@ public class Options
             return;
 
         optionsData = JsonUtility.FromJson<OptionsData>(File.ReadAllText(_path));
+
+        SoundVolume.Instance.volume = optionsData.soundVolume;
     }
 }

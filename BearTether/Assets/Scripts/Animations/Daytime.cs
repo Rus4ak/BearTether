@@ -7,10 +7,12 @@ public class Daytime : MonoBehaviour
     [SerializeField] private GameObject _sun;
     [SerializeField] private GameObject _moon;
     [SerializeField] private Light2D _light;
+    [SerializeField] private AudioSource _daySound;
+    [SerializeField] private AudioSource _nightSound;
 
     private float _endPosX;
 
-    public static float timeRadius;
+    public static float timeRadius = .5f;
 
     private void Start()
     {
@@ -44,6 +46,9 @@ public class Daytime : MonoBehaviour
 
         timeRadius = val;
 
+        _daySound.volume = Mathf.Clamp(val, 0, SoundVolume.Instance.volume);
+        _nightSound.volume = Mathf.Clamp(val * -1, 0, SoundVolume.Instance.volume);
+
         if (val > 0)
         {
             _sun.SetActive(true);
@@ -63,5 +68,10 @@ public class Daytime : MonoBehaviour
         zRotation %= 360f;
         float radians = zRotation * Mathf.Deg2Rad;
         return Mathf.Cos(radians);
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Clear();
     }
 }
