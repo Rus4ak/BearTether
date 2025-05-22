@@ -36,7 +36,7 @@ public class Daytime : MonoBehaviour
         seq.Append(transform.DOLocalMoveX(_endPosX, 50f).SetEase(Ease.Linear));
 
         seq.AppendCallback(() => transform.localPosition = new Vector3(_endPosX * -1, transform.localPosition.y, transform.localPosition.z));
-        seq.Append(transform.DOLocalMoveX(_endPosX, 100f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Restart));
+        seq.Append(transform.DOLocalMoveX(_endPosX, 100f).SetEase(Ease.Linear).SetLoops(int.MaxValue, LoopType.Restart));
     }
 
     private void Update()
