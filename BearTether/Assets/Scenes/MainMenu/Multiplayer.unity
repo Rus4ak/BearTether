@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 9996416}
   m_Layer: 0
   m_Name: ConnectionApproval
-  m_TagString: Untagged
+  m_TagString: ConnectionApproval
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6515,6 +6515,7 @@ MonoBehaviour:
   _canvas: {fileID: 1500368772}
   _errorText: {fileID: 7034253837461184865, guid: b63a69c49cc3ce949bfed68c50691787, type: 3}
   _lobbyMenu: {fileID: 1125773588}
+  _lobbyPanel: {fileID: 1351074175}
   choiceLevelMenu: {fileID: 123549355}
 --- !u!114 &609839203
 MonoBehaviour:
@@ -7194,18 +7195,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 609839202}
-        m_TargetAssemblyTypeName: MultiplayerLobby, Assembly-CSharp
-        m_MethodName: Leave
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -13986,7 +13975,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 609839204}
         m_TargetAssemblyTypeName: NetworkLoadScene, Assembly-CSharp
-        m_MethodName: Load
+        m_MethodName: StartGame
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

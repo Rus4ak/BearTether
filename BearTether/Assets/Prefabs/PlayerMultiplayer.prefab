@@ -5499,7 +5499,7 @@ GameObject:
   - component: {fileID: 6835656325806935362}
   - component: {fileID: 5032469847206380345}
   - component: {fileID: 3472283382568115952}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bear
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -5569,7 +5569,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -4200105262245900857, guid: 287cd8074ee4e9a4da05c83844d5d4af, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6916,7 +6916,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 1, b: 0, a: 0.019607844}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

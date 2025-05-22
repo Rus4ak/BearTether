@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -15,6 +13,7 @@ public class MultiplayerLobby : NetworkBehaviour
     [SerializeField] private Transform _canvas;
     [SerializeField] private GameObject _errorText;
     [SerializeField] private GameObject _lobbyMenu;
+    [SerializeField] private GameObject _lobbyPanel;
     
     private float _screenWidth;
     private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>("Room");
@@ -66,6 +65,9 @@ public class MultiplayerLobby : NetworkBehaviour
         Vector3 position = _room.localPosition;
         position.x = 0;
         _room.localPosition = position;
+
+        if (_lobbyPanel.activeInHierarchy)
+            _lobbyPanel.SetActive(false);
     }
 
     public void HideRoomMenu()

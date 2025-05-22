@@ -6,6 +6,16 @@ public class ConnectionApproval : NetworkBehaviour
 {
     [NonSerialized] public NetworkVariable<bool> isGameStarted = new NetworkVariable<bool>(false);
 
+    private void Awake()
+    {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("ConnectionApproval");
+
+        if (objs.Length > 1)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
         NetworkManager.Singleton.ConnectionApprovalCallback += OnClientConnecting;

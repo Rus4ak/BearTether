@@ -25,44 +25,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void Start()
     {
-        _sceneName = SceneManager.GetActiveScene().name;
-        SceneManager.activeSceneChanged += ChangeScene;
-
-        if (_sceneName == "Multiplayer")
-        {
-            if (IsOwner)
-                _readyCanvas.SetActive(true);
-            
-            _camera.SetActive(false);
-            _isReadyCanvas.worldCamera = Camera.main;
-            _movementButtons.SetActive(false);
-
-            _multiplayerManager = GameObject.FindWithTag("MultiplayerManager").GetComponent<MultiplayerLobby>();
-
-            if (IsOwner)
-                Invoke(nameof(CreatePlayer), .1f);
-            else
-                CreatePlayer();
-            
-            _playButton.GetComponent<Button>().interactable = false;
-            
-            _isReady.OnValueChanged += UpdateReady;
-            UpdateReady(false, _isReady.Value);
-
-            if (IsServer)
-            {
-                if (IsOwner)
-                {
-                    ToggleReadyServerRpc();
-                    _playButton.SetActive(true);
-                    _playButton.GetComponent<Button>().onClick.AddListener(_multiplayerManager.ShowChoiceLevelMenu);
-                }
-            }
-            else
-            {
-                _readyButton.SetActive(true);
-            }
-        }
+        InitializeMultiplayerScene();
     }
 
     private void Update()
@@ -150,7 +113,18 @@ public class NetworkPlayer : NetworkBehaviour
 
         PlayerMultiplayer player = new PlayerMultiplayer(gameObject, GetComponent<Rigidbody2D>());
         player.player.GetComponent<SpriteRenderer>().sortingOrder += NetworkPlayersManager.Instance.players.Count;
-        NetworkPlayersManager.Instance.players.Add(player);
+
+        bool isSimilar = false;
+        
+        foreach (PlayerMultiplayer plr in NetworkPlayersManager.Instance.players)
+        {
+            if (plr.player == gameObject)
+                isSimilar = true;
+        }
+
+        if (!isSimilar) 
+            NetworkPlayersManager.Instance.players.Add(player);
+        
         _multiplayerManager.InitializePlayer();
     }
 
@@ -175,6 +149,71 @@ public class NetworkPlayer : NetworkBehaviour
                     Rope rope = Instantiate(_rope).GetComponent<Rope>();
                     rope.InstantiateRope(NetworkPlayersManager.Instance.players[i].player.transform, NetworkPlayersManager.Instance.players[i + 1].player.transform);
                 }
+            }
+        }
+        else
+        {
+            InitializeMultiplayerScene();
+            _multiplayerManager.ShowRoomMenu();
+            transform.rotation = Quaternion.identity;
+
+            AudioListener audioListener;
+
+            if (Camera.main.TryGetComponent<AudioListener>(out audioListener))
+                Destroy(audioListener);
+
+            if (IsServer && IsOwner)
+                countReady = 1;
+        }
+    }
+
+    public void InitializeMultiplayerScene()
+    {
+        _sceneName = SceneManager.GetActiveScene().name;
+        SceneManager.activeSceneChanged += ChangeScene;
+
+        if (_sceneName == "Multiplayer")
+        {
+            if (IsOwner)
+                _readyCanvas.SetActive(true);
+
+            if (IsServer && !_readyButton.activeInHierarchy)
+                _isReady.Value = true;
+
+            if (!_isReadyCanvas.gameObject.activeInHierarchy)
+                _isReadyCanvas.gameObject.SetActive(true);
+
+            _camera.SetActive(false);
+            _isReadyCanvas.worldCamera = Camera.main;
+            _movementButtons.SetActive(false);
+
+            _multiplayerManager = GameObject.FindWithTag("MultiplayerManager").GetComponent<MultiplayerLobby>();
+
+            if (IsOwner)
+                Invoke(nameof(CreatePlayer), .1f);
+            else
+                CreatePlayer();
+
+            _playButton.GetComponent<Button>().interactable = false;
+
+            _isReady.OnValueChanged += UpdateReady;
+            UpdateReady(false, _isReady.Value);
+
+            if (IsServer)
+            {
+                if (IsOwner)
+                {
+                    ToggleReadyServerRpc();
+                    _playButton.SetActive(true);
+                    _playButton.GetComponent<Button>().onClick.AddListener(_multiplayerManager.ShowChoiceLevelMenu);
+                }
+            }
+            else
+            {
+                _readyButton.SetActive(true);
+
+                if (_cancelReadyButton.activeInHierarchy)
+                    _cancelReadyButton.SetActive(false);
             }
         }
     }
