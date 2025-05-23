@@ -22,6 +22,13 @@ public class CameraFollow : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (_minPos == null || _maxPos == null)
+        {
+            Transform borders = GameObject.FindWithTag("CameraBorders").transform;
+            _minPos = borders.Find("MinPos");
+            _maxPos = borders.Find("MaxPos");
+        }
+
         Vector3 pos = Vector3.Lerp(transform.position, _target.position, _smoothSpeed * Time.fixedDeltaTime);
         pos.z = -10;
 

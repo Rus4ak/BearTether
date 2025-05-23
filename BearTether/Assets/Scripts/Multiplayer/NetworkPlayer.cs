@@ -161,10 +161,10 @@ public class NetworkPlayer : NetworkBehaviour
 
             if (Camera.main.TryGetComponent<AudioListener>(out audioListener))
                 Destroy(audioListener);
-
-            if (IsServer && IsOwner)
-                countReady = 1;
         }
+
+        if (IsServer && IsOwner)
+            countReady = 1;
     }
 
     public void InitializeMultiplayerScene()

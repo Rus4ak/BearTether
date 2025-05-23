@@ -4,13 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class NetworkLoadScene : NetworkBehaviour
 {
+    [SerializeField] private bool _isLoadOnlyServer = true;
+
     public void StartGame(string name)
     {
-        if (IsServer)
-        {
-            FindFirstObjectByType<ConnectionApproval>().isGameStarted.Value = true;
-            NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
-        }
+        if (_isLoadOnlyServer)
+            if (!IsServer)
+                return;
+
+        FindFirstObjectByType<ConnectionApproval>().isGameStarted.Value = true;
+        NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 
     public void QuitGame()
