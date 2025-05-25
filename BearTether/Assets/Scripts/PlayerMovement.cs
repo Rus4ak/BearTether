@@ -27,13 +27,14 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _lookRight = true;
 
-    public static int attempt = 0;
+    public static int attempt;
 
     private void Start()
     {
+        attempt = 0;
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-
+        
         ParticleSystem.MainModule[] main = new ParticleSystem.MainModule[2] { _runParticleSystem.main, _jumpParticleSystem.main };
         
         for (int i = 0; i < main.Length; i++)
@@ -43,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Moving();
-
+        
         if (_move > 0 && _lookRight == false)
             Flip();
         
