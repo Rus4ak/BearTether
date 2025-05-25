@@ -1,6 +1,9 @@
+using Mono.Cecil.Cil;
+using System.Collections;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +11,7 @@ public class MultiplayerLobby : NetworkBehaviour
 {
     [SerializeField] private Transform _ground;
     [SerializeField] private TextMeshProUGUI _roomNameText;
+    [SerializeField] private TextMeshProUGUI _roomCodeText;
     [SerializeField] private Transform _room;
     [SerializeField] private Button _leaveButton;
     [SerializeField] private Transform _canvas;
@@ -17,6 +21,7 @@ public class MultiplayerLobby : NetworkBehaviour
     
     private float _screenWidth;
     private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>("Room");
+    private NetworkVariable<FixedString64Bytes> _roomCode = new NetworkVariable<FixedString64Bytes>("Code");
     
     public GameObject choiceLevelMenu;
     
@@ -24,6 +29,15 @@ public class MultiplayerLobby : NetworkBehaviour
     {
         float screenHeight = Camera.main.orthographicSize * 2;
         _screenWidth = screenHeight * Screen.width / Screen.height;
+
+        if (IsServer)
+        {
+            if (_sessionName.Value != RoomData.Instantiate.roomName)
+                _sessionName.Value = RoomData.Instantiate.roomName;
+
+            if (_roomCode.Value != RoomData.Instantiate.roomCode)
+                _roomCode.Value = RoomData.Instantiate.roomCode;
+        }
     }
     
     private void Update()
@@ -40,9 +54,11 @@ public class MultiplayerLobby : NetworkBehaviour
             _ground.transform.position = new Vector3(_screenWidth, 0, 0);
 
         if (_roomNameText.text != _sessionName.Value.ToString())
-        {
             _roomNameText.text = _sessionName.Value.ToString();
-        }
+
+        if (_roomCode.Value != "Code" && _roomCode.Value != "–")
+            if (_roomCodeText.text != _roomCode.Value.ToString())
+                _roomCodeText.text = _roomCode.Value.ToString();
     }
 
 
@@ -58,6 +74,27 @@ public class MultiplayerLobby : NetworkBehaviour
     public void SetSessionName(TextMeshProUGUI name)
     {
         _sessionName.Value = name.text;
+        RoomData.Instantiate.roomName = name.text;
+    }
+
+    public void SetSessionCode(TextMeshProUGUI code)
+    {
+        StartCoroutine(SetSessionCodeAsync(code));
+    }
+
+    IEnumerator SetSessionCodeAsync(TextMeshProUGUI text)
+    {
+        while (_roomCode.Value == "Code" || _roomCode.Value == "–")
+        {
+            if (text.text == "Code" || text.text == "–")
+                yield return new WaitForSeconds(1);
+            else
+            {
+                _roomCode.Value = text.text;
+                RoomData.Instantiate.roomCode = text.text;
+                StopCoroutine(nameof(SetSessionCodeAsync));
+            }
+        }
     }
 
     public void ShowRoomMenu()
@@ -80,6 +117,15 @@ public class MultiplayerLobby : NetworkBehaviour
     [ClientRpc]
     private void LeaveClientRpc()
     {
+        RoomData.Instantiate.roomName = "Room";
+        RoomData.Instantiate.roomCode = "Code";
+
+        if (IsServer)
+        {
+            _roomCodeText.text = "Code";
+            _roomCode.Value = "Code";
+        }
+
         if (!IsServer)
             _leaveButton.onClick.Invoke();
     }

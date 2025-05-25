@@ -6522,6 +6522,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _ground: {fileID: 325981225}
   _roomNameText: {fileID: 1897212804}
+  _roomCodeText: {fileID: 2085068077}
   _room: {fileID: 2101801023}
   _leaveButton: {fileID: 739851575}
   _canvas: {fileID: 1500368772}
@@ -6655,6 +6656,18 @@ MonoBehaviour:
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 111559145}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 609839202}
+        m_TargetAssemblyTypeName: MultiplayerLobby, Assembly-CSharp
+        m_MethodName: SetSessionCode
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2085068077}
           m_ObjectArgumentAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
           m_IntArgument: 0
           m_FloatArgument: 0

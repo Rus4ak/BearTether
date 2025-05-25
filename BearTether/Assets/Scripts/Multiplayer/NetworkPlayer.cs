@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -69,6 +70,10 @@ public class NetworkPlayer : NetworkBehaviour
                 NetworkPlayersManager.Instance.players.RemoveAt(i);
             }
         }
+
+        if (IsOwner)
+            if (!Camera.main.TryGetComponent<AudioListener>(out _))
+                Camera.main.AddComponent<AudioListener>();
 
         SceneManager.activeSceneChanged -= ChangeScene;
 
