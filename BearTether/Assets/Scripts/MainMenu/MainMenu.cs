@@ -13,6 +13,13 @@ public class MainMenu : MonoBehaviour
 
     private bool _isPlay = false;
 
+    private void Awake()
+    {
+        Application.runInBackground = true;
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
+    }
+
     private void Start()
     {
         _playerRb = _player.GetComponent<Rigidbody2D>();
