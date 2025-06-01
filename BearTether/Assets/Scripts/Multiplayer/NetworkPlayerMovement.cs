@@ -18,7 +18,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
     [Header("Rope")]
     [SerializeField] private float _maxRopeDistance = 2.5f;
     [SerializeField] private float _ropePullStrength = 35f;
- 
+    [SerializeField] private Transform _anchor;
+
     [Header("Particles")]
     [SerializeField] private ParticleSystem _runParticleSystem;
     [SerializeField] private ParticleSystem _jumpParticleSystem;
@@ -29,11 +30,14 @@ public class NetworkPlayerMovement : NetworkBehaviour
     [SerializeField] private AudioSource _jumpSound;
 
     private NetworkVariable<float> _move = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    private NetworkVariable<Vector3> _ownerPosition = new NetworkVariable<Vector3>(Vector3.zero, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private bool _isOnGround;
     private float _currentSpeed;
+    private HingeJoint2D _hingeJoint;
 
+    private bool _isMove = true;
     private bool _lookRight = true;
 
     [NonSerialized] public Vector3 spawnPosition;
@@ -42,8 +46,9 @@ public class NetworkPlayerMovement : NetworkBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _hingeJoint = GetComponent<HingeJoint2D>();
         _currentSpeed = _speed;
-        
+
         AudioListener audioListener;
 
         if (Camera.main.TryGetComponent<AudioListener>(out audioListener))
@@ -68,6 +73,20 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
         Moving();
 
+        _anchor.localPosition = Vector3.zero;
+
+        if (_hingeJoint.enabled)
+            if (_isOnGround)
+            {
+                _hingeJoint.enabled = false;
+                _isMove = true;
+            }
+
+        if (IsOwner)
+            _ownerPosition.Value = transform.position;
+        else 
+            transform.position = _ownerPosition.Value;
+
         if (_move.Value > 0 && _lookRight == false)
             Flip();
         
@@ -84,7 +103,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (!_isOnGround)
             _animator.SetBool("Jump", true);
         
-        if (transform.position.y < -5f)
+        if (transform.position.y < -50f)
         {
             if (IsOwner)
                 DeadServerRpc();
@@ -168,6 +187,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
                 Transform otherPlayer = players[myIndex - 1].player.transform;
 
                 float speed = CalculateDistance(transform, otherPlayer);
+                RopeHanging(transform, otherPlayer);
+                
                 _currentSpeed = speed;
             }
 
@@ -176,6 +197,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
                 Transform otherPlayer = players[myIndex + 1].player.transform;
 
                 float speed = CalculateDistance(transform, otherPlayer);
+                RopeHanging(transform, otherPlayer);
+
                 _currentSpeed = speed;
             }
 
@@ -191,10 +214,13 @@ public class NetworkPlayerMovement : NetworkBehaviour
             }
         }
 
-        _rigidbody.linearVelocity = new Vector2(_move.Value * _currentSpeed, _rigidbody.linearVelocity.y);
+        if (_isMove)
+        {
+            _rigidbody.linearVelocity = new Vector2(_move.Value * _currentSpeed, _rigidbody.linearVelocity.y);
 
-        if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
-            _rigidbody.linearVelocity += new Vector2(0, -10);
+            if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
+                _rigidbody.linearVelocity += new Vector2(0, -10);
+        }
         
         if (_move.Value != 0 && _isOnGround)
         {
@@ -223,32 +249,59 @@ public class NetworkPlayerMovement : NetworkBehaviour
         float distanceX = playerOwner.position.x - otherPlayer.position.x;
         float distance = Vector3.Distance(playerOwner.position, otherPlayer.position);
 
-        if (distance > _maxRopeDistance)
+        if (distanceX > 2.5f)
         {
-            if (distanceX > 0)
-            {
-                if (_lookRight)
-                    return _speed / (Mathf.Clamp(Mathf.Abs(distance), 1f, 10f));
-                else
-                    return _speed;
-            }
+            if (_lookRight)
+                return _speed / (Mathf.Clamp(Mathf.Abs(distance), 1f, 10f));
             else
-            {
-                if (_lookRight)
-                    return _speed;
-                else
-                    return _speed / (Mathf.Clamp(Mathf.Abs(distance), 1f, 10f));
-            }
+                return _speed;
+        }
+        else if (distanceX < -2.5f)
+        {
+            if (_lookRight)
+                return _speed;
+            else
+                return _speed / (Mathf.Clamp(Mathf.Abs(distance), 1f, 10f));
         }
         else
             return _speed;
     }
 
+    private void RopeHanging(Transform playerOwner, Transform otherPlayer)
+    {
+        float distance = Vector3.Distance(playerOwner.position, otherPlayer.position);
+
+        if (distance > _maxRopeDistance * 1.5f)
+        {
+            if (!_isOnGround)
+            {
+                if (playerOwner.position.y < otherPlayer.position.y)
+                {
+                    if (!_hingeJoint.enabled)
+                    {
+                        _isMove = false;
+                        _hingeJoint.enabled = true;
+                        _hingeJoint.connectedBody = otherPlayer.Find("Anchor").GetComponent<Rigidbody2D>();
+                    }
+                    print(_move.Value);
+                    _rigidbody.AddForce(new Vector2(_move.Value, 0) * 30);
+                }
+                else
+                {
+                    if (_hingeJoint.enabled)
+                    {
+                        _isMove = true;
+                        _hingeJoint.enabled = false;
+                    }
+                }
+            }
+        }
+    }
+
     public void Jump()
     {
         if (_isOnGround)
-            if (IsOwner)
-                _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
+            _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
     }
 
     public void SetMoveDirection(int direction)
