@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]
 public class NetworkPlayerMovement : NetworkBehaviour
 {
+    [SerializeField] private GameObject _playerSprite;
+
     [Header("Movement")]
     [SerializeField] private float _speed = 5;
     [SerializeField] private float _jumpForce = 12;
@@ -45,7 +47,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
+        _animator = _playerSprite.GetComponent<Animator>();
         _hingeJoint = GetComponent<HingeJoint2D>();
         _currentSpeed = _speed;
 
@@ -283,7 +285,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
                         _hingeJoint.enabled = true;
                         _hingeJoint.connectedBody = otherPlayer.Find("Anchor").GetComponent<Rigidbody2D>();
                     }
-                    print(_move.Value);
+                    
                     _rigidbody.AddForce(new Vector2(_move.Value, 0) * 30);
                 }
                 else
@@ -313,7 +315,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private void Flip()
     {
         _lookRight = !_lookRight;
-        transform.Rotate(0, 180, 0);
+        _playerSprite.transform.Rotate(0, 180, 0);
     }
 
     void OnDrawGizmos()

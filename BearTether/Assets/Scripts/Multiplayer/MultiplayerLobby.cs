@@ -63,7 +63,7 @@ public class MultiplayerLobby : NetworkBehaviour
     public void InitializePlayer()
     {
         for (int i = 0; i < NetworkPlayersManager.Instance.players.Count; i++)
-            NetworkPlayersManager.Instance.players[i].player.GetComponent<Animator>().SetBool("Run", true);
+            NetworkPlayersManager.Instance.players[i].player.transform.Find("Sprite").GetComponent<Animator>().SetBool("Run", true);
 
         if (IsServer)
             _leaveButton.onClick.AddListener(LeaveClientRpc);

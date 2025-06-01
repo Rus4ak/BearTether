@@ -117,7 +117,7 @@ public class NetworkPlayer : NetworkBehaviour
         transform.position = transform.position + Vector3.left * NetworkPlayersManager.Instance.players.Count * 3;
 
         PlayerMultiplayer player = new PlayerMultiplayer(gameObject, GetComponent<Rigidbody2D>());
-        player.player.GetComponent<SpriteRenderer>().sortingOrder += NetworkPlayersManager.Instance.players.Count;
+        player.player.transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingOrder += NetworkPlayersManager.Instance.players.Count;
 
         bool isSimilar = false;
         
