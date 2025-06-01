@@ -105,7 +105,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (!_isOnGround)
             _animator.SetBool("Jump", true);
         
-        if (transform.position.y < -50f)
+        if (transform.position.y < -5f)
         {
             if (IsOwner)
                 DeadServerRpc();
@@ -286,7 +286,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
                         _hingeJoint.connectedBody = otherPlayer.Find("Anchor").GetComponent<Rigidbody2D>();
                     }
                     
-                    _rigidbody.AddForce(new Vector2(_move.Value, 0) * 30);
+                    _rigidbody.AddForce(new Vector2(_move.Value, 0) * 20);
                 }
                 else
                 {
