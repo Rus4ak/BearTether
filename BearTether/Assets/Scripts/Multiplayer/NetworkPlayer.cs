@@ -136,7 +136,8 @@ public class NetworkPlayer : NetworkBehaviour
     private void ChangeScene(Scene oldScene, Scene newScene)
     {
         _sceneName = newScene.name;
-        
+        NetworkPlayerMovement networkPlayerMovement = GetComponent<NetworkPlayerMovement>();
+
         if (_sceneName != "Multiplayer")
         {
             _isReadyCanvas.gameObject.SetActive(false);
@@ -147,8 +148,10 @@ public class NetworkPlayer : NetworkBehaviour
                 _camera.SetActive(true);
                 _movementButtons.SetActive(true);
 
-                if (GetComponent<NetworkPlayerMovement>().spawnPosition == null)
-                    GetComponent<NetworkPlayerMovement>().spawnPosition = transform.position;
+                if (networkPlayerMovement.spawnPosition == null)
+                    networkPlayerMovement.spawnPosition = transform.position;
+                else
+                    transform.position = networkPlayerMovement.spawnPosition;
 
                 for (int i = 0; i < NetworkPlayersManager.Instance.players.Count - 1; i++)
                 {
@@ -167,6 +170,9 @@ public class NetworkPlayer : NetworkBehaviour
 
             if (Camera.main.TryGetComponent<AudioListener>(out audioListener))
                 Destroy(audioListener);
+
+            if (networkPlayerMovement.spawnPosition != null)
+                transform.position = networkPlayerMovement.spawnPosition;
         }
 
         if (IsServer && IsOwner)

@@ -31,9 +31,7 @@ public class ConnectionSpeedChecker : MonoBehaviour
         {
             Ping ping = new Ping(_pingAddress);
 
-            float startTime = Time.time;
-
-            while (!ping.isDone && Time.time - startTime < 1f)
+            while (!ping.isDone)
             {
                 yield return null;
             }
@@ -47,8 +45,6 @@ public class ConnectionSpeedChecker : MonoBehaviour
                 else
                     _lowWiFiIcon.SetActive(false);
             }
-            else
-                _failedConnectionMenu.SetActive(true);
 
             yield return new WaitForSeconds(5);
         }

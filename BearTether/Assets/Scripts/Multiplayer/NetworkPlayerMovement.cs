@@ -39,7 +39,6 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private float _currentSpeed;
     private HingeJoint2D _hingeJoint;
 
-    private float _interpolationSpeed = 5f;
     private bool _isMove = true;
     private bool _lookRight = true;
 
@@ -88,7 +87,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (IsOwner)
             _ownerPosition.Value = transform.position;
         else
-            transform.position = Vector3.Lerp(transform.position, _ownerPosition.Value, Time.deltaTime * _interpolationSpeed);
+            if (Vector3.Distance(_ownerPosition.Value, transform.position) > 2)
+                transform.position = _ownerPosition.Value;
 
         if (_move.Value > 0 && _lookRight == false)
             Flip();
@@ -302,6 +302,19 @@ public class NetworkPlayerMovement : NetworkBehaviour
     }
 
     public void Jump()
+    {
+        if (IsOwner)
+            JumpServerRpc();
+    }
+
+    [ServerRpc]
+    private void JumpServerRpc()
+    {
+        JumpClientRpc();
+    }
+
+    [ClientRpc]
+    private void JumpClientRpc()
     {
         if (_isOnGround)
             _rigidbody.linearVelocity = new Vector2(_rigidbody.linearVelocity.x, _jumpForce);
