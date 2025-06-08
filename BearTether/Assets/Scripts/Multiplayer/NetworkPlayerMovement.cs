@@ -38,6 +38,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private bool _isOnGround;
     private float _currentSpeed;
     private HingeJoint2D _hingeJoint;
+    private NetworkPlayer _networkPlayer;
 
     private bool _isMove = true;
     private bool _lookRight = true;
@@ -49,6 +50,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = _playerSprite.GetComponent<Animator>();
         _hingeJoint = GetComponent<HingeJoint2D>();
+        _networkPlayer = GetComponent<NetworkPlayer>();
         _currentSpeed = _speed;
 
         AudioListener audioListener;
@@ -70,7 +72,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "Multiplayer")
+        if (_networkPlayer.sceneName == "Multiplayer")
             return;
 
         Moving();

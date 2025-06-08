@@ -1,3 +1,4 @@
+using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,20 +19,23 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] private GameObject _rope;
 
     private NetworkVariable<bool> _isReady = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
     private MultiplayerLobby _multiplayerManager;
-    private string _sceneName;
+    private int _playerID;
+    
+    public string sceneName;
 
     private static int countReady = 0;
 
     private void Start()
     {
+        sceneName = SceneManager.GetActiveScene().name;
+        SceneManager.activeSceneChanged += ChangeScene;
         InitializeMultiplayerScene();
     }
 
     private void Update()
     {
-        if (_sceneName == "Multiplayer")
+        if (sceneName == "Multiplayer")
         {
             if (IsServer
                 &&_playButton.GetComponent<Button>().interactable == false 
@@ -127,18 +131,21 @@ public class NetworkPlayer : NetworkBehaviour
                 isSimilar = true;
         }
 
-        if (!isSimilar) 
+        if (!isSimilar)
+        {
+            _playerID = NetworkPlayersManager.Instance.players.Count + 1;
             NetworkPlayersManager.Instance.players.Add(player);
+        }
         
         _multiplayerManager.InitializePlayer();
     }
 
     private void ChangeScene(Scene oldScene, Scene newScene)
     {
-        _sceneName = newScene.name;
+        sceneName = newScene.name;
         NetworkPlayerMovement networkPlayerMovement = GetComponent<NetworkPlayerMovement>();
 
-        if (_sceneName != "Multiplayer")
+        if (sceneName != "Multiplayer")
         {
             _isReadyCanvas.gameObject.SetActive(false);
             _readyCanvas.gameObject.SetActive(false);
@@ -148,10 +155,15 @@ public class NetworkPlayer : NetworkBehaviour
                 _camera.SetActive(true);
                 _movementButtons.SetActive(true);
 
-                if (networkPlayerMovement.spawnPosition == null)
-                    networkPlayerMovement.spawnPosition = transform.position;
-                else
-                    transform.position = networkPlayerMovement.spawnPosition;
+                if (networkPlayerMovement.spawnPosition == default)
+                {
+                    Vector3 pos = Vector3.zero;
+                    pos.x -= _playerID * 2;
+                    
+                    networkPlayerMovement.spawnPosition = pos;
+                }
+                
+                transform.position = networkPlayerMovement.spawnPosition;
 
                 for (int i = 0; i < NetworkPlayersManager.Instance.players.Count - 1; i++)
                 {
@@ -181,52 +193,46 @@ public class NetworkPlayer : NetworkBehaviour
 
     public void InitializeMultiplayerScene()
     {
-        _sceneName = SceneManager.GetActiveScene().name;
-        SceneManager.activeSceneChanged += ChangeScene;
+        if (IsOwner)
+            _readyCanvas.SetActive(true);
 
-        if (_sceneName == "Multiplayer")
+        if (IsServer && !_readyButton.activeInHierarchy)
+            _isReady.Value = true;
+
+        if (!_isReadyCanvas.gameObject.activeInHierarchy)
+            _isReadyCanvas.gameObject.SetActive(true);
+
+        _camera.SetActive(false);
+        _isReadyCanvas.worldCamera = Camera.main;
+        _movementButtons.SetActive(false);
+
+        _multiplayerManager = GameObject.FindWithTag("MultiplayerManager").GetComponent<MultiplayerLobby>();
+
+        if (IsOwner)
+            Invoke(nameof(CreatePlayer), .1f);
+        else
+            CreatePlayer();
+
+        _playButton.GetComponent<Button>().interactable = false;
+
+        _isReady.OnValueChanged += UpdateReady;
+        UpdateReady(false, _isReady.Value);
+
+        if (IsServer)
         {
             if (IsOwner)
-                _readyCanvas.SetActive(true);
-
-            if (IsServer && !_readyButton.activeInHierarchy)
-                _isReady.Value = true;
-
-            if (!_isReadyCanvas.gameObject.activeInHierarchy)
-                _isReadyCanvas.gameObject.SetActive(true);
-
-            _camera.SetActive(false);
-            _isReadyCanvas.worldCamera = Camera.main;
-            _movementButtons.SetActive(false);
-
-            _multiplayerManager = GameObject.FindWithTag("MultiplayerManager").GetComponent<MultiplayerLobby>();
-
-            if (IsOwner)
-                Invoke(nameof(CreatePlayer), .1f);
-            else
-                CreatePlayer();
-
-            _playButton.GetComponent<Button>().interactable = false;
-
-            _isReady.OnValueChanged += UpdateReady;
-            UpdateReady(false, _isReady.Value);
-
-            if (IsServer)
             {
-                if (IsOwner)
-                {
-                    ToggleReadyServerRpc();
-                    _playButton.SetActive(true);
-                    _playButton.GetComponent<Button>().onClick.AddListener(_multiplayerManager.ShowChoiceLevelMenu);
-                }
+                ToggleReadyServerRpc();
+                _playButton.SetActive(true);
+                _playButton.GetComponent<Button>().onClick.AddListener(_multiplayerManager.ShowChoiceLevelMenu);
             }
-            else
-            {
-                _readyButton.SetActive(true);
+        }
+        else
+        {
+            _readyButton.SetActive(true);
 
-                if (_cancelReadyButton.activeInHierarchy)
-                    _cancelReadyButton.SetActive(false);
-            }
+            if (_cancelReadyButton.activeInHierarchy)
+                _cancelReadyButton.SetActive(false);
         }
     }
 }
