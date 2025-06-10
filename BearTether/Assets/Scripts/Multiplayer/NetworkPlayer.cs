@@ -12,6 +12,7 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] private GameObject _readyText;
     [SerializeField] private GameObject _notReadyText;
     [SerializeField] private GameObject _readyCanvas;
+    [SerializeField] private GameObject _meMark;
     [SerializeField] private GameObject _playButton;
     [SerializeField] private GameObject _readyButton;
     [SerializeField] private GameObject _cancelReadyButton;
@@ -153,6 +154,7 @@ public class NetworkPlayer : NetworkBehaviour
 
             if (IsOwner)
             {
+                _meMark.gameObject.SetActive(true);
                 _camera.SetActive(true);
                 _movementButtons.SetActive(true);
 
@@ -195,7 +197,10 @@ public class NetworkPlayer : NetworkBehaviour
     public void InitializeMultiplayerScene()
     {
         if (IsOwner)
+        {
             _readyCanvas.SetActive(true);
+            _meMark.gameObject.SetActive(false);
+        }
 
         if (IsServer && !_readyButton.activeInHierarchy)
             _isReady.Value = true;
