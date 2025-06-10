@@ -25,6 +25,14 @@ public class ConnectionSpeedChecker : MonoBehaviour
         StartCoroutine(CheckPing());
     }
 
+    private void Update()
+    {
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            _failedConnectionMenu.SetActive(true);
+        }
+    }
+
     IEnumerator CheckPing()
     {
         while (true)
@@ -40,8 +48,6 @@ public class ConnectionSpeedChecker : MonoBehaviour
             {
                 if (ping.time > _timeout)
                     _lowWiFiIcon.SetActive(true);
-                else if (ping.time < 0)
-                    _failedConnectionMenu.SetActive(true);
                 else
                     _lowWiFiIcon.SetActive(false);
             }

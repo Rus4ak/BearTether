@@ -1,3 +1,4 @@
+using System;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -22,7 +23,7 @@ public class NetworkPlayer : NetworkBehaviour
     private MultiplayerLobby _multiplayerManager;
     private int _playerID;
     
-    public string sceneName;
+    [NonSerialized] public string sceneName;
 
     private static int countReady = 0;
 
