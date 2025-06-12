@@ -10,6 +10,11 @@ public class PauseMultiplayer : NetworkBehaviour
     {
         if (IsOwner || IsClient)
         {
+            foreach (var player in NetworkPlayersManager.Instance.players)
+            {
+                player.player.GetComponent<NetworkPlayer>().ActivatePauseMark();
+            }
+
             _pauseMenu.SetActive(true);
             PauseServerRpc(0);
         }
@@ -19,6 +24,11 @@ public class PauseMultiplayer : NetworkBehaviour
     {
         if (IsOwner || IsClient)
         {
+            foreach (var player in NetworkPlayersManager.Instance.players)
+            {
+                player.player.GetComponent<NetworkPlayer>().DisablePauseMark();
+            }
+
             PauseServerRpc(1);
             _pauseMenu.SetActive(false);
         }
@@ -36,7 +46,6 @@ public class PauseMultiplayer : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void PauseServerRpc(int value)
     {
-        print(1);
         PauseClientRpc(value);
     }
 

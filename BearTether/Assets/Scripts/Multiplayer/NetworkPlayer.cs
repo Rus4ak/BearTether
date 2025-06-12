@@ -13,14 +13,17 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] private GameObject _notReadyText;
     [SerializeField] private GameObject _readyCanvas;
     [SerializeField] private GameObject _meMark;
+    [SerializeField] private GameObject _pauseMark;
     [SerializeField] private GameObject _playButton;
     [SerializeField] private GameObject _readyButton;
     [SerializeField] private GameObject _cancelReadyButton;
     [SerializeField] private GameObject _camera;
     [SerializeField] private GameObject _movementButtons;
     [SerializeField] private GameObject _rope;
+    [SerializeField] private SpriteRenderer _playerSprite;
 
     private NetworkVariable<bool> _isReady = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    private NetworkVariable<bool> _isPause = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private MultiplayerLobby _multiplayerManager;
     private int _playerID;
     
@@ -63,6 +66,34 @@ public class NetworkPlayer : NetworkBehaviour
                 && _multiplayerManager.choiceLevelMenu.activeInHierarchy)
             {
                 _multiplayerManager.HideChoiceLevelMenu();
+            }
+
+            if (_pauseMark.activeInHierarchy)
+            {
+                _pauseMark.SetActive(false);
+                _playerSprite.color = Color.white;
+            }
+        }
+        else
+        {
+            if (!IsOwner)
+            {
+                if (_isPause.Value)
+                {
+                    if (!_pauseMark.activeInHierarchy)
+                    {
+                        _pauseMark.SetActive(true);
+                        _playerSprite.color = new Color(.7f, .7f, .7f, 1);
+                    }
+                }
+                else
+                {
+                    if (_pauseMark.activeInHierarchy)
+                    {
+                        _pauseMark.SetActive(false);
+                        _playerSprite.color = Color.white;
+                    }
+                }
             }
         }
     }
@@ -239,6 +270,22 @@ public class NetworkPlayer : NetworkBehaviour
 
             if (_cancelReadyButton.activeInHierarchy)
                 _cancelReadyButton.SetActive(false);
+        }
+    }
+
+    public void ActivatePauseMark()
+    {
+        if (IsOwner)
+        {
+            _isPause.Value = true;
+        }
+    }
+
+    public void DisablePauseMark()
+    {
+        if (IsOwner)
+        {
+            _isPause.Value = false;
         }
     }
 }
