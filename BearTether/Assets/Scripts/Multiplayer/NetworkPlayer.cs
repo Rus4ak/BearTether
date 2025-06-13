@@ -73,6 +73,10 @@ public class NetworkPlayer : NetworkBehaviour
                 _pauseMark.SetActive(false);
                 _playerSprite.color = Color.white;
             }
+
+            if (IsOwner)
+                if (_isPause.Value)
+                    _isPause.Value = false;
         }
         else
         {
@@ -151,7 +155,14 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void CreatePlayer()
     {
-        transform.position = transform.position + Vector3.left * NetworkPlayersManager.Instance.players.Count * 3;
+        Vector3 pos = new Vector3(-10, -2, 0);
+
+        if (NetworkPlayersManager.Instance.players.Count > 0)
+        {
+            pos.x -= NetworkPlayersManager.Instance.players.Count * 3;
+        }
+        
+        transform.position = pos;
 
         PlayerMultiplayer player = new PlayerMultiplayer(gameObject, GetComponent<Rigidbody2D>());
         player.player.transform.Find("Sprite").GetComponent<SpriteRenderer>().sortingOrder += NetworkPlayersManager.Instance.players.Count;
