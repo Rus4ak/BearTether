@@ -15,23 +15,65 @@ EditorBuildSettings:
     path: Assets/Scenes/Singleplayer/Level1.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level2.unity
+    guid: dddbc5e61aa388746be95a855a6f1506
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level3.unity
+    guid: c34b7091a1759734180540fd20b105db
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level4.unity
+    guid: aa062fbd988a42e459c7b649511ee8ca
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level5.unity
+    guid: 5e43a87012da98c499a9555827567fa5
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level6.unity
+    guid: ce2073a86ac5f8844a0e1c8ad5dd7b43
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level7.unity
+    guid: 6fecb40e0ece4c149ab538c02add5616
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level8.unity
+    guid: a6306c05bf119d544ac96303188b6e5a
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level9.unity
+    guid: 53193784cc68b92498655da9d74783c0
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Level10.unity
+    guid: a481a061d3e82a345827cf5bf87870be
+  - enabled: 1
     path: Assets/Scenes/MainMenu/Multiplayer.unity
     guid: 54bf6b7d2d876084dbd4e82c1e98a3b3
   - enabled: 1
     path: Assets/Scenes/Multiplayer/Level1M.unity
     guid: cfcd0d85a29ab9140b8f5fb4198bf674
   - enabled: 1
-    path: Assets/Scenes/Singleplayer/Level2.unity
-    guid: ce2073a86ac5f8844a0e1c8ad5dd7b43
-  - enabled: 1
     path: Assets/Scenes/Multiplayer/Level2M.unity
-    guid: d7fbee73a996df24395df46c8e4b9ecc
-  - enabled: 1
-    path: Assets/Scenes/Singleplayer/Level3.unity
-    guid: 5e43a87012da98c499a9555827567fa5
+    guid: 729b9759aa6c8844e9e4f4cdb4079f51
   - enabled: 1
     path: Assets/Scenes/Multiplayer/Level3M.unity
+    guid: d7fbee73a996df24395df46c8e4b9ecc
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Level4M.unity
+    guid: a913394f4b08e8041909faaf5953f79e
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Level5M.unity
+    guid: af606c40da2c6eb429e95097c1a6e9d0
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Level6M.unity
     guid: fff5449e5fda8504891f62e9a9b6610e
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Level7M.unity
+    guid: 40e88d51f6d611c4ba58deb761105181
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Level8M.unity
+    guid: c75186a69e6a8e340b29ac16dc9051b4
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Level9M.unity
+    guid: 58c199112880ef943a3614463d290e45
+  - enabled: 1
+    path: Assets/Scenes/Multiplayer/Level10M.unity
+    guid: a6f3318b49cfb2e4789b9a244529b231
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
