@@ -3,11 +3,7 @@ using UnityEngine;
 
 public class LevelsManager : MonoBehaviour
 {
-    [NonSerialized] public int countCompletedLevels;
-    [NonSerialized] public int countCompletedMultiplayerLevels;
-
     [NonSerialized] public Level[] levels = new Level[10];
-    [NonSerialized] public bool isRewardedFinishMap = false;
     [NonSerialized] public Level[] multiplayerLevels = new Level[10];
 
     private void Start()
@@ -27,18 +23,12 @@ public class LevelsManager : MonoBehaviour
         {
             if (levels[i] == null)
                 levels[i] = new Level(i, 0);
-
-            if (levels[i].isCompleted)
-                countCompletedLevels++;
         }
 
         for (int i = 0; i < multiplayerLevels.Length; i++)
         {
             if (multiplayerLevels[i] == null)
                 multiplayerLevels[i] = new Level(i, 0);
-
-            if (multiplayerLevels[i].isCompleted)
-                countCompletedMultiplayerLevels++;
         }
     }
 }

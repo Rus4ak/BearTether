@@ -9,6 +9,12 @@ public class ChoiceLevel : MonoBehaviour
     private Animator _playerAnimator;
     private float _screenWidth;
 
+    public Transform Ground
+    {
+        get { return _ground; }
+        set { _ground = value; }
+    }
+
     private void Start()
     {
         _playerRb = _player.GetComponent<Rigidbody2D>();
@@ -27,10 +33,10 @@ public class ChoiceLevel : MonoBehaviour
         }
         else
         {
-            _ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
+            Ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
 
-            if (_ground.transform.position.x < -_screenWidth)
-                _ground.transform.position = new Vector3(_screenWidth, 0, 0);
+            if (Ground.transform.position.x < -_screenWidth)
+                Ground.transform.position = new Vector3(_screenWidth, 0, 0);
         }
     }
 }

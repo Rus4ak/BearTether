@@ -29,8 +29,6 @@ public class FinishMenu : MonoBehaviour
     private int _countStars = 0;
     private bool _isNextLevel = false;
     private bool _isQuit = false;
-    private bool _isFinishMapCoins = false;
-    private bool _isRewardedFinishMapCoins = false;
 
     private void Start()
     {
@@ -66,15 +64,6 @@ public class FinishMenu : MonoBehaviour
         
         levelsManager.InitializeLevels();
 
-        if (levelsManager.countCompletedLevels == 9)
-            if (_levelID == 9)
-                if (!levelsManager.isRewardedFinishMap)
-                {
-                    _rewardedCoinsCount += 100;
-                    levelsManager.isRewardedFinishMap = true;
-                    _isFinishMapCoins = true;
-                }
-
         Bank.Instance.Coins += _rewardedCoinsCount;
         Progress.Instance.progressData.bank = Bank.Instance.Coins;
 
@@ -105,12 +94,6 @@ public class FinishMenu : MonoBehaviour
     {
         if (!_currentStarAnimation.isPlaying)
         {
-            if (_isFinishMapCoins && _stars[2].activeInHierarchy && !_isRewardedFinishMapCoins)
-            {
-                InstantiateAdditionalCoins("+100");
-                _isRewardedFinishMapCoins = true;
-            }
-
             if (_countStars > 1 && !_stars[1].activeInHierarchy)
             {
                 _stars[1].SetActive(true);
