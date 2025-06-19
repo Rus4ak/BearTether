@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -29,6 +31,7 @@ public class Progress
         public int bank;
         public Level[] levels = new Level[10];
         public Level[] multiplayerLevels = new Level[10];
+        public List<MapData> maps = new List<MapData>();
     }
 
     public void Save()
@@ -56,6 +59,7 @@ public class Progress
         levelsManager.multiplayerLevels = Instance.progressData.multiplayerLevels;
         levelsManager.InitializeLevels();
         Bank.Instance.Coins = Instance.progressData.bank;
+        MapsData.maps = Instance.progressData.maps;
     }
 
     private byte[] SerializeToBytes(ProgressData data)
