@@ -6,6 +6,7 @@ public class Map : MonoBehaviour
     [SerializeField] private GameObject _levelsMenu;
     [SerializeField] private GameObject _unclockMenu;
     [SerializeField] private int _mapId;
+    [SerializeField] private GameMode _gamemode;
 
     [NonSerialized] public bool isUnlock = false;
 
@@ -13,16 +14,33 @@ public class Map : MonoBehaviour
     {
         int countSimilar = 0;
 
-        foreach (MapData mapData in MapsData.maps) 
-            if (mapData.mapId == _mapId)
-            {
-                countSimilar++;
-                isUnlock = mapData.isUnlock;
-            }
-
-        if (countSimilar == 0)
+        if (_gamemode == GameMode.Singleton)
         {
-            MapsData.maps.Add(new MapData(_mapId, isUnlock));
+            foreach (MapData mapData in MapsData.maps) 
+                if (mapData.mapId == _mapId)
+                {
+                    countSimilar++;
+                    isUnlock = mapData.isUnlock;
+                }
+            
+            if (countSimilar == 0)
+            {
+                MapsData.maps.Add(new MapData(_mapId, isUnlock));
+            }
+        }
+        else if (_gamemode == GameMode.Multiplayer)
+        {
+            foreach (MapData mapData in MapsData.mapsMultiplayer)
+                if (mapData.mapId == _mapId)
+                {
+                    countSimilar++;
+                    isUnlock = mapData.isUnlock;
+                }
+
+            if (countSimilar == 0)
+            {
+                MapsData.mapsMultiplayer.Add(new MapData(_mapId, isUnlock));
+            }
         }
     }
 
@@ -50,16 +68,29 @@ public class Map : MonoBehaviour
         if (Bank.Instance.Coins >= 200)
         {
             Bank.Instance.Coins -= 200;
+            Progress.Instance.progressData.bank = Bank.Instance.Coins;
 
             isUnlock = true;
 
             Initialize();
 
-            foreach (MapData mapData in MapsData.maps)
-                if (mapData.mapId == _mapId)
-                    mapData.isUnlock = true;
+            if (_gamemode == GameMode.Singleton)
+            {
+                foreach (MapData mapData in MapsData.maps)
+                    if (mapData.mapId == _mapId)
+                        mapData.isUnlock = true;
 
-            Progress.Instance.progressData.maps = MapsData.maps;
+                Progress.Instance.progressData.maps = MapsData.maps;
+            }
+            else if (_gamemode == GameMode.Multiplayer)
+            {
+                foreach (MapData mapData in MapsData.mapsMultiplayer)
+                    if (mapData.mapId == _mapId)
+                        mapData.isUnlock = true;
+
+                Progress.Instance.progressData.mapsMultiplayer = MapsData.mapsMultiplayer;
+            }
+
             Progress.Instance.Save();
         }
     }

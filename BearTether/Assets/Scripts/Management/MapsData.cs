@@ -17,4 +17,5 @@ public class MapData
 public class MapsData 
 {
     public static List<MapData> maps = new List<MapData>();
+    public static List<MapData> mapsMultiplayer = new List<MapData>();
 }

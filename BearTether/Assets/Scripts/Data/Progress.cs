@@ -32,6 +32,7 @@ public class Progress
         public Level[] levels = new Level[10];
         public Level[] multiplayerLevels = new Level[10];
         public List<MapData> maps = new List<MapData>();
+        public List<MapData> mapsMultiplayer = new List<MapData>();
     }
 
     public void Save()
@@ -60,6 +61,7 @@ public class Progress
         levelsManager.InitializeLevels();
         Bank.Instance.Coins = Instance.progressData.bank;
         MapsData.maps = Instance.progressData.maps;
+        MapsData.mapsMultiplayer = Instance.progressData.mapsMultiplayer;
     }
 
     private byte[] SerializeToBytes(ProgressData data)
