@@ -82,6 +82,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Dead"))
+        {
+            attempt++;
+            transform.position = _spawnPosition.position;
+        }
+    }
+
     private void Moving()
     {
         _rigidbody.linearVelocity = new Vector2(_move * _speed, _rigidbody.linearVelocity.y);

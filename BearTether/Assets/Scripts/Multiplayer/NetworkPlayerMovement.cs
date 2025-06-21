@@ -119,6 +119,15 @@ public class NetworkPlayerMovement : NetworkBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Dead"))
+        {
+            if (IsOwner)
+                DeadServerRpc();
+        }
+    }
+
     [ServerRpc]
     private void DeadServerRpc()
     {
