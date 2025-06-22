@@ -54,6 +54,24 @@ EditorBuildSettings:
     path: Assets/Scenes/Singleplayer/Map2/Level2_4.unity
     guid: f59c12b080eaf994e8ad95a2b43932c1
   - enabled: 1
+    path: Assets/Scenes/Singleplayer/Map2/Level2_5.unity
+    guid: 31b8fd85bd0847f4c8dd3affd589e0c5
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Map2/Level2_6.unity
+    guid: 7233d97e326fd1e4ea7963fe389ea76f
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Map2/Level2_7.unity
+    guid: 5f9f0d064df738947b675b042731c76f
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Map2/Level2_8.unity
+    guid: c5c798c1ab9082c42b5fc24583e6a44e
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Map2/Level2_9.unity
+    guid: 9974a1dd8a70713489c91339d17b142a
+  - enabled: 1
+    path: Assets/Scenes/Singleplayer/Map2/Level2_10.unity
+    guid: 25911c026467c7c4ea8b9b0f46a97dd6
+  - enabled: 1
     path: Assets/Scenes/MainMenu/Multiplayer.unity
     guid: 54bf6b7d2d876084dbd4e82c1e98a3b3
   - enabled: 1
