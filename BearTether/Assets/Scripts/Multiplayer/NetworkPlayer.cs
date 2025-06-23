@@ -21,11 +21,15 @@ public class NetworkPlayer : NetworkBehaviour
     [SerializeField] private GameObject _movementButtons;
     [SerializeField] private GameObject _rope;
     [SerializeField] private SpriteRenderer _playerSprite;
+    [SerializeField] private GameObject[] _mapBackgrounds;
+
+    private NetworkPlayerMovement _networkPlayerMovement;
+    private MultiplayerLobby _multiplayerManager;
+    private int _playerID;
 
     private NetworkVariable<bool> _isReady = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private NetworkVariable<bool> _isPause = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    private MultiplayerLobby _multiplayerManager;
-    private int _playerID;
+    private int _currentMapId = 0;
     
     [NonSerialized] public string sceneName;
 
@@ -33,6 +37,7 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void Start()
     {
+        _networkPlayerMovement = GetComponent<NetworkPlayerMovement>();
         sceneName = SceneManager.GetActiveScene().name;
         SceneManager.activeSceneChanged += ChangeScene;
         InitializeMultiplayerScene();
@@ -75,8 +80,27 @@ public class NetworkPlayer : NetworkBehaviour
             }
 
             if (IsOwner)
+            {
                 if (_isPause.Value)
                     _isPause.Value = false;
+
+                if (_currentMapId != _multiplayerManager.currentMapId.Value)
+                {
+                    _mapBackgrounds[_currentMapId].SetActive(false);
+                    _currentMapId = _multiplayerManager.currentMapId.Value;
+                    _mapBackgrounds[_currentMapId].SetActive(true);
+
+                    switch (_currentMapId) 
+                    {
+                        case 0:
+                            _networkPlayerMovement.ChangeParticleColors(new Color(0, .4f, .15f), new Color(.37f, .25f, .19f));
+                            break;
+                        case 1:
+                            _networkPlayerMovement.ChangeParticleColors(new Color(.4f, .4f, .4f), new Color(.35f, .35f, .35f));
+                            break;
+                    }
+                }
+            }
         }
         else
         {

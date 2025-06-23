@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using Unity.Collections;
@@ -22,6 +23,8 @@ public class MultiplayerLobby : NetworkBehaviour
     private NetworkVariable<FixedString64Bytes> _roomCode = new NetworkVariable<FixedString64Bytes>("Code");
     
     public GameObject choiceLevelMenu;
+
+    [NonSerialized] public NetworkVariable<int> currentMapId = new NetworkVariable<int>(0);
 
     public Transform Ground
     {

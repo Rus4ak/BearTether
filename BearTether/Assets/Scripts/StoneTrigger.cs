@@ -8,6 +8,7 @@ public class StoneTrigger : MonoBehaviour
 
     private Vector3 _startPosition;
     private Transform _player;
+    private bool _isActive = false;
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class StoneTrigger : MonoBehaviour
             _stone.linearVelocity = Vector3.zero;
             _stone.angularVelocity = 0;
             _stone.transform.position = _startPosition;
+            _isActive = false;
         }
     }
 
@@ -29,7 +31,11 @@ public class StoneTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            _stone.AddForce(new Vector2(_direction * _force, 0));
+            if (!_isActive)
+            {
+                _isActive = true;
+                _stone.AddForce(new Vector2(_direction * _force, 0));
+            }
         }
     }
 }

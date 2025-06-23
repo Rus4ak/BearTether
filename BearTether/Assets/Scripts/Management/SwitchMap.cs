@@ -43,7 +43,10 @@ public class SwitchMap : MonoBehaviour
             if (_sceneName == "Singleplayer")
                 _choiceLevel.Ground = _grounds[_newChooseMap];
             else if (_sceneName == "Multiplayer")
+            {
                 _multiplayerLobby.Ground = _grounds[_newChooseMap];
+                _multiplayerLobby.currentMapId.Value = _newChooseMap;
+            }
 
             _moveTo = Vector2.zero;
 

@@ -60,10 +60,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (IsOwner)
             gameObject.AddComponent<AudioListener>();
 
-        ParticleSystem.MainModule[] main = new ParticleSystem.MainModule[2] { _runParticleSystem.main, _jumpParticleSystem.main };
-
-        for (int i = 0; i < main.Length; i++)
-            main[i].startColor = new ParticleSystem.MinMaxGradient(_particleColors[0], _particleColors[1]);
+        ChangeParticleColors(_particleColors[0], _particleColors[1]);
     }
 
     private void Update()
@@ -322,6 +319,14 @@ public class NetworkPlayerMovement : NetworkBehaviour
     {
         _lookRight = !_lookRight;
         _playerSprite.transform.Rotate(0, 180, 0);
+    }
+
+    public void ChangeParticleColors(Color color1, Color color2)
+    {
+        ParticleSystem.MainModule[] main = new ParticleSystem.MainModule[2] { _runParticleSystem.main, _jumpParticleSystem.main };
+
+        for (int i = 0; i < main.Length; i++)
+            main[i].startColor = new ParticleSystem.MinMaxGradient(color1, color2);
     }
 
     void OnDrawGizmos()
