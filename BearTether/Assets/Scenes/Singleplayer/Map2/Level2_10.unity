@@ -578,7 +578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5814404456462283822, guid: 9afce024831b7d94e85c8fd0956dea14, type: 3}
       propertyPath: _force
-      value: 1000
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 5814404456462283822, guid: 9afce024831b7d94e85c8fd0956dea14, type: 3}
       propertyPath: _stone
