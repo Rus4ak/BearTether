@@ -538,7 +538,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 23d3a1857e76dc54dbeaf0a5002ae886, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -563,7 +563,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.4, y: 0.95}
+  m_Size: {x: 0.45, y: 0.95}
   m_Direction: 0
 --- !u!81 &4552917634006921243
 AudioListener:
