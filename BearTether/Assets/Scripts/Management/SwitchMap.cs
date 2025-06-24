@@ -8,6 +8,7 @@ public class SwitchMap : MonoBehaviour
     [SerializeField] private ChoiceLevel _choiceLevel;
     [SerializeField] private MultiplayerLobby _multiplayerLobby;
     [SerializeField] private GameObject[] _directionButtons;
+    [SerializeField] private GameObject _exitButton;
 
     private Vector2 _moveTo;
     private int _oldChooseMap;
@@ -29,7 +30,7 @@ public class SwitchMap : MonoBehaviour
         if (!_isMove)
             return;
         
-        _rectTransform.anchoredPosition = Vector3.MoveTowards(_rectTransform.anchoredPosition, _moveTo, 20);
+        _rectTransform.anchoredPosition = Vector3.MoveTowards(_rectTransform.anchoredPosition, _moveTo, 30);
         
         if (_rectTransform.anchoredPosition.x == _moveTo.x)
         {
@@ -49,9 +50,11 @@ public class SwitchMap : MonoBehaviour
             }
 
             _moveTo = Vector2.zero;
+            _exitButton.SetActive(true);
 
             foreach (GameObject directionButton in _directionButtons)
                 directionButton.SetActive(true);
+
             _isMove = false;
         }
     }
@@ -64,6 +67,7 @@ public class SwitchMap : MonoBehaviour
         foreach (GameObject directionButton in _directionButtons)
             directionButton.SetActive(false);
 
+        _exitButton.SetActive(false);
         _oldChooseMap = _chooseMap;
         _chooseMap += direction;
         _newChooseMap = _chooseMap;

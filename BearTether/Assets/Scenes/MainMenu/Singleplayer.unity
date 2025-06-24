@@ -6427,6 +6427,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 612577212}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1822071196}
         m_TargetAssemblyTypeName: SwitchMap, Assembly-CSharp
         m_MethodName: Move
@@ -15931,6 +15943,7 @@ MonoBehaviour:
   _directionButtons:
   - {fileID: 2046827535}
   - {fileID: 667422128}
+  _exitButton: {fileID: 1594265395}
 --- !u!1 &1823278401
 GameObject:
   m_ObjectHideFlags: 0
@@ -17183,6 +17196,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 612577212}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1822071196}
         m_TargetAssemblyTypeName: SwitchMap, Assembly-CSharp
         m_MethodName: Move
