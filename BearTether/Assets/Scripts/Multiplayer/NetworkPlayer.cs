@@ -83,22 +83,15 @@ public class NetworkPlayer : NetworkBehaviour
             {
                 if (_isPause.Value)
                     _isPause.Value = false;
+            }
 
-                if (_currentMapId != _multiplayerManager.currentMapId.Value)
+            if (_currentMapId != _multiplayerManager.currentMapId.Value)
+            {
+                if (_multiplayerManager != null)
                 {
                     _mapBackgrounds[_currentMapId].SetActive(false);
                     _currentMapId = _multiplayerManager.currentMapId.Value;
                     _mapBackgrounds[_currentMapId].SetActive(true);
-
-                    switch (_currentMapId) 
-                    {
-                        case 0:
-                            _networkPlayerMovement.ChangeParticleColors(new Color(0, .4f, .15f), new Color(.37f, .25f, .19f));
-                            break;
-                        case 1:
-                            _networkPlayerMovement.ChangeParticleColors(new Color(.4f, .4f, .4f), new Color(.35f, .35f, .35f));
-                            break;
-                    }
                 }
             }
         }
@@ -239,6 +232,16 @@ public class NetworkPlayer : NetworkBehaviour
                     Rope rope = Instantiate(_rope).GetComponent<Rope>();
                     rope.InstantiateRope(NetworkPlayersManager.Instance.players[i].player.transform, NetworkPlayersManager.Instance.players[i + 1].player.transform);
                 }
+            }
+
+            switch (_currentMapId)
+            {
+                case 0:
+                    _networkPlayerMovement.ChangeParticleColors(new Color(0, .4f, .15f), new Color(.37f, .25f, .19f));
+                    break;
+                case 1:
+                    _networkPlayerMovement.ChangeParticleColors(new Color(.4f, .4f, .4f), new Color(.35f, .35f, .35f));
+                    break;
             }
         }
         else
