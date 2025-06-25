@@ -6,5 +6,8 @@ public class InitializeData : MonoBehaviour
     {
         Progress.Instance.Load();
         Options.Instance.Load();
+
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
     }
 }

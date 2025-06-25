@@ -25,12 +25,12 @@ public class SwitchMap : MonoBehaviour
         _sceneName = SceneManager.GetActiveScene().name;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!_isMove)
             return;
         
-        _rectTransform.anchoredPosition = Vector3.MoveTowards(_rectTransform.anchoredPosition, _moveTo, 30);
+        _rectTransform.anchoredPosition = Vector3.MoveTowards(_rectTransform.anchoredPosition, _moveTo, 40);
         
         if (_rectTransform.anchoredPosition.x == _moveTo.x)
         {

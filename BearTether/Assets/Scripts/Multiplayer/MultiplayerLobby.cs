@@ -53,6 +53,8 @@ public class MultiplayerLobby : NetworkBehaviour
         {
             if (NetworkPlayersManager.Instance.players[i].player.transform.position.x < -1 * i * 3)
                 NetworkPlayersManager.Instance.players[i].playerRb.linearVelocity = new Vector3(5, 0, 0);
+            else
+                NetworkPlayersManager.Instance.players[i].playerRb.linearVelocity = Vector3.zero;
         }
 
         Ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);

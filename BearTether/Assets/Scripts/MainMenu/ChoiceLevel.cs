@@ -33,6 +33,8 @@ public class ChoiceLevel : MonoBehaviour
         }
         else
         {
+            _playerRb.linearVelocity = Vector3.zero;
+
             Ground.transform.position -= new Vector3(Time.deltaTime * 2, 0, 0);
 
             if (Ground.transform.position.x < -_screenWidth)
