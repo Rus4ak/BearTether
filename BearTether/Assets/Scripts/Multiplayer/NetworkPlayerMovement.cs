@@ -1,10 +1,7 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class NetworkPlayerMovement : NetworkBehaviour
@@ -38,6 +35,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private float _currentSpeed;
     private HingeJoint2D _hingeJoint;
     private NetworkPlayer _networkPlayer;
+    private float _minPosY;
 
     private bool _isMove = true;
     private bool _lookRight = true;
@@ -59,7 +57,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
         if (IsOwner)
             gameObject.AddComponent<AudioListener>();
-
+        
         ChangeParticleColors(_particleColors[0], _particleColors[1]);
     }
 
@@ -67,6 +65,12 @@ public class NetworkPlayerMovement : NetworkBehaviour
     {
         if (_networkPlayer.sceneName == "Multiplayer")
             return;
+
+        if (_minPosY == default)
+        {
+            Transform borders = GameObject.FindWithTag("CameraBorders").transform;
+            _minPosY = borders.Find("MinPos").position.y;
+        }
 
         Moving();
 
@@ -95,7 +99,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (!_isOnGround)
             _animator.SetBool("Jump", true);
         
-        if (transform.position.y < -5f)
+        if (transform.position.y < _minPosY)
         {
             if (IsOwner)
                 DeadServerRpc();

@@ -18,7 +18,7 @@ public class StoneTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (_player.position.x < 0)
+        if (_player.position.x < 5)
         {
             _stone.linearVelocity = Vector3.zero;
             _stone.angularVelocity = 0;

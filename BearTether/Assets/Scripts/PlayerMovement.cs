@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private bool _isOnGround;
+    private float _minPosY;
 
     private bool _lookRight = true;
 
@@ -39,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
         
         for (int i = 0; i < main.Length; i++)
             main[i].startColor = new ParticleSystem.MinMaxGradient(_particleColors[0], _particleColors[1]);
+
+        Transform borders = GameObject.FindWithTag("CameraBorders").transform;
+        _minPosY = borders.Find("MinPos").position.y;
     }
 
     private void Update()
@@ -61,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_isOnGround)
             _animator.SetBool("Jump", true);
 
-        if (transform.position.y < -5f)
+        if (transform.position.y < _minPosY)
         {
             attempt++;
             transform.position = _spawnPosition.position;
