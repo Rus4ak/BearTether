@@ -59,7 +59,11 @@ public class FinishMenu : MonoBehaviour
 
         LevelsManager levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
 
-        _additionalCoinsCount = _countStars - levelsManager.levels[_levelID].countStars;
+        if (_gameMode == GameMode.Singleton)
+            _additionalCoinsCount = _countStars - levelsManager.levels[_levelID].countStars;
+        else
+            _additionalCoinsCount = _countStars - levelsManager.multiplayerLevels[_levelID].countStars;
+
         _rewardedCoinsCount += _additionalCoinsCount * 5;
         
         levelsManager.InitializeLevels();
