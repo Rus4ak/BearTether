@@ -36,6 +36,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private HingeJoint2D _hingeJoint;
     private NetworkPlayer _networkPlayer;
     private float _minPosY;
+    private SpriteRenderer _spriteRenderer;
 
     private bool _isMove = true;
     private bool _lookRight = true;
@@ -48,6 +49,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         _animator = _playerSprite.GetComponent<Animator>();
         _hingeJoint = GetComponent<HingeJoint2D>();
         _networkPlayer = GetComponent<NetworkPlayer>();
+        _spriteRenderer = _playerSprite.GetComponent<SpriteRenderer>();
         _currentSpeed = _speed;
 
         AudioListener audioListener;
@@ -322,7 +324,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private void Flip()
     {
         _lookRight = !_lookRight;
-        _playerSprite.transform.Rotate(0, 180, 0);
+        _spriteRenderer.flipX = !_lookRight;
     }
 
     public void ChangeParticleColors(Color color1, Color color2)

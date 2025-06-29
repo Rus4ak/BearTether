@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator _animator;
     private bool _isOnGround;
     private float _minPosY;
+    private SpriteRenderer _spriteRenderer;
 
     private bool _lookRight = true;
 
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         attempt = 0;
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         
         ParticleSystem.MainModule[] main = new ParticleSystem.MainModule[2] { _runParticleSystem.main, _jumpParticleSystem.main };
         
@@ -139,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
     private void Flip()
     {
         _lookRight = !_lookRight;
-        transform.Rotate(0, 180, 0);
+        _spriteRenderer.flipX = !_lookRight;
     }
 
     void OnDrawGizmos()
