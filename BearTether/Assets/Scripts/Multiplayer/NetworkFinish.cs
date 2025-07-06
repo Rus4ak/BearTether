@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class NetworkFinish : NetworkBehaviour
     private int _countFinishedPlayers;
     private int _playersCount;
     
-    public NetworkVariable<int> attempts = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    [NonSerialized] public NetworkVariable<int> attempts = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     public static NetworkFinish Instance;
 
