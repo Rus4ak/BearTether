@@ -13,5 +13,5 @@ public class Bank
         }
     }
 
-    public int Coins { get; set; } = 0;
+    public int Coins { get; set; } = 1000;
 }

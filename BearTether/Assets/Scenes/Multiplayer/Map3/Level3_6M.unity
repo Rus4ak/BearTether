@@ -4432,7 +4432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _finishMenu: {fileID: 0}
+  _finishMenu: {fileID: 7112611516980435902}
 --- !u!114 &947309527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5339,6 +5339,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52488c79d8b635f46a21abd91711d2f1, type: 3}
+--- !u!1 &7112611516980435902 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3913015704816466474, guid: 52488c79d8b635f46a21abd91711d2f1, type: 3}
+  m_PrefabInstance: {fileID: 7112611516980435901}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

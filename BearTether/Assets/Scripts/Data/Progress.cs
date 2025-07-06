@@ -29,8 +29,8 @@ public class Progress
     public class ProgressData
     {
         public int bank;
-        public Level[] levels = new Level[20];
-        public Level[] multiplayerLevels = new Level[20];
+        public Level[] levels = new Level[30];
+        public Level[] multiplayerLevels = new Level[30];
         public List<MapData> maps = new List<MapData>();
         public List<MapData> mapsMultiplayer = new List<MapData>();
     }

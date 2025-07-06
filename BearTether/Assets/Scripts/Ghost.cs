@@ -6,35 +6,41 @@ public class Ghost : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _distance;
 
-    private Transform _player;
     private Vector3 _startPosition;
     private GameObject _child;
 
+    private GameObject[] _players;
     private bool _isMove = false;
 
     private void Start()
     {
         _child = transform.GetChild(0).gameObject;
-        _player = GameObject.FindWithTag("Player").GetComponent<Transform>();
         _startPosition = transform.position;
+        _players = GameObject.FindGameObjectsWithTag("Player");
 
         if (_moveTo == null)
-            _moveTo = _player;
+        {
+            
+            _moveTo = _players[Random.Range(0, _players.Length - 1)].transform;
+        }
     }
 
     private void Update()
     {
-        if (transform.position.x - _player.position.x <= _distance)
+        foreach (GameObject player in _players)
         {
-            _isMove = true;
-            _child.SetActive(true);
-        }
+            if (transform.position.x - player.transform.position.x <= _distance)
+            {
+                _isMove = true;
+                _child.SetActive(true);
+            }
 
-        if (_player.position.x < 0)
-        {
-            _child.SetActive(false);
-            _isMove = false;
-            transform.position = _startPosition;
+            if (player.transform.position.x < 0)
+            {
+                _child.SetActive(false);
+                _isMove = false;
+                transform.position = _startPosition;
+            }
         }
 
         if (Vector3.Distance(transform.position, _moveTo.position) < 1)
