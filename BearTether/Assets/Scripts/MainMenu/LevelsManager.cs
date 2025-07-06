@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class LevelsManager : MonoBehaviour
 {
-    [NonSerialized] public Level[] levels = new Level[20];
-    [NonSerialized] public Level[] multiplayerLevels = new Level[20];
+    [NonSerialized] public Level[] levels = new Level[30];
+    [NonSerialized] public Level[] multiplayerLevels = new Level[30];
 
     private void Start()
     {

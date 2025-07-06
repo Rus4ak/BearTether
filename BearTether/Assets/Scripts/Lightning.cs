@@ -4,12 +4,13 @@ public class Lightning : MonoBehaviour
 {
     [SerializeField] private GameObject[] _lights;
 
-    private float _timeToNext = 10f;
+    private float _timeToNext;
     private AudioSource _audioSource;
 
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
+        _timeToNext = Time.time + Random.Range(5, 30);
     }
 
     private void Update()
@@ -18,7 +19,7 @@ public class Lightning : MonoBehaviour
         {
             StartLightning();
 
-            _timeToNext = Time.time + Random.Range(0, 30);
+            _timeToNext = Time.time + Random.Range(5, 30);
         }
     }
 
