@@ -3,9 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class LoadScene : MonoBehaviour
 {
+    [SerializeField] private bool _isLoadingScreen = true;
+
     public void Load(string scene)
     {
-        LoadingScreen.Instance.SetOn();
+        if (_isLoadingScreen)
+            LoadingScreen.Instance.SetOn();
+
         SceneManager.LoadScene(scene);
     }
 }

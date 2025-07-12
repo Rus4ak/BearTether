@@ -3,8 +3,10 @@ using UnityEngine;
 
 enum GameMode 
 {
-    Singleton,
-    Multiplayer
+    Singleplayer,
+    Multiplayer,
+    SingleplayerHardcore,
+    MultiplayerHardcore
 }
 
 public class FinishMenu : MonoBehaviour
@@ -40,7 +42,7 @@ public class FinishMenu : MonoBehaviour
         _rewardedCoinsCount += 10;
         _rewardedCoinsText = _rewardedCoins.GetComponentInChildren<TextMeshProUGUI>();
 
-        if (_gameMode == GameMode.Singleton)
+        if (_gameMode == GameMode.Singleplayer || _gameMode == GameMode.SingleplayerHardcore)
         {
             if (PlayerMovement.attempt < 5 && _countStars == 1)
                 _countStars++;
@@ -59,10 +61,17 @@ public class FinishMenu : MonoBehaviour
 
         LevelsManager levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
 
-        if (_gameMode == GameMode.Singleton)
+        if (_gameMode == GameMode.Singleplayer)
             _additionalCoinsCount = _countStars - levelsManager.levels[_levelID].countStars;
-        else
+        
+        else if (_gameMode == GameMode.SingleplayerHardcore)
+            _additionalCoinsCount = _countStars - levelsManager.levelsHardcore[_levelID].countStars;
+        
+        else if (_gameMode == GameMode.Multiplayer)
             _additionalCoinsCount = _countStars - levelsManager.multiplayerLevels[_levelID].countStars;
+
+        else if (_gameMode == GameMode.MultiplayerHardcore)
+            _additionalCoinsCount = _countStars - levelsManager.multiplayerLevelsHardcore[_levelID].countStars;
 
         _rewardedCoinsCount += _additionalCoinsCount * 5;
         
@@ -71,7 +80,7 @@ public class FinishMenu : MonoBehaviour
         Bank.Instance.Coins += _rewardedCoinsCount;
         Progress.Instance.progressData.bank = Bank.Instance.Coins;
 
-        if (_gameMode == GameMode.Singleton)
+        if (_gameMode == GameMode.Singleplayer)
         {
             if (levelsManager.levels[_levelID].countStars < _countStars)
             {
@@ -79,12 +88,28 @@ public class FinishMenu : MonoBehaviour
                 Progress.Instance.progressData.levels[_levelID] = new Level(_levelID, _countStars, true);
             }
         } 
-        else
+        else if (_gameMode == GameMode.SingleplayerHardcore)
+        {
+            if (levelsManager.levelsHardcore[_levelID].countStars < _countStars)
+            {
+                levelsManager.levelsHardcore[_levelID] = new Level(_levelID, _countStars, true);
+                Progress.Instance.progressData.levelsHardcore[_levelID] = new Level(_levelID, _countStars, true);
+            }
+        }
+        else if (_gameMode == GameMode.Multiplayer)
         {
             if (levelsManager.multiplayerLevels[_levelID].countStars < _countStars)
             {
                 levelsManager.multiplayerLevels[_levelID] = new Level(_levelID, _countStars, true);
                 Progress.Instance.progressData.multiplayerLevels[_levelID] = new Level(_levelID, _countStars, true);
+            }
+        }
+        else if (_gameMode == GameMode.MultiplayerHardcore)
+        {
+            if (levelsManager.multiplayerLevelsHardcore[_levelID].countStars < _countStars)
+            {
+                levelsManager.multiplayerLevelsHardcore[_levelID] = new Level(_levelID, _countStars, true);
+                Progress.Instance.progressData.multiplayerLevelsHardcore[_levelID] = new Level(_levelID, _countStars, true);
             }
         }
 

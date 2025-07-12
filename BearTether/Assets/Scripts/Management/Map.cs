@@ -14,7 +14,7 @@ public class Map : MonoBehaviour
     {
         int countSimilar = 0;
 
-        if (_gamemode == GameMode.Singleton)
+        if (_gamemode == GameMode.Singleplayer || _gamemode == GameMode.SingleplayerHardcore)
         {
             foreach (MapData mapData in MapsData.maps) 
                 if (mapData.mapId == _mapId)
@@ -28,7 +28,7 @@ public class Map : MonoBehaviour
                 MapsData.maps.Add(new MapData(_mapId, isUnlock));
             }
         }
-        else if (_gamemode == GameMode.Multiplayer)
+        else 
         {
             foreach (MapData mapData in MapsData.mapsMultiplayer)
                 if (mapData.mapId == _mapId)
@@ -74,7 +74,7 @@ public class Map : MonoBehaviour
 
             Initialize();
 
-            if (_gamemode == GameMode.Singleton)
+            if (_gamemode == GameMode.Singleplayer || _gamemode == GameMode.SingleplayerHardcore)
             {
                 foreach (MapData mapData in MapsData.maps)
                     if (mapData.mapId == _mapId)
@@ -82,7 +82,7 @@ public class Map : MonoBehaviour
 
                 Progress.Instance.progressData.maps = MapsData.maps;
             }
-            else if (_gamemode == GameMode.Multiplayer)
+            else 
             {
                 foreach (MapData mapData in MapsData.mapsMultiplayer)
                     if (mapData.mapId == _mapId)

@@ -4,7 +4,9 @@ using UnityEngine;
 public class LevelsManager : MonoBehaviour
 {
     [NonSerialized] public Level[] levels = new Level[30];
+    [NonSerialized] public Level[] levelsHardcore = new Level[30];
     [NonSerialized] public Level[] multiplayerLevels = new Level[30];
+    [NonSerialized] public Level[] multiplayerLevelsHardcore = new Level[30];
 
     private void Start()
     {
@@ -29,6 +31,18 @@ public class LevelsManager : MonoBehaviour
         {
             if (multiplayerLevels[i] == null)
                 multiplayerLevels[i] = new Level(i, 0);
+        }
+
+        for (int i = 0; i < levelsHardcore.Length; i++)
+        {
+            if (levelsHardcore[i] == null)
+                levelsHardcore[i] = new Level(i, 0);
+        }
+
+        for (int i = 0; i < multiplayerLevelsHardcore.Length; i++)
+        {
+            if (multiplayerLevelsHardcore[i] == null)
+                multiplayerLevelsHardcore[i] = new Level(i, 0);
         }
     }
 }

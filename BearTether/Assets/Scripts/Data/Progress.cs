@@ -30,9 +30,12 @@ public class Progress
     {
         public int bank;
         public Level[] levels = new Level[30];
+        public Level[] levelsHardcore = new Level[30];
         public Level[] multiplayerLevels = new Level[30];
+        public Level[] multiplayerLevelsHardcore = new Level[30];
         public List<MapData> maps = new List<MapData>();
         public List<MapData> mapsMultiplayer = new List<MapData>();
+        public bool isBoughtHardcore;
     }
 
     public void Save()
@@ -57,11 +60,14 @@ public class Progress
 
         LevelsManager levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
         levelsManager.levels = Instance.progressData.levels;
+        levelsManager.levelsHardcore = Instance.progressData.levelsHardcore;
         levelsManager.multiplayerLevels = Instance.progressData.multiplayerLevels;
+        levelsManager.multiplayerLevelsHardcore = Instance.progressData.multiplayerLevelsHardcore;
         levelsManager.InitializeLevels();
         Bank.Instance.Coins = Instance.progressData.bank;
         MapsData.maps = Instance.progressData.maps;
         MapsData.mapsMultiplayer = Instance.progressData.mapsMultiplayer;
+        Hardcore.isBoughtHardcore = Instance.progressData.isBoughtHardcore;
     }
 
     private byte[] SerializeToBytes(ProgressData data)
