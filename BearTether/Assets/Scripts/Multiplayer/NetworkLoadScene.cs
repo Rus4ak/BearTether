@@ -18,6 +18,7 @@ public class NetworkLoadScene : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void QuitGameServerRpc(ServerRpcParams rpcParams = default)
     {
+        SetLoadingScreenClientRpc();
         FindFirstObjectByType<ConnectionApproval>().isGameStarted.Value = false;
         NetworkManager.SceneManager.LoadScene("Multiplayer", LoadSceneMode.Single);
     }
@@ -25,7 +26,14 @@ public class NetworkLoadScene : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void StartGameServerRpc(string name, ServerRpcParams rpcParams = default)
     {
+        SetLoadingScreenClientRpc();
         FindFirstObjectByType<ConnectionApproval>().isGameStarted.Value = true;
         NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
+
+    [ClientRpc(RequireOwnership = false)]
+    private void SetLoadingScreenClientRpc(ClientRpcParams rpcParams = default)
+    {
+        LoadingScreen.Instance.SetOn();
     }
 }

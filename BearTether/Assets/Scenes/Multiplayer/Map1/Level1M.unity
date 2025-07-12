@@ -6988,7 +6988,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  _isLoadOnlyServer: 0
 --- !u!4 &774809739
 Transform:
   m_ObjectHideFlags: 0
@@ -8212,8 +8211,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   _finishMenu: {fileID: 1394168914}
-  attempts:
-    m_InternalValue: 0
 --- !u!114 &7694336802419753714
 MonoBehaviour:
   m_ObjectHideFlags: 0

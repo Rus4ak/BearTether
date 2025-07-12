@@ -10,7 +10,8 @@ public class NetworkQuit : MonoBehaviour
 
         foreach (var obj in FindObjectsByType<NetworkObject>(FindObjectsSortMode.None))
         {
-            Destroy(obj.gameObject);
+            if (obj.name != "LoadingScreen")
+                Destroy(obj.gameObject);
         }
 
         Destroy(GameObject.Find("NetworkManager"));

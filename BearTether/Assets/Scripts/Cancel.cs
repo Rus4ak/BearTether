@@ -18,6 +18,7 @@ public class Cancel : MonoBehaviour
     {
         if (_isPressed && !_animation.isPlaying)
         {
+            LoadingScreen.Instance.SetOn();
             SceneManager.LoadScene(_nameScene);
         }
     }

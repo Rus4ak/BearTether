@@ -45,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
         Transform borders = GameObject.FindWithTag("CameraBorders").transform;
         _minPosY = borders.Find("MinPos").position.y;
+
+        LoadingScreen.Instance.SetOff();
     }
 
     private void Update()

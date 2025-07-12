@@ -45,6 +45,15 @@ public class NetworkPlayer : NetworkBehaviour
 
     private void Update()
     {
+        //print(LoadingScreen.Instance.countInitialized.Value);
+        if (IsOwner)
+        {
+            if (LoadingScreen.Instance.countInitialized.Value == NetworkPlayersManager.Instance.players.Count)
+            {
+                LoadingScreen.Instance.RemoveInitializeServerRpc();
+            }
+        }
+
         if (sceneName == "Multiplayer")
         {
             if (IsServer
@@ -261,6 +270,9 @@ public class NetworkPlayer : NetworkBehaviour
 
         if (IsServer && IsOwner)
             countReady = 1;
+
+        if (IsOwner)
+            LoadingScreen.Instance.AddInitializeServerRpc();
     }
 
     public void InitializeMultiplayerScene()

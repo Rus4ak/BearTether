@@ -20,6 +20,7 @@ public class Pause : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
+        LoadingScreen.Instance.SetOn();
         SceneManager.LoadScene("MainMenu");
     }
 }

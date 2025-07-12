@@ -58,7 +58,14 @@ public class PauseMultiplayer : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void QuitGameServerRpc(ServerRpcParams rpcParams = default)
     {
+        SetLoadingScreenClientRpc();
         FindFirstObjectByType<ConnectionApproval>().isGameStarted.Value = false;
         NetworkManager.SceneManager.LoadScene("Multiplayer", LoadSceneMode.Single);
+    }
+
+    [ClientRpc]
+    private void SetLoadingScreenClientRpc()
+    {
+        LoadingScreen.Instance.SetOn();
     }
 }

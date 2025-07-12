@@ -26,6 +26,9 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
+        if (LoadingScreen.Instance.isActive)
+            LoadingScreen.Instance.SetOff();
+
         if (_isPlay)
         {
             _playerRb.linearVelocity = new Vector3(8, 0, 0);
