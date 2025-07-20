@@ -192,6 +192,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Singleplayer/Map3H/Level3_9H.unity
     guid: 51cd534e0cf27b142acb5f7278d2767b
   - enabled: 1
+    path: Assets/Scenes/Singleplayer/Map3H/Level3_10H.unity
+    guid: 09911f41dba8bc34d8c5620557819c94
+  - enabled: 1
     path: Assets/Scenes/MainMenu/Multiplayer.unity
     guid: 54bf6b7d2d876084dbd4e82c1e98a3b3
   - enabled: 1
