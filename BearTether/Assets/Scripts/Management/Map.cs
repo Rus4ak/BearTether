@@ -65,9 +65,9 @@ public class Map : MonoBehaviour
 
     public void UnlockMap()
     {
-        if (Bank.Instance.Coins >= 200)
+        if (Bank.Instance.Coins >= 100)
         {
-            Bank.Instance.Coins -= 200;
+            Bank.Instance.Coins -= 100;
             Progress.Instance.progressData.bank = Bank.Instance.Coins;
 
             isUnlock = true;

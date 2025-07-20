@@ -39,7 +39,7 @@ public class FinishMenu : MonoBehaviour
         _starFlySound.Play();
         _currentStarAnimation = _stars[0].GetComponent<Animation>();
         _countStars++;
-        _rewardedCoinsCount += 10;
+        //_rewardedCoinsCount += 10;
         _rewardedCoinsText = _rewardedCoins.GetComponentInChildren<TextMeshProUGUI>();
 
         if (_gameMode == GameMode.Singleplayer || _gameMode == GameMode.SingleplayerHardcore)
