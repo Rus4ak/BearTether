@@ -6146,7 +6146,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 536730828608574454, guid: 548a368072bdce14e8bf06e5a441deaf, type: 3}
       propertyPath: _speed
-      value: 0.8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 536730828608574454, guid: 548a368072bdce14e8bf06e5a441deaf, type: 3}
       propertyPath: _moveTo
@@ -6677,7 +6677,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 536730828608574454, guid: 548a368072bdce14e8bf06e5a441deaf, type: 3}
       propertyPath: _speed
-      value: 0.6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 536730828608574454, guid: 548a368072bdce14e8bf06e5a441deaf, type: 3}
       propertyPath: _moveTo

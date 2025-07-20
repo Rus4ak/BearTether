@@ -45,10 +45,11 @@ public class Ghost : MonoBehaviour
 
         if (Vector3.Distance(transform.position, _moveTo.position) < 1)
             _child.SetActive(false);
+    }
 
-        if (!_isMove)
-            return;
-
-        transform.position = Vector3.Lerp(transform.position, _moveTo.position, _speed * Time.deltaTime);
+    private void FixedUpdate()
+    {
+        if (_isMove)
+            transform.position = Vector3.MoveTowards(transform.position, _moveTo.position, _speed * Time.fixedDeltaTime);
     }
 }
