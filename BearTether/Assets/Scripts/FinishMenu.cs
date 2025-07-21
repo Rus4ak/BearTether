@@ -28,6 +28,7 @@ public class FinishMenu : MonoBehaviour
     private TextMeshProUGUI _rewardedCoinsText;
     private string _quitScene;
 
+    private bool[] _isAdditionalCoins = new bool[3] { false, false, false };
     private int _countStars = 0;
     private bool _isNextLevel = false;
     private bool _isQuit = false;
@@ -39,7 +40,6 @@ public class FinishMenu : MonoBehaviour
         _starFlySound.Play();
         _currentStarAnimation = _stars[0].GetComponent<Animation>();
         _countStars++;
-        //_rewardedCoinsCount += 10;
         _rewardedCoinsText = _rewardedCoins.GetComponentInChildren<TextMeshProUGUI>();
 
         if (_gameMode == GameMode.Singleplayer || _gameMode == GameMode.SingleplayerHardcore)
@@ -62,16 +62,52 @@ public class FinishMenu : MonoBehaviour
         LevelsManager levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
 
         if (_gameMode == GameMode.Singleplayer)
+        {
             _additionalCoinsCount = _countStars - levelsManager.levels[_levelID].countStars;
+            for (int i = 1; i <= _countStars; i++)
+            {
+                if (i > levelsManager.levels[_levelID].countStars)
+                {
+                    _isAdditionalCoins[i - 1] = true;
+                }
+            }
+        }
         
         else if (_gameMode == GameMode.SingleplayerHardcore)
+        {
             _additionalCoinsCount = _countStars - levelsManager.levelsHardcore[_levelID].countStars;
+            for (int i = 1; i <= _countStars; i++)
+            {
+                if (i > levelsManager.levelsHardcore[_levelID].countStars)
+                {
+                    _isAdditionalCoins[i - 1] = true;
+                }
+            }
+        }
         
         else if (_gameMode == GameMode.Multiplayer)
+        {
             _additionalCoinsCount = _countStars - levelsManager.multiplayerLevels[_levelID].countStars;
+            for (int i = 1; i <= _countStars; i++)
+            {
+                if (i > levelsManager.multiplayerLevels[_levelID].countStars)
+                {
+                    _isAdditionalCoins[i - 1] = true;
+                }
+            }
+        }
 
         else if (_gameMode == GameMode.MultiplayerHardcore)
+        {
             _additionalCoinsCount = _countStars - levelsManager.multiplayerLevelsHardcore[_levelID].countStars;
+            for (int i = 1; i <= _countStars; i++)
+            {
+                if (i > levelsManager.multiplayerLevelsHardcore[_levelID].countStars)
+                {
+                    _isAdditionalCoins[i - 1] = true;
+                }
+            }
+        }
 
         _rewardedCoinsCount += _additionalCoinsCount * 5;
         
@@ -115,7 +151,7 @@ public class FinishMenu : MonoBehaviour
 
         Progress.Instance.Save();
 
-        if (_additionalCoinsCount == 3)
+        if (_isAdditionalCoins[0])
             InstantiateAdditionalCoins("+5");
     }
 
@@ -128,7 +164,7 @@ public class FinishMenu : MonoBehaviour
                 _stars[1].SetActive(true);
                 _starFlySound.Play();
                 _currentStarAnimation = _stars[1].GetComponent<Animation>();
-                if (_additionalCoinsCount >= 2)
+                if (_isAdditionalCoins[1])
                     InstantiateAdditionalCoins("+5");
                 return;
             }
@@ -138,7 +174,7 @@ public class FinishMenu : MonoBehaviour
                 _stars[2].SetActive(true);
                 _starFlySound.Play();
                 _currentStarAnimation = _stars[2].GetComponent<Animation>();
-                if (_additionalCoinsCount >= 1)
+                if (_isAdditionalCoins[2])
                     InstantiateAdditionalCoins("+5");
             }
         }
