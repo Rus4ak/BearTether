@@ -5966,6 +5966,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1570167972}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1346819310
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1831751086}
+    m_Modifications:
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.5645306
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782499240579231521, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+      propertyPath: m_Name
+      value: PinkCrystalsLight (4)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+--- !u!4 &1346819311 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2508094861472471868, guid: 65fa38c4d8f87b540b9fcbaa77ac444a, type: 3}
+  m_PrefabInstance: {fileID: 1346819310}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1360572250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6356,6 +6418,7 @@ Transform:
   - {fileID: 695910796}
   - {fileID: 823063027}
   - {fileID: 1069543839}
+  - {fileID: 1346819311}
   - {fileID: 1957247778}
   - {fileID: 553548150}
   - {fileID: 1096664105}
