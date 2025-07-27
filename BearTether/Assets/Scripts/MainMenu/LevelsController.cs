@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LevelsController : MonoBehaviour
 {
+    [SerializeField] private GameMode _gameMode;
     [SerializeField] private List<GameObject> _stars;
 
     private LevelsManager _levelsManager;
@@ -15,13 +16,13 @@ public class LevelsController : MonoBehaviour
         _levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
         _sceneName = SceneManager.GetActiveScene().name;
 
-        if (_sceneName == "Singleplayer")
+        if (_gameMode == GameMode.Singleplayer)
             InitializeSingleplayerStars();
-        else if (_sceneName == "Multiplayer")
+        else if (_gameMode == GameMode.Multiplayer)
             InitializeMultiplayerStars();
-        if (_sceneName == "SingleplayerHardcore")
+        else if (_gameMode == GameMode.SingleplayerHardcore)
             InitializeSingleplayerHardcoreStars();
-        else if (_sceneName == "MultiplayerHardcore")
+        else if (_gameMode == GameMode.MultiplayerHardcore)
             InitializeMultiplayerHardcoreStars();
     }
 

@@ -17159,6 +17159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52cf66ecc9379046b7f7b60c3e5b747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameMode: 2
   _stars:
   - {fileID: 1461565570}
   - {fileID: 867063762}
