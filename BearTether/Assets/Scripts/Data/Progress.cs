@@ -47,13 +47,26 @@ public class Progress
         byte[] data = SerializeToBytes(progressData);
 
         File.WriteAllBytes(_path, data);
+
+        if (PlayGamesManager.isAuthenticated)
+        {
+            PlayGamesManager.SaveToCloud(data, "progress");
+        }
     }
 
     public void Load()
     {
-        if (!File.Exists(_path))
-            return;
-        
+        if (File.Exists(_path))
+            DeserializeAndLoad();
+    }
+
+    public void LoadFromCloud()
+    {
+        DeserializeAndLoad();
+    }
+
+    private void DeserializeAndLoad()
+    {
         // Deserialize data from bytes
         byte[] bytes = File.ReadAllBytes(_path);
         progressData = DeserializeFromBytes(bytes);

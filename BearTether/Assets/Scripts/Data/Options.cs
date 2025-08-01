@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using static Progress;
 
 public class Options
 {
@@ -37,6 +39,13 @@ public class Options
             Directory.CreateDirectory(Application.persistentDataPath);
 
         File.WriteAllText(_path, JsonUtility.ToJson(optionsData));
+
+        byte[] data = SerializeToBytes(optionsData);
+
+        if (PlayGamesManager.isAuthenticated)
+        {
+            PlayGamesManager.SaveToCloud(data, "options");
+        }
     }
 
     public void Load()
@@ -47,5 +56,31 @@ public class Options
         optionsData = JsonUtility.FromJson<OptionsData>(File.ReadAllText(_path));
 
         SoundVolume.Instance.volume = optionsData.soundVolume;
+    }
+
+    public void LoadFromCLoud()
+    {
+        optionsData = DeserializeFromBytes(PlayGamesManager.LoadFromCloud("options"));
+
+        SoundVolume.Instance.volume = optionsData.soundVolume;
+    }
+
+    private byte[] SerializeToBytes(OptionsData data)
+    {
+        using (MemoryStream memoryStream = new MemoryStream())
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(memoryStream, data);
+            return memoryStream.ToArray();
+        }
+    }
+
+    private OptionsData DeserializeFromBytes(byte[] bytes)
+    {
+        using (MemoryStream memoryStream = new MemoryStream(bytes))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            return (OptionsData)formatter.Deserialize(memoryStream);
+        }
     }
 }
