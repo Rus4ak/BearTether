@@ -13,9 +13,9 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
 
     private IStoreController _storeController;
 
-    private string _product_id = "Hardcore";
+    private string _product_id = "hardcore";
 
-    public static bool isBoughtHardcore;
+    //public static bool isBoughtHardcore;
 
     private void Start()
     {
@@ -33,7 +33,7 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
 
     public void SwitchHardcore(string SceneName)
     {
-        if (isBoughtHardcore)
+        if (CheckHardcore())
         {
             SceneManager.LoadScene(SceneName);
         }
@@ -45,7 +45,7 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
 
     public void SwitchHardcoreMultiplayer()
     {
-        if (isBoughtHardcore)
+        if (CheckHardcore())
         {
             if (_normalLevelsMenu.activeInHierarchy)
             {
@@ -70,6 +70,23 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
         _storeController.InitiatePurchase(_product_id);
     }
 
+    private bool CheckHardcore()
+    {
+        if (_storeController!=null)
+        {
+            var product = _storeController.products.WithID(_product_id);
+            if (product != null)
+            {
+                if (product.hasReceipt)
+                    return true;
+                else
+                    return false; 
+            }
+        }
+
+        return false;
+    }
+
     public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
     {
         Debug.LogError("Purchase failed: " + failureDescription);
@@ -89,9 +106,9 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
     {
         if (purchaseEvent.purchasedProduct.definition.id == _product_id)
         {
-            isBoughtHardcore = true;
-            Progress.Instance.progressData.isBoughtHardcore = true;
-            Progress.Instance.Save();
+            //isBoughtHardcore = true;
+            //Progress.Instance.progressData.isBoughtHardcore = true;
+            //Progress.Instance.Save();
             _buyMenu.SetActive(false);
         }
         return PurchaseProcessingResult.Complete;

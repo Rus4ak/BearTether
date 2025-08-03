@@ -2,23 +2,29 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using GooglePlayGames.BasicApi.SavedGame;
 using System;
+using TMPro;
 using UnityEngine;
 
 public class PlayGamesManager : MonoBehaviour
 {
     [SerializeField] private GameObject _connectButton;
     [SerializeField] private GameObject _connectedText;
+    [SerializeField] private GameObject _errorText;
+    [SerializeField] private Transform _settingsCanvas;
+
+    private bool _isInstantianErrorText = false;
 
     public static bool isAuthenticated = false;
 
-    private void Awake()
+    private void Start()
     {
-        SignIn();
+        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
     }
 
     public void SignIn()
     {
-        PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
+        _isInstantianErrorText = true;
+        PlayGamesPlatform.Instance.ManuallyAuthenticate(ProcessAuthentication);
     }
 
     internal void ProcessAuthentication(SignInStatus status)
@@ -28,11 +34,18 @@ public class PlayGamesManager : MonoBehaviour
             isAuthenticated = true;
             _connectButton.SetActive(false);
             _connectedText.SetActive(true);
-            Progress.Instance.LoadFromCloud();
-            Options.Instance.LoadFromCLoud();
+            LoadFromCloud("progress");
+            LoadFromCloud("options");
         }
         else
         {
+            if (_isInstantianErrorText)
+            {
+                TextMeshProUGUI errorText = Instantiate(_errorText, _settingsCanvas).GetComponent<TextMeshProUGUI>();
+                errorText.text = "Something wrong\nTry again";
+            }
+            _isInstantianErrorText = false;
+
             isAuthenticated = false;
             _connectedText.SetActive(false);
             _connectButton.SetActive(true);
@@ -63,10 +76,8 @@ public class PlayGamesManager : MonoBehaviour
             });
     }
 
-    public static byte[] LoadFromCloud(string filename)
+    public static void LoadFromCloud(string filename)
     {
-        byte[] loadedData = null;
-
         ISavedGameClient savedGameClient = PlayGamesPlatform.Instance.SavedGame;
 
         savedGameClient.OpenWithAutomaticConflictResolution(filename,
@@ -80,12 +91,22 @@ public class PlayGamesManager : MonoBehaviour
                     {
                         if (status2 == SavedGameRequestStatus.Success)
                         {
-                            loadedData = data;
+                            Debug.Log("Data loaded");
+                            if (filename == "progress")
+                                Progress.Instance.DeserializeAndLoad(data);
+                            else if (filename == "options")
+                                Options.Instance.LoadFromCLoud(data);
+                        }
+                        else
+                        {
+                            Debug.LogError("Failed to read save: " + status2);
                         }
                     });
                 }
+                else
+                {
+                    Debug.LogError("Failed to open save for reading: " + status);
+                }
             });
-
-        return loadedData;
     }
 }

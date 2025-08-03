@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using UnityEngine;
 using static Progress;
 
@@ -58,29 +59,22 @@ public class Options
         SoundVolume.Instance.volume = optionsData.soundVolume;
     }
 
-    public void LoadFromCLoud()
+    public void LoadFromCLoud(byte[] bytes)
     {
-        optionsData = DeserializeFromBytes(PlayGamesManager.LoadFromCloud("options"));
+        optionsData = DeserializeFromBytes(bytes);
 
         SoundVolume.Instance.volume = optionsData.soundVolume;
     }
 
     private byte[] SerializeToBytes(OptionsData data)
     {
-        using (MemoryStream memoryStream = new MemoryStream())
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(memoryStream, data);
-            return memoryStream.ToArray();
-        }
+        string json = JsonUtility.ToJson(data);
+        return Encoding.UTF8.GetBytes(json);
     }
 
     private OptionsData DeserializeFromBytes(byte[] bytes)
     {
-        using (MemoryStream memoryStream = new MemoryStream(bytes))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            return (OptionsData)formatter.Deserialize(memoryStream);
-        }
+        string json = Encoding.UTF8.GetString(bytes);
+        return JsonUtility.FromJson<OptionsData>(json);
     }
 }

@@ -35,7 +35,7 @@ public class Progress
         public Level[] multiplayerLevelsHardcore = new Level[30];
         public List<MapData> maps = new List<MapData>();
         public List<MapData> mapsMultiplayer = new List<MapData>();
-        public bool isBoughtHardcore;
+        //public bool isBoughtHardcore;
     }
 
     public void Save()
@@ -57,18 +57,15 @@ public class Progress
     public void Load()
     {
         if (File.Exists(_path))
-            DeserializeAndLoad();
+        {
+            byte[] bytes = File.ReadAllBytes(_path);
+            DeserializeAndLoad(bytes);
+        }
     }
 
-    public void LoadFromCloud()
-    {
-        DeserializeAndLoad();
-    }
-
-    private void DeserializeAndLoad()
+    public void DeserializeAndLoad(byte[] bytes)
     {
         // Deserialize data from bytes
-        byte[] bytes = File.ReadAllBytes(_path);
         progressData = DeserializeFromBytes(bytes);
 
         LevelsManager levelsManager = GameObject.FindWithTag("LevelsManager").GetComponent<LevelsManager>();
@@ -80,7 +77,7 @@ public class Progress
         Bank.Instance.Coins = Instance.progressData.bank;
         MapsData.maps = Instance.progressData.maps;
         MapsData.mapsMultiplayer = Instance.progressData.mapsMultiplayer;
-        Hardcore.isBoughtHardcore = Instance.progressData.isBoughtHardcore;
+        //Hardcore.isBoughtHardcore = Instance.progressData.isBoughtHardcore;
     }
 
     private byte[] SerializeToBytes(ProgressData data)

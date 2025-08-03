@@ -1,0 +1,23 @@
+# ninja log v5
+18	4371	7759399752614581	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	5303e9b024f8ce07
+156	1371	7759399723348753	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	1045e15479af2498
+50	4052	7759399750736747	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	803c4b83f4a42fb5
+1377	2754	7759399736099978	C:/projects/Unity/BearTether/BearTether/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/6243x6vi/obj/arm64-v8a/libswappywrapper.so	4cf7843bb0219c12
+107	3615	7759399746267428	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	55bbdfd120252b98
+34	3547	7759399745626219	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	44603e9f058d0e31
+67	3626	7759399746300067	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	f237f2ec6fbf9692
+83	3656	7759399746464002	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	362b83f6bf95ee1d
+1	3732	7759399747563219	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	4dd5e71bf35dba37
+128	3658	7759399746576820	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	b1904741806b7f1
+4372	4885	7759399758876748	C:/projects/Unity/BearTether/BearTether/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/6243x6vi/obj/arm64-v8a/libgame.so	a7b3a3785584b5bc
+157	588	7759404393784144	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	1045e15479af2498
+589	1015	7759404398082646	C:/projects/Unity/BearTether/BearTether/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/6243x6vi/obj/arm64-v8a/libswappywrapper.so	4cf7843bb0219c12
+39	2574	7759404413610561	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	44603e9f058d0e31
+84	2583	7759404413626106	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	362b83f6bf95ee1d
+24	2611	7759404413981185	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	f237f2ec6fbf9692
+113	2683	7759404414769531	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	b1904741806b7f1
+132	2692	7759404414848153	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	55bbdfd120252b98
+11	2739	7759404415413643	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	4dd5e71bf35dba37
+99	2926	7759404417269653	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	803c4b83f4a42fb5
+71	3017	7759404418116426	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	5303e9b024f8ce07
+3018	3226	7759404420281763	C:/projects/Unity/BearTether/BearTether/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/6243x6vi/obj/arm64-v8a/libgame.so	a7b3a3785584b5bc

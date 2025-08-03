@@ -3613,6 +3613,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _connectButton: {fileID: 291201730}
   _connectedText: {fileID: 794820072}
+  _errorText: {fileID: 7034253837461184865, guid: b63a69c49cc3ce949bfed68c50691787, type: 3}
+  _settingsCanvas: {fileID: 2048535979}
 --- !u!1 &768701279
 GameObject:
   m_ObjectHideFlags: 0

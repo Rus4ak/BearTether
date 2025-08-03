@@ -14,4 +14,9 @@ public class ErrorText : MonoBehaviour
         if (!_animation.isPlaying)
             Destroy(gameObject);
     }
+
+    private void OnDisable()
+    {
+        Destroy(gameObject);
+    }
 }

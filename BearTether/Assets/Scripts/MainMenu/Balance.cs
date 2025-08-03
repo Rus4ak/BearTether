@@ -9,4 +9,10 @@ public class Balance : MonoBehaviour
     {
         _balance.text = Bank.Instance.Coins.ToString();
     }
+
+    private void Update()
+    {
+        if (_balance.text != Bank.Instance.Coins.ToString())
+            _balance.text = Bank.Instance.Coins.ToString();
+    }
 }
