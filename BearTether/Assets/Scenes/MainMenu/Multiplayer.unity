@@ -14955,6 +14955,7 @@ MonoBehaviour:
   _errorText: {fileID: 7034253837461184865, guid: b63a69c49cc3ce949bfed68c50691787, type: 3}
   _lobbyMenu: {fileID: 1125773588}
   _lobbyPanel: {fileID: 1351074175}
+  _choiceHardcoreLevelMenu: {fileID: 1749509482}
   choiceLevelMenu: {fileID: 123549355}
 --- !u!114 &609839203
 MonoBehaviour:

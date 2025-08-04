@@ -60,7 +60,7 @@ public class Daytime : MonoBehaviour
             _moon.SetActive(true);
         }
 
-        _light.intensity = Mathf.Clamp(val, .025f, 1);
+        _light.intensity = Mathf.Clamp(val, .05f, 1);
     }
 
     float GetValueFromZRotation(float zRotation)

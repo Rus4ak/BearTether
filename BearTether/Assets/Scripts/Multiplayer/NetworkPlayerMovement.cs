@@ -286,7 +286,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         {
             if (!_isOnGround)
             {
-                if (playerOwner.position.y < otherPlayer.position.y)
+                if (playerOwner.position.y < otherPlayer.position.y - 2)
                 {
                     if (!_hingeJoint.enabled)
                     {
@@ -295,7 +295,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
                         _hingeJoint.connectedBody = otherPlayer.Find("Anchor").GetComponent<Rigidbody2D>();
                     }
                     
-                    _rigidbody.AddForce(new Vector2(_move.Value, 0) * 20);
+                    _rigidbody.AddForce(new Vector2(_move.Value, 0) * 30);
                 }
                 else
                 {

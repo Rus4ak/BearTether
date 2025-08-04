@@ -92,6 +92,8 @@ public class NetworkPlayer : NetworkBehaviour
             {
                 if (_isPause.Value)
                     _isPause.Value = false;
+
+                transform.localPosition = new Vector3(transform.localPosition.x, -0.8f, transform.localPosition.z);
             }
 
             if (_currentMapId != _multiplayerManager.currentMapId.Value)
@@ -257,7 +259,7 @@ public class NetworkPlayer : NetworkBehaviour
         {
             InitializeMultiplayerScene();
             _multiplayerManager.ShowRoomMenu();
-            transform.rotation = Quaternion.identity;
+            _playerSprite.flipX = false;
 
             AudioListener audioListener;
 

@@ -17,6 +17,7 @@ public class MultiplayerLobby : NetworkBehaviour
     [SerializeField] private GameObject _errorText;
     [SerializeField] private GameObject _lobbyMenu;
     [SerializeField] private GameObject _lobbyPanel;
+    [SerializeField] private GameObject _choiceHardcoreLevelMenu;
     
     private float _screenWidth;
     private NetworkVariable<FixedString64Bytes> _sessionName = new NetworkVariable<FixedString64Bytes>("Room");
@@ -163,6 +164,7 @@ public class MultiplayerLobby : NetworkBehaviour
         {
             _lobbyMenu.SetActive(true);
             choiceLevelMenu.SetActive(false);
+            _choiceHardcoreLevelMenu.SetActive(false);
         }
     }
 }
