@@ -20,6 +20,9 @@ public class Rope : MonoBehaviour
         transform.position = player2.position - player1.position;
         _player1 = player1;
         _player2 = player2;
+
+        _player1.GetComponent<NetworkPlayerMovement>().pullRope = GetComponent<PullRope>();
+        _player2.GetComponent<NetworkPlayerMovement>().pullRope = GetComponent<PullRope>();
     }
 
     private void Update()

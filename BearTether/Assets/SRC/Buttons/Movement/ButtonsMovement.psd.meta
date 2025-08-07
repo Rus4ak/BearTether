@@ -100,7 +100,7 @@ ScriptedImporter:
     spritePosition: {x: 0, y: 0}
   multiSpriteImportData: []
   layeredSpriteImportData:
-  - name: Left
+  - name: "\u0421\u043B\u043E\u0439 1"
     originalName: 
     pivot: {x: 0.5, y: 0.5}
     alignment: 0
@@ -110,9 +110,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 520
       y: 4
-      width: 326
-      height: 374
-    spriteID: 6541588b0a1a8fa4ea2625c3f1574fb3
+      width: 335
+      height: 444
+    spriteID: efc96a01f9bd8844b86211e08004b2e5
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -120,8 +120,8 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 516, y: 0}
-    spritePosition: {x: 66, y: 69}
+    uvTransform: {x: 520, y: 4}
+    spritePosition: {x: 76, y: 52}
   - name: Button
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -203,6 +203,16 @@ ScriptedImporter:
     flatten: 0
     isImported: 0
     isVisible: 0
+  - name: "\u0421\u043B\u043E\u0439 1"
+    spriteName: "\u0421\u043B\u043E\u0439 1"
+    isGroup: 0
+    parentIndex: -1
+    spriteID: efc96a01f9bd8844b86211e08004b2e5
+    layerID: 32
+    mosaicPosition: {x: 520, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
   - name: Left
     spriteName: Left
     isGroup: 0
@@ -211,8 +221,8 @@ ScriptedImporter:
     layerID: 20
     mosaicPosition: {x: 520, y: 4}
     flatten: 0
-    isImported: 1
-    isVisible: 1
+    isImported: 0
+    isVisible: 0
   - name: Button
     spriteName: Button
     isGroup: 0
