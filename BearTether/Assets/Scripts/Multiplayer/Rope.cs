@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Rope : MonoBehaviour
 {
@@ -21,17 +22,20 @@ public class Rope : MonoBehaviour
         _player1 = player1;
         _player2 = player2;
 
-        _player1.GetComponent<NetworkPlayerMovement>().pullRope = GetComponent<PullRope>();
-        _player2.GetComponent<NetworkPlayerMovement>().pullRope = GetComponent<PullRope>();
+        _player1.GetComponent<NetworkPlayerMovement>().pullRopeLeft = GetComponent<PullRope>();
+        _player2.GetComponent<NetworkPlayerMovement>().pullRopeRight = GetComponent<PullRope>();
     }
 
     private void Update()
     {
+        if (_player1 == null)
+            return;
+
         _anchor1.position = _player1.position;
         _anchor2.position = _player2.position;
 
         float distance = Vector3.Distance(_player1.position, _player2.position) / 10f;
-        _ropeSoundAudioSource.volume = Mathf.Clamp(distance - .25f, 0, SoundVolume.Instance.volume);
+        _ropeSoundAudioSource.volume = Mathf.Clamp(distance - .35f, 0, SoundVolume.Instance.volume);
 
         _ropeSound.position = (_player1.position + _player2.position) / 2;
     }

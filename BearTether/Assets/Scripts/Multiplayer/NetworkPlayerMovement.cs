@@ -17,7 +17,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
     [Header("Rope")]
     [SerializeField] private GameObject _pullRopeButton;
-    [SerializeField] private float _maxRopeDistance = 2.5f;
+    [SerializeField] private float _maxRopeDistance = 3.5f;
     [SerializeField] private float _ropePullStrength = 35f;
     [SerializeField] private Transform _anchor;
 
@@ -38,15 +38,16 @@ public class NetworkPlayerMovement : NetworkBehaviour
     private float _currentSpeed;
     private HingeJoint2D _hingeJoint;
     private NetworkPlayer _networkPlayer;
-    private float _minPosY;
     private SpriteRenderer _spriteRenderer;
     private Collider2D _collider;
     
     private bool _isMove = true;
     private bool _lookRight = true;
 
+    [NonSerialized] public float minPosY;
     [NonSerialized] public Vector3 spawnPosition;
-    [NonSerialized] public PullRope pullRope;
+    [NonSerialized] public PullRope pullRopeLeft;
+    [NonSerialized] public PullRope pullRopeRight;
 
 
     private void Start()
@@ -75,10 +76,10 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (_networkPlayer.sceneName == "Multiplayer")
             return;
 
-        if (_minPosY == default)
+        if (minPosY == default)
         {
             Transform borders = GameObject.FindWithTag("CameraBorders").transform;
-            _minPosY = borders.Find("MinPos").position.y;
+            minPosY = borders.Find("MinPos").position.y;
         }
 
         Moving();
@@ -108,7 +109,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (!_isOnGround)
             _animator.SetBool("Jump", true);
         
-        if (transform.position.y < _minPosY)
+        if (transform.position.y < minPosY)
         {
             if (IsOwner)
                 DeadServerRpc();
@@ -210,6 +211,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
                     float speed = CalculateDistance(transform, otherPlayer);
                     RopeHanging(transform, otherPlayer);
+                    PullRope(transform, otherPlayer, pullRopeRight);
 
                     _currentSpeed = speed;
                 }
@@ -220,6 +222,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
                     float speed = CalculateDistance(transform, otherPlayer);
                     RopeHanging(transform, otherPlayer);
+                    PullRope(transform, otherPlayer, pullRopeLeft);
 
                     _currentSpeed = speed;
                 }
@@ -232,6 +235,11 @@ public class NetworkPlayerMovement : NetworkBehaviour
                     float speedLeft = CalculateDistance(transform, otherPlayerLeft);
                     float speedRight = CalculateDistance(transform, otherPlayerRight);
 
+                    if (otherPlayerLeft.position.y < otherPlayerRight.position.y)
+                        PullRope(transform, otherPlayerLeft, pullRopeLeft);
+                    else
+                        PullRope(transform, otherPlayerRight, pullRopeRight);
+
                     _currentSpeed = Mathf.Min(speedLeft, speedRight);
                 }
             }
@@ -243,43 +251,12 @@ public class NetworkPlayerMovement : NetworkBehaviour
                 if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
                     _rigidbody.linearVelocity += new Vector2(0, -10);
             }
+
+            if (pullRopeLeft != null)
+                PullRopeMoving(pullRopeLeft);
             
-            if (pullRope == null)
-                return;
-
-            if (pullRope.PulledPlayer.Value.TryGet(out NetworkObject netObj))
-            {
-                if (transform.parent == netObj.transform)
-                {
-                    if (pullRope.PullTo.Value.TryGet(out NetworkObject netObj2))
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position, netObj2.transform.GetChild(1).position, 10 * Time.deltaTime);
-
-                        bool isUnderCollider = Physics2D.Raycast(netObj.transform.GetChild(1).position, Vector2.up, _raycastLength, _jumpLayer);
-
-                        if (isUnderCollider)
-                        {
-                            _collider.isTrigger = true;
-                        }
-                        else
-                        {
-                            _collider.isTrigger = false;
-                        }
-
-                        if (transform.position == netObj2.transform.GetChild(1).position)
-                        {
-                            _collider.isTrigger = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (_collider.isTrigger)
-                {
-                    _collider.isTrigger = false;
-                }
-            }
+            if (pullRopeRight != null)
+                PullRopeMoving(pullRopeRight);
         }
 
         if (_move.Value != 0 && _isOnGround)
@@ -360,7 +337,10 @@ public class NetworkPlayerMovement : NetworkBehaviour
                 }
             }
         }
+    }
 
+    private void PullRope(Transform playerOwner, Transform otherPlayer, PullRope pullRope)
+    {
         if (otherPlayer.position.y < playerOwner.position.y - 2)
         {
             if (!_pullRopeButton.activeInHierarchy)
@@ -379,24 +359,72 @@ public class NetworkPlayerMovement : NetworkBehaviour
                 _hingeJoint.enabled = false;
 
             NetworkObject pulledObj = otherPlayer.parent.GetComponent<NetworkObject>();
-            NetworkObject pullToObj = transform.parent.GetComponent<NetworkObject>();
-            
             NetworkObjectReference pulledRef = new NetworkObjectReference(pulledObj);
-            NetworkObjectReference pullToRef = new NetworkObjectReference(pullToObj);
 
-            pullRope.ActivatePullServerRpc(pulledRef, pullToRef);
+            pullRope.SetPulledPlayerServerRpc(pulledRef);
+        }
+    }
+
+    private void PullRopeMoving(PullRope pullRope)
+    {
+        if (pullRope.PulledPlayer.Value.TryGet(out NetworkObject netObj))
+        {
+            if (transform.parent == netObj.transform)
+            {
+                if (pullRope.PullTo.Value.TryGet(out NetworkObject netObj2))
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, netObj2.transform.GetChild(1).position, 10 * Time.deltaTime);
+
+                    bool isUnderCollider = Physics2D.Raycast(netObj.transform.GetChild(1).position, Vector2.up, _raycastLength, _jumpLayer);
+
+                    if (isUnderCollider)
+                    {
+                        _collider.isTrigger = true;
+                    }
+                    else
+                    {
+                        _collider.isTrigger = false;
+                    }
+
+                    if (transform.position == netObj2.transform.GetChild(1).position)
+                    {
+                        _collider.isTrigger = false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (_collider.isTrigger)
+            {
+                _collider.isTrigger = false;
+            }
         }
     }
 
     public void StartPullRope()
     {
         _isPullRope.Value = true;
+
+        NetworkObject pullToObj = transform.parent.GetComponent<NetworkObject>();
+        NetworkObjectReference pullToRef = new NetworkObjectReference(pullToObj);
+        
+        if (pullRopeLeft != null)
+            pullRopeLeft.SetPullToServerRpc(pullToRef);
+
+        if (pullRopeRight != null)
+            pullRopeRight.SetPullToServerRpc(pullToRef);
     }
 
     public void StopPullRope()
     {
         _isPullRope.Value = false;
-        pullRope.DeactivatePullServerRpc();
+
+        if (pullRopeLeft != null)
+            pullRopeLeft.DeactivatePullServerRpc();
+
+        if (pullRopeRight != null)
+            pullRopeRight.DeactivatePullServerRpc();
     }
 
     public void Jump()

@@ -139,7 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9027589427694918251}
   - component: {fileID: 6421275621783623730}
-  - component: {fileID: 4939302164122926491}
+  - component: {fileID: -1374876011776599278}
   - component: {fileID: -1786665601355612166}
   m_Layer: 0
   m_Name: Rope
@@ -182,7 +182,7 @@ MonoBehaviour:
   _anchor1: {fileID: 1203578095998346634}
   _anchor2: {fileID: 942162746402998363}
   _ropeSound: {fileID: 6688648898400880902}
---- !u!114 &4939302164122926491
+--- !u!114 &-1374876011776599278
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1043645763
+  GlobalObjectIdHash: 2550486691
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -396,7 +396,7 @@ MonoBehaviour:
   linePoints: 10
   stiffness: 350
   damping: 15
-  ropeLength: 2.5
+  ropeLength: 3.5
   ropeWidth: 0.2
   midPointWeight: 1
   midPointPosition: 0.5

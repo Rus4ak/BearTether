@@ -1,4 +1,6 @@
+using GogoGaga.OptimizedRopesAndCables;
 using System;
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -221,6 +223,7 @@ public class NetworkPlayer : NetworkBehaviour
         {
             _isReadyCanvas.gameObject.SetActive(false);
             _readyCanvas.gameObject.SetActive(false);
+            _networkPlayerMovement.minPosY = default;
 
             if (IsOwner)
             {
@@ -240,8 +243,7 @@ public class NetworkPlayer : NetworkBehaviour
 
                 for (int i = 0; i < NetworkPlayersManager.Instance.players.Count - 1; i++)
                 {
-                    Rope rope = Instantiate(_rope).GetComponent<Rope>();
-                    rope.InstantiateRope(NetworkPlayersManager.Instance.players[i].player.transform, NetworkPlayersManager.Instance.players[i + 1].player.transform);
+                    SpawnRopeServerRpc(i);
                 }
             }
 
@@ -277,6 +279,27 @@ public class NetworkPlayer : NetworkBehaviour
             LoadingScreen.Instance.AddInitializeServerRpc();
     }
 
+    [ServerRpc]
+    private void SpawnRopeServerRpc(int i)
+    {
+        GameObject rope = Instantiate(_rope);
+
+        var netObj = rope.GetComponent<NetworkObject>();
+        netObj.Spawn();
+
+        SpawnRopeClientRpc(i, netObj.NetworkObjectId);
+    }
+
+    [ClientRpc]
+    private void SpawnRopeClientRpc(int i, ulong ropeId)
+    {
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(ropeId, out var netObj))
+        {
+            Rope rope = netObj.GetComponent<Rope>();
+            rope.InstantiateRope(NetworkPlayersManager.Instance.players[i].player.transform, NetworkPlayersManager.Instance.players[i + 1].player.transform);
+        }
+    }
+
     public void InitializeMultiplayerScene()
     {
         if (IsOwner)
@@ -296,6 +319,10 @@ public class NetworkPlayer : NetworkBehaviour
         _movementButtons.SetActive(false);
 
         _multiplayerManager = GameObject.FindWithTag("MultiplayerManager").GetComponent<MultiplayerLobby>();
+        
+        Rope[] ropes = FindObjectsByType<Rope>(FindObjectsSortMode.None);
+        foreach (var rope in ropes) 
+            Destroy(rope.gameObject);
 
         if (IsOwner)
             Invoke(nameof(CreatePlayer), .1f);

@@ -1,5 +1,7 @@
 using System;
 using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PullRope : NetworkBehaviour
 {
@@ -7,13 +9,15 @@ public class PullRope : NetworkBehaviour
     [NonSerialized] public NetworkVariable<NetworkObjectReference> PullTo = new NetworkVariable<NetworkObjectReference>();
 
     [ServerRpc(RequireOwnership = false)]
-    public void ActivatePullServerRpc(NetworkObjectReference pulledPlayer, NetworkObjectReference pullTo)
+    public void SetPulledPlayerServerRpc(NetworkObjectReference pulledPlayer)
     {
-        if (!PulledPlayer.Value.TryGet(out _))
-        {
-            PulledPlayer.Value = pulledPlayer;
-            PullTo.Value = pullTo;
-        }
+        PulledPlayer.Value = pulledPlayer;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void SetPullToServerRpc(NetworkObjectReference pullTo)
+    {
+        PullTo.Value = pullTo;
     }
 
     [ServerRpc(RequireOwnership = false)]
