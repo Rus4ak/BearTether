@@ -357,7 +357,8 @@ public class NetworkPlayerMovement : NetworkBehaviour
         if (otherPlayer.position.y < playerOwner.position.y - 2)
         {
             if (!_pullRopeButton.activeInHierarchy)
-                _pullRopeButton.SetActive(true);
+                if (_isOnGround)
+                    _pullRopeButton.SetActive(true);
         }
         else
         {
