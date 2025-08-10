@@ -336,6 +336,22 @@ public class NetworkPlayerMovement : NetworkBehaviour
                     }
                 }
             }
+            else
+            {
+                if (_hingeJoint.enabled)
+                {
+                    _isMove = true;
+                    _hingeJoint.enabled = false;
+                }
+            }
+        }
+        else
+        {
+            if (_hingeJoint.enabled)
+            {
+                _isMove = true;
+                _hingeJoint.enabled = false;
+            }
         }
     }
 
