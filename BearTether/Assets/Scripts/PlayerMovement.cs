@@ -123,9 +123,6 @@ public class PlayerMovement : MonoBehaviour
             if (_runParticleSystem.isPlaying)
                 _runParticleSystem.Stop();
         }
-        
-        if (_rigidbody.linearVelocity.y == 0 && !_isOnGround)
-            _rigidbody.linearVelocity += new Vector2(0, -10);
     }
 
     public void Jump()
