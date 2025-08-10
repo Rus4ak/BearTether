@@ -35,7 +35,7 @@ public class Rope : MonoBehaviour
         _anchor2.position = _player2.position;
 
         float distance = Vector3.Distance(_player1.position, _player2.position) / 10f;
-        _ropeSoundAudioSource.volume = Mathf.Clamp(distance - .35f, 0, SoundVolume.Instance.volume);
+        _ropeSoundAudioSource.volume = Mathf.Clamp(distance - .3f, 0, SoundVolume.Instance.volume);
 
         _ropeSound.position = (_player1.position + _player2.position) / 2;
     }

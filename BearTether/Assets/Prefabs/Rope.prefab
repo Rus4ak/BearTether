@@ -396,7 +396,7 @@ MonoBehaviour:
   linePoints: 10
   stiffness: 350
   damping: 15
-  ropeLength: 3.5
+  ropeLength: 3
   ropeWidth: 0.2
   midPointWeight: 1
   midPointPosition: 0.5

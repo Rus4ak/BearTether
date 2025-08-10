@@ -17,7 +17,7 @@ public class NetworkPlayerMovement : NetworkBehaviour
 
     [Header("Rope")]
     [SerializeField] private GameObject _pullRopeButton;
-    [SerializeField] private float _maxRopeDistance = 3.5f;
+    [SerializeField] private float _maxRopeDistance = 3f;
     [SerializeField] private float _ropePullStrength = 35f;
     [SerializeField] private Transform _anchor;
 

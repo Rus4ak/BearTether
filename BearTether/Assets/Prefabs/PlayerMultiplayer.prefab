@@ -5754,7 +5754,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _pullRopeButton: {fileID: 5404592414512650113}
-  _maxRopeDistance: 3.5
+  _maxRopeDistance: 3
   _ropePullStrength: 35
   _anchor: {fileID: 4800233118601067279}
   _runParticleSystem: {fileID: 2846838515473316868}

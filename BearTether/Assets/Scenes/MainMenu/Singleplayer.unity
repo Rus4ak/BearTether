@@ -17711,6 +17711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52cf66ecc9379046b7f7b60c3e5b747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameMode: 0
   _stars:
   - {fileID: 1461565570}
   - {fileID: 867063762}
@@ -21925,8 +21926,8 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_ScreenMatchMode: 1
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -22476,6 +22477,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buyMenu: {fileID: 768483860}
+  _normalLevelsMenu: {fileID: 0}
+  _hardcoreLevelsMenu: {fileID: 0}
 --- !u!1 &1380370286
 GameObject:
   m_ObjectHideFlags: 0
