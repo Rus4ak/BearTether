@@ -1,11 +1,13 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 using UnityEngine.SceneManagement;
 
-public class Hardcore : MonoBehaviour, IDetailedStoreListener
+public class Hardcore : MonoBehaviour, IDetailedStoreListener, IStoreListener
 {
     [SerializeField] private GameObject _buyMenu;
+    [SerializeField] private TextMeshProUGUI _priceText;
 
     [Header("Multiplayer")]
     [SerializeField] private GameObject _normalLevelsMenu;
@@ -33,6 +35,8 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
 
     public void SwitchHardcore(string SceneName)
     {
+        AnalyticsManager.Instance.PressHardcore();
+
         if (CheckHardcore())
         {
             SceneManager.LoadScene(SceneName);
@@ -45,6 +49,7 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
 
     public void SwitchHardcoreMultiplayer()
     {
+        AnalyticsManager.Instance.PressHardcore();
         if (CheckHardcore())
         {
             if (_normalLevelsMenu.activeInHierarchy)
@@ -67,6 +72,7 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
 
     public void BuyHardcore()
     {
+        AnalyticsManager.Instance.PressBuyHardcore();
         _storeController.InitiatePurchase(_product_id);
     }
 
@@ -122,5 +128,12 @@ public class Hardcore : MonoBehaviour, IDetailedStoreListener
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
         _storeController = controller;
+
+        Product product = _storeController.products.WithID(_product_id);
+
+        if (product != null)
+        {
+            _priceText.text = product.metadata.localizedPriceString;
+        }
     }
 }

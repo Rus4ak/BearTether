@@ -153,6 +153,8 @@ public class FinishMenu : MonoBehaviour
 
         if (_isAdditionalCoins[0])
             InstantiateAdditionalCoins("+5");
+
+        AnalyticsManager.Instance.CompleteLevel(_gameMode.ToString(), _levelID, _countStars);
     }
 
     private void Update()

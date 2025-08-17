@@ -55,7 +55,7 @@ public class NetworkPlayer : NetworkBehaviour
                 LoadingScreen.Instance.RemoveInitializeServerRpc();
             }
         }
-
+        print(countReady);
         if (sceneName == "Multiplayer")
         {
             if (IsServer
@@ -148,7 +148,7 @@ public class NetworkPlayer : NetworkBehaviour
 
         SceneManager.activeSceneChanged -= ChangeScene;
 
-        if (IsServer)
+        if (IsServer && IsOwner)
             countReady = 0;
     }
 

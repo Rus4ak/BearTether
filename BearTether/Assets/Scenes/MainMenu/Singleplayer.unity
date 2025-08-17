@@ -22477,6 +22477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buyMenu: {fileID: 768483860}
+  _priceText: {fileID: 74507125}
   _normalLevelsMenu: {fileID: 0}
   _hardcoreLevelsMenu: {fileID: 0}
 --- !u!1 &1380370286

@@ -23068,6 +23068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buyMenu: {fileID: 1814405683}
+  _priceText: {fileID: 1038597339}
   _normalLevelsMenu: {fileID: 123549355}
   _hardcoreLevelsMenu: {fileID: 1749509482}
 --- !u!1 &970887001
@@ -36053,6 +36054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _buyMenu: {fileID: 604643803}
+  _priceText: {fileID: 0}
   _normalLevelsMenu: {fileID: 123549355}
   _hardcoreLevelsMenu: {fileID: 1749509482}
 --- !u!1 &1506626586
