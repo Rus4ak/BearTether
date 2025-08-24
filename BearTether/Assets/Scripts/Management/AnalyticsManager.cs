@@ -43,7 +43,7 @@ public class AnalyticsManager : MonoBehaviour
         AnalyticsService.Instance.Flush();
     }
 
-    public void CompleteLevel(string mode, int completedLevel, int countStars)
+    public void CompleteLevel(string mode, int completedLevel, int countStars, int countAttempts)
     {
         if (!_isInitialized)
             return;
@@ -52,7 +52,8 @@ public class AnalyticsManager : MonoBehaviour
         {
             {"game_mode", mode},
             {"level_index", completedLevel},
-            {"count_stars", countStars }
+            {"count_stars", countStars},
+            {"count_attempts", countAttempts}
         };
 
         AnalyticsService.Instance.RecordEvent(myEvent);

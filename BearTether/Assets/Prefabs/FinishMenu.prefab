@@ -1900,6 +1900,7 @@ MonoBehaviour:
   _rewardedCoins: {fileID: 4376881530368923930}
   _gameMode: 0
   _starFlySound: {fileID: 8489202367173540974}
+  _IARManager: {fileID: 7607543633629702466, guid: e08263875f26ef24eb41104ea63ede92, type: 3}
 --- !u!1 &3941898059255954462
 GameObject:
   m_ObjectHideFlags: 0

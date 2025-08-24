@@ -35,6 +35,7 @@ public class Progress
         public Level[] multiplayerLevelsHardcore = new Level[30];
         public List<MapData> maps = new List<MapData>();
         public List<MapData> mapsMultiplayer = new List<MapData>();
+        public bool isShownReview;
         //public bool isBoughtHardcore;
     }
 
@@ -77,6 +78,7 @@ public class Progress
         Bank.Instance.Coins = Instance.progressData.bank;
         MapsData.maps = Instance.progressData.maps;
         MapsData.mapsMultiplayer = Instance.progressData.mapsMultiplayer;
+        IARManager.isShownReview = Instance.progressData.isShownReview;
         //Hardcore.isBoughtHardcore = Instance.progressData.isBoughtHardcore;
     }
 

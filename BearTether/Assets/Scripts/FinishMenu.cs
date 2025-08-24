@@ -19,6 +19,7 @@ public class FinishMenu : MonoBehaviour
     [SerializeField] private GameObject _rewardedCoins;
     [SerializeField] private GameMode _gameMode;
     [SerializeField] private AudioSource _starFlySound;
+    [SerializeField] private GameObject _IARManager;
 
     private Animation _currentStarAnimation;
     private string _nextLevel;
@@ -41,6 +42,11 @@ public class FinishMenu : MonoBehaviour
         _currentStarAnimation = _stars[0].GetComponent<Animation>();
         _countStars++;
         _rewardedCoinsText = _rewardedCoins.GetComponentInChildren<TextMeshProUGUI>();
+
+        if (_levelID == 4 && !IARManager.isShownReview)
+        {
+            Instantiate(_IARManager);
+        }
 
         if (_gameMode == GameMode.Singleplayer || _gameMode == GameMode.SingleplayerHardcore)
         {
@@ -154,7 +160,10 @@ public class FinishMenu : MonoBehaviour
         if (_isAdditionalCoins[0])
             InstantiateAdditionalCoins("+5");
 
-        AnalyticsManager.Instance.CompleteLevel(_gameMode.ToString(), _levelID, _countStars);
+        if (_gameMode == GameMode.Singleplayer || _gameMode == GameMode.SingleplayerHardcore)
+            AnalyticsManager.Instance.CompleteLevel(_gameMode.ToString(), _levelID, _countStars, PlayerMovement.attempt);
+        else
+            AnalyticsManager.Instance.CompleteLevel(_gameMode.ToString(), _levelID, _countStars, NetworkFinish.Instance.attempts.Value);
     }
 
     private void Update()
